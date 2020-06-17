@@ -6,9 +6,9 @@ resource "aws_iam_role" "codebuild" {
       {
         Effect    = "Allow",
         Action    = "sts:AssumeRole",
-        Principal = { "AWS" : "arn:aws:iam:::root" }
+        Principal = { "AWS" : var.shared_services_account_arn }
         Condition = {}
-      }]
+    }]
   })
 }
 
