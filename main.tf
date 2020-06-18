@@ -21,3 +21,8 @@ module "palo-alto-roles" {
   source                      = "./modules/palo-alto-roles"
   shared_services_account_arn = var.shared_services_account_arn
 }
+
+module "made-tech-roles" {
+  source                      = "./modules/made-tech"
+  shared_services_account_arn = var.shared_services_account_arn
+}
