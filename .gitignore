@@ -41,3 +41,4 @@ VpnCerts
 **/pki/*
 *.DS_Store
 .terraform.back
+*.code-workspace
