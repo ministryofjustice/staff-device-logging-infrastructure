@@ -9,6 +9,9 @@ variable "owner-email" {
 }
 
 variable "environment" {
-  type = "string"
+  type = string
 }
 
+variable "shared_services_account_arn" {
+  type = string
+}
