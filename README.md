@@ -1,15 +1,17 @@
-# PTTP AWS Infrastructure
+# Prison Technology Transformation Programme AWS Infrastructure
 
-## Adding a new environment
+## Introduction
 
-Current environments for PTTP are:
-- development
-- pre-production
-- production
+The current environments are:
+- Development
+- Pre-production
+- Production
 
-To create a new environment, Terraform first needs to be bootstrapped with a state file bucket.
+The Terraform in this repository serves 2 purposes:
+- Bootstrapping of Development, Pre-production and Production environments on AWS.
+- Creating the infrastructure for various services/solutions such as Logging and DNS / DHCP.
 
-Run:
-`make bootstrap`
+This Terraform can be run in 2 different contexts:
+Your own machine for bootstrapping AWS, or by releasing features through CodePipeline in the shared Services Account.
 
-You'll be prompted for the environment name, which will be interpolated into the state file bucket name.
+Please see [setup instructions](./documentation/setup.md).

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../pttp-shared-services"
+		},
+		{
+			"path": "../../../other/terraform-mvp"
+		}
+	]
+}

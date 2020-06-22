@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# echo "terraform {" >> tmp.txt
+# echo "  required_version = \"> 0.12.0\"" >> tmp.txt
+# echo "  backend \"s3\" {" >> tmp.txt
+# echo "    key    = \"terraform/v1/state\"" >> tmp.txt
+# echo "   region = \"eu-west-2\"" >> tmp.txt
+# echo "  }" >> tmp.txt
+# echo "}" >> tmp.txt
+
+# echo "provider \"aws\" {" >> tmp.txt
+# echo "version = \"~> 2.52\"" >> tmp.txt
+# echo "profile = terraform.workspace" >> tmp.txt
+# echo "}" >> tmp.txt
+
+# cat tmp.txt > provider-output-backend.tf
+
+backend_config="bucket=pttp-$1-$1-infra-tf-remote-state"
+export AWS_PROFILE="pttp-$1"
+#export TF_LOG=debug
+#export TF_IN_AUTOMATION=true
+AWS_PROFILE="pttp-$1" terraform init -reconfigure --backend-config=$backend_config
+AWS_PROFILE="pttp-$1" terraform workspace new "pttp-pre-production"
+AWS_PROFILE="pttp-$1" terraform workspace new "pttp-development"
+AWS_PROFILE="pttp-$1" terraform workspace new "pttp-production"
+AWS_PROFILE="pttp-$1" terraform workspace select "pttp-$1"
+AWS_PROFILE="pttp-$1" terraform init --backend-config=$backend_config
+AWS_PROFILE="pttp-$1" terraform apply 
