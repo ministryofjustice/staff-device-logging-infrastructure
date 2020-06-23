@@ -8,10 +8,6 @@ variable "owner-email" {
   default = "emile.swarts@digital.justice.gov.uk"
 }
 
-variable "environment" {
-  type = string
-}
-
 variable "shared_services_account_arn" {
   type = string
 }

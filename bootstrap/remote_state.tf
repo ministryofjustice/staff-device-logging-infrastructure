@@ -29,6 +29,12 @@ resource "aws_s3_bucket" "s3_state" {
   tags = module.label.tags
 }
 
+resource "aws_ssm_parameter" "s3_state_bucket_name" {
+  name  = "/terraform/s3_state_bucket_name"
+  type  = "SecureString"
+  value = aws_s3_bucket.s3_state.bucket
+}
+
 # create a dynamodb table for locking the state file
 resource "aws_dynamodb_table" "dynamodb_terraform_state_lock" {
   name           = "${module.label.id}-terrafrom-remote-state-lock-dynamo"
@@ -42,4 +48,10 @@ resource "aws_dynamodb_table" "dynamodb_terraform_state_lock" {
   }
 
   tags = module.label.tags
+}
+
+resource "aws_ssm_parameter" "dynamodb_terraform_state_lock" {
+  name  = "/terraform/dynamodb_state_lock_table_name"
+  type  = "SecureString"
+  value = aws_dynamodb_table.dynamodb_terraform_state_lock.name
 }
