@@ -15,7 +15,6 @@ resource "aws_iam_role" "codebuild" {
 resource "aws_iam_policy" "codebuild" {
   name        = var.iam-name
   path        = "/"
-  description = "Codebuild Palo Alto"
 
   policy = <<EOF
 {
