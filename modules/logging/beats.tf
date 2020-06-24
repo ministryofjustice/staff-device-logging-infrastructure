@@ -1,12 +1,8 @@
 resource "aws_s3_bucket" "functionbeat-deploy" {
   bucket = "pttp-logging-spike-functionbeat-deploy"
   acl    = "private"
-
-  tags = {
-    Name        = "PTTP logging POC"
-    Environment = "Dev"
-  }
 }
+
 resource "aws_iam_role_policy" "beats-lambda-policy" {
   name = "beats-lambda-policy"
   role = "${aws_iam_role.beats-lambda-role.id}"
