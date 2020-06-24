@@ -44,9 +44,8 @@ module "label" {
 #   prefix = ""
 # }
 
-module "s3" {
-  source    = "./modules/s3"
-
+module "logging" {
+  source    = "./modules/logging"
   providers = {
     aws = "aws.env"
   }
