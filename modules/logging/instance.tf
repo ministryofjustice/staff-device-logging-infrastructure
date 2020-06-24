@@ -148,22 +148,22 @@ resource "aws_iam_role" "beats-instance-role" {
 EOF
 }
 
-# resource "aws_security_group" "pttp-logging-spike" {
-#   name        = "fe-ecs-out"
-#   description = "Test instance that puts Hello World data into CloudWatch"
-#   vpc_id      = "${var.vpc_id}"
+resource "aws_security_group" "pttp-logging-spike" {
+  name        = "fe-ecs-out"
+  description = "Test instance that puts Hello World data into CloudWatch"
+  vpc_id      = "${var.vpc_id}"
 
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = -1
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-#   ingress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = -1
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
