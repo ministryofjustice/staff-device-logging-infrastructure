@@ -5,7 +5,7 @@ terraform {
 data "aws_caller_identity" "current" {}
 
 resource "random_id" "name" {
-  prefix = "test-"
+  prefix      = "test-"
   byte_length = 8
 }
 
@@ -16,5 +16,5 @@ module "role" {
 }
 
 output "role_arn" {
- value = module.role.role_arn
+  value = module.role.role_arn
 }

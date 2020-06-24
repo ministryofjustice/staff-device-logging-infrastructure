@@ -13,8 +13,8 @@ resource "aws_iam_role" "codebuild" {
 }
 
 resource "aws_iam_policy" "codebuild" {
-  name        = var.iam-name
-  path        = "/"
+  name = var.iam-name
+  path = "/"
 
   policy = <<EOF
 {

@@ -3,8 +3,8 @@ provider "random" {
 }
 
 resource "random_string" "random" {
-  length = 10
-  upper = false
+  length  = 10
+  upper   = false
   special = false
 }
 

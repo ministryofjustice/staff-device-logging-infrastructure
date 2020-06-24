@@ -1,16 +1,19 @@
-# terraform {
-#   required_version = "> 0.12.0"
+terraform {
+  required_version = "> 0.12.0"
 
-#   backend "s3" {
-#     key    = "terraform/v1/state"
-#     region = "eu-west-2"
-#   }
-# }
+  backend "s3" {
+    bucket = "logging-codebuild-target-terraform-state"
+    region = "eu-west-2"
+  }
+}
 
-# provider "aws" {
-#   version = "~> 2.52"
-#   profile = terraform.workspace
-# }
+provider "aws" {
+  version = "~> 2.52"
+  alias   = "env"
+  assume_role {
+    role_arn = var.assume_role
+  }
+}
 
 provider "tls" {
   version = "> 2.1"
@@ -54,8 +57,8 @@ resource "random_string" "random" {
 }
 
 module "logging" {
-  source    = "./modules/logging"
+  source = "./modules/logging"
   providers = {
-    aws = "aws.env"
+    aws = aws.env
   }
 }

@@ -16,4 +16,7 @@ apply-pre-production:
 apply-production:
 	./scripts/apply_environment production
 
+init:
+	terraform init --backend-config="key=terraform.development.state"
+
 .PHONY: apply-development apply-pre-production bootstrap-development bootstrap-pre-production bootstrap-production apply-production
