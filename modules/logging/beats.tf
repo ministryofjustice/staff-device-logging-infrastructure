@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "functionbeat-deploy" {
-  bucket = "pttp-logging-spike-functionbeat-deploy"
+  bucket = "${module.label.id}-functionbeat-artifacts"
   acl    = "private"
 }
 
