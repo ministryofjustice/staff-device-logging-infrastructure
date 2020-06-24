@@ -5,3 +5,7 @@ variable "vpc_id" {
 variable "subnet_ids" {
   default = []
 }
+
+variable "prefix" {
+  type = string
+}

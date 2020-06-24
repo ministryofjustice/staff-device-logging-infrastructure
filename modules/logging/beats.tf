@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "functionbeat-deploy" {
-  bucket = "${module.label.id}-functionbeat-artifacts"
+  bucket = "${var.prefix}-functionbeat-artifacts"
   acl    = "private"
 }
 

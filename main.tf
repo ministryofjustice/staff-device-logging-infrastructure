@@ -89,6 +89,7 @@ module "logging" {
   source = "./modules/logging"
   vpc_id = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
+  prefix = module.label.id
 
   providers = {
     aws = aws.env
