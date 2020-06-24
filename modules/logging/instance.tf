@@ -100,30 +100,11 @@ resource "aws_ssm_parameter" "instance_private_key" {
   description = "master ssh key for env"
 }
 
-resource "aws_security_group" "pttp-logging-spike" {
-  name        = "test-logging-instance"
-  description = "Test instance that puts Hello World data into CloudWatch"
-  vpc_id      = "${var.vpc_id}"
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = -1
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = -1
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 resource "aws_iam_instance_profile" "beats-instance-profile" {
   name = "pttp-logging-poc-instance-profile"
   role = "${aws_iam_role.beats-instance-role.name}"
 }
+
 resource "aws_iam_role_policy" "beats-instance-policy" {
   name = "beats-instance-policy"
   role = "${aws_iam_role.beats-instance-role.id}"
