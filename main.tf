@@ -56,6 +56,10 @@ resource "random_string" "random" {
   special = false
 }
 
+locals {
+  cidr_block = "10.0.0.0/16"
+}
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.28.0"
