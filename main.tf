@@ -43,6 +43,15 @@ module "label" {
 #   shared_services_account_arn = var.shared_services_account_arn
 #   prefix = ""
 # }
+provider "random" {
+  version = "~> 2.2.1"
+}
+
+resource "random_string" "random" {
+  length = 10
+  upper = false
+  special = false
+}
 
 module "logging" {
   source    = "./modules/logging"
