@@ -2,7 +2,7 @@ terraform {
   required_version = "> 0.12.0"
 
   backend "s3" {
-    bucket         = "logging-codebuild-target-terraform-state"
+    bucket         = "pttp-ci-infrastructure-client-core-tf-state"
     dynamodb_table = "pttp-ci-infrastructure-client-core-tf-lock-table"
     region         = "eu-west-2"
   }
