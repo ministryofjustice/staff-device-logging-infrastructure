@@ -8,7 +8,7 @@ resource "aws_instance" "test-logging-instance" {
   ]
   key_name                    = aws_key_pair.test_instance_public_key_pair.key_name
   associate_public_ip_address = true
-  iam_instance_profile        = "${aws_iam_instance_profile.beats-instance-profile.id}"
+  iam_instance_profile        = aws_iam_instance_profile.beats-instance-profile.id
   monitoring                  = true
 
   user_data = <<DATA
