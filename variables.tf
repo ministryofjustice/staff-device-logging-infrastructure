@@ -1,7 +1,3 @@
-variable "environment" {
-  type = string
-}
-
 variable "is-production" {
   type    = string
   default = true
