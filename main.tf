@@ -3,7 +3,7 @@ terraform {
 
   backend "s3" {
     bucket         = "logging-codebuild-target-terraform-state"
-    dynamodb_table = "pttp-global-bootstrap-pttp-infrastructure-terrafrom-remote-state-lock-dynamo"
+    dynamodb_table = "pttp-ci-infrastructure-client-core-tf-lock-table"
     region         = "eu-west-2"
   }
 }
@@ -52,8 +52,8 @@ provider "random" {
 }
 
 resource "random_string" "random" {
-  length = 10
-  upper = false
+  length  = 10
+  upper   = false
   special = false
 }
 
