@@ -2,8 +2,9 @@ terraform {
   required_version = "> 0.12.0"
 
   backend "s3" {
-    bucket = "logging-codebuild-target-terraform-state"
-    region = "eu-west-2"
+    bucket         = "logging-codebuild-target-terraform-state"
+    dynamodb_table = "pttp-global-bootstrap-pttp-infrastructure-terrafrom-remote-state-lock-dynamo"
+    region         = "eu-west-2"
   }
 }
 
