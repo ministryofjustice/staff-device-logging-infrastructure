@@ -18,3 +18,7 @@ resource "aws_api_gateway_method" "proxy" {
   http_method   = "POST"
   authorization = "NONE"
 }
+
+resource "aws_sqs_queue" "custom_log_queue" {
+  name = "CustomLogQueue"
+}
