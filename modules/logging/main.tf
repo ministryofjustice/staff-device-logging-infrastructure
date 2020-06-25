@@ -30,7 +30,7 @@ resource "aws_api_gateway_integration" "sqs-integration" {
 }
 
 resource "aws_iam_role" "custom-logging-sqs-write-role" {
-  assume_role_policy = data.aws_iam_policy_document.custom-logging-sqs-write-role-assume-policy
+  assume_role_policy = data.aws_iam_policy_document.custom-logging-sqs-write-role-assume-policy.json
   permissions_boundary = ""
 }
 
