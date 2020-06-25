@@ -12,6 +12,7 @@ import (
 )
 
 func TestRoleAssumable(t *testing.T) {
+	t.Parallel()
 
 	terraformOptions := &terraform.Options{
 		// Set the path to the Terraform code that will be tested.
@@ -22,7 +23,7 @@ func TestRoleAssumable(t *testing.T) {
 	defer terraform.Destroy(t, terraformOptions)
 
 	// Run "terraform init" and "terraform apply". Fail the test if there are any errors.
-	terraform.InitAndApply(t, terraformOptions)
+	terraform.InitAndApplyAndIdempotent(t, terraformOptions)
 
 	// Run `terraform output` to get the values of output variables and check they have the expected values.
 	role_arn := terraform.Output(t, terraformOptions, "role_arn")
