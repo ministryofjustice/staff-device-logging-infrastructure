@@ -6,10 +6,10 @@ resource "aws_instance" "test-logging-instance" {
   vpc_security_group_ids = [
     "${aws_security_group.pttp-logging-spike.id}"
   ]
-  key_name               = aws_key_pair.test_instance_public_key_pair.key_name
+  key_name                    = aws_key_pair.test_instance_public_key_pair.key_name
   associate_public_ip_address = true
-  iam_instance_profile = "${aws_iam_instance_profile.beats-instance-profile.id}"
-  monitoring           = true
+  iam_instance_profile        = "${aws_iam_instance_profile.beats-instance-profile.id}"
+  monitoring                  = true
 
   user_data = <<DATA
 Content-Type: multipart/mixed; boundary="==BOUNDARY=="
@@ -88,7 +88,7 @@ resource "tls_private_key" "ec2" {
 }
 
 resource "aws_key_pair" "test_instance_public_key_pair" {
-  key_name   = "pttp-test"
+  key_name   = "${var.prefix}-pttp-test"
   public_key = tls_private_key.ec2.public_key_openssh
 }
 
@@ -101,7 +101,7 @@ resource "aws_ssm_parameter" "instance_private_key" {
 }
 
 resource "aws_iam_instance_profile" "beats-instance-profile" {
-  name = "pttp-logging-poc-instance-profile"
+  name = "${var.prefix}-pttp-logging-poc-instance-profile"
   role = "${aws_iam_role.beats-instance-role.name}"
 }
 
@@ -129,7 +129,7 @@ EOF
 }
 
 resource "aws_iam_role" "beats-instance-role" {
-  name = "pttp-test-beats-instance-role"
+  name = "${var.prefix}-pttp-test-beats-instance-role"
 
   assume_role_policy = <<EOF
 {

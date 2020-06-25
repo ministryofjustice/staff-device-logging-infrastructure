@@ -4,8 +4,8 @@ resource "aws_s3_bucket" "functionbeat-deploy" {
 }
 
 resource "aws_iam_role_policy" "beats-lambda-policy" {
-  name = "beats-lambda-policy"
-  role = "${aws_iam_role.beats-lambda-role.id}"
+  name = "${var.prefix}-beats-lambda-policy"
+  role = aws_iam_role.beats-lambda-role.id
 
   policy = <<EOF
 {
@@ -56,7 +56,7 @@ EOF
 }
 
 resource "aws_iam_role" "beats-lambda-role" {
-  name = "pttp-test-beats-lambda-role"
+  name = "${var.prefix}-pttp-test-beats-lambda-role"
 
   assume_role_policy = <<EOF
 {
