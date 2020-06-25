@@ -9,4 +9,5 @@ phases:
   build:
     commands:
       - terraform init -no-color --backend-config="key=terraform.$ENV.state"
+      - terraform workspace select $ENV
       - terraform apply --auto-approve -no-color -input=false -var="assume_role=$ASSUME_ROLE_ARN" -var="owner-email=pttp@justice.gov.uk"
