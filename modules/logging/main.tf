@@ -45,9 +45,10 @@ data "aws_iam_policy_document" "custom-logging-sqs-write-role-assume-policy" {
     actions = [
       "sts:AssumeRole"
     ]
-    resources = [
-      aws_api_gateway_rest_api.logging_gateway.arn
-    ]
+    principals {
+      identifiers = ["apigateway.amazonaws.com"]
+      type = "Service"
+    }
   }
 }
 
