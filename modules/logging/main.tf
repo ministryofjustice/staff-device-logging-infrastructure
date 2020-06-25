@@ -26,7 +26,7 @@ resource "aws_api_gateway_integration" "sqs-integration" {
   type = "AWS"
   integration_http_method = "POST"
   uri = "arn:aws:apigateway:eu-west-2:sqs:path/${aws_sqs_queue.custom_log_queue.name}"
-  credentials = aws_iam_role.custom-logging-sqs-write-role
+  credentials = aws_iam_role.custom-logging-sqs-write-role.arn
 }
 
 resource "aws_iam_role" "custom-logging-sqs-write-role" {
