@@ -10,6 +10,15 @@ resource "aws_api_gateway_integration" "sqs-integration" {
   request_parameters = {
     "integration.request.header.Content-Type" = "'application/x-www-form-urlencoded'"
   }
+
+  request_templates = {
+    "application/json" = <<EOF
+Action=SendMessage&MessageBody={
+  "method": "$context.httpMethod",
+  "body-json" : $input.json('$'),
+}"
+EOF
+  }
 }
 
 resource "aws_iam_role" "custom-logging-sqs-write-role" {
