@@ -19,6 +19,35 @@ resource "aws_api_gateway_method" "proxy" {
   authorization = "NONE"
 }
 
+resource "aws_api_gateway_integration" "sqs-integration" {
+  http_method = aws_api_gateway_method.proxy.http_method
+  resource_id = aws_api_gateway_resource.proxy.id
+  rest_api_id = aws_api_gateway_resource.proxy.id
+  type = "AWS"
+  integration_http_method = "POST"
+  uri = "arn:aws:apigateway:eu-west-2:sqs:path/${aws_sqs_queue.custom_log_queue.name}"
+}
+
+# following this blog post to create a queue which is written to by the api gateway
+# https://medium.com/@pranaysankpal/aws-api-gateway-proxy-for-sqs-simple-queue-service-5b08fe18ce50
 resource "aws_sqs_queue" "custom_log_queue" {
   name = "CustomLogQueue"
+}
+
+resource "aws_iam_policy" "api-gateway-sqs-send-msg-policy" {
+  policy = data.aws_iam_policy_document.api-gateway-sqs-send-msg-policy-doc.json
+}
+
+
+
+data "aws_iam_policy_document" "api-gateway-sqs-send-msg-policy-doc" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:SendMessage"
+    ]
+    resources = [
+      aws_sqs_queue.custom_log_queue.arn
+    ]
+  }
 }
