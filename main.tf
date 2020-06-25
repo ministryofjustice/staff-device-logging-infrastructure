@@ -61,24 +61,24 @@ locals {
   cidr_block = "10.0.0.0/16"
 }
 
-# module "logging_vpc" {
-#   source = "./modules/vpc"
-#   prefix = module.label.id
-#   region = data.aws_region.current_region.id
-#   cidr_block = local.cidr_block
+module "logging_vpc" {
+  source = "./modules/vpc"
+  prefix = module.label.id
+  region = data.aws_region.current_region.id
+  cidr_block = local.cidr_block
 
-#   providers = {
-#     aws = aws.env
-#   }
-# }
+  providers = {
+    aws = aws.env
+  }
+}
 
-# module "logging" {
-#   source = "./modules/logging"
-#   vpc_id = module.logging_vpc.vpc_id
-#   subnet_ids = module.logging_vpc.private_subnets
-#   prefix = module.label.id
+module "logging" {
+  source = "./modules/logging"
+  vpc_id = module.logging_vpc.vpc_id
+  subnet_ids = module.logging_vpc.private_subnets
+  prefix = module.label.id
 
-#   providers = {
-#     aws = aws.env
-#   }
-# }
+  providers = {
+    aws = aws.env
+  }
+}
