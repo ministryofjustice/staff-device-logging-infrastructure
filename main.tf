@@ -77,6 +77,8 @@ module "logging" {
   vpc_id = module.logging_vpc.vpc_id
   subnet_ids = module.logging_vpc.public_subnets
   prefix = module.label.id
+  ost_vpc_id = var.ost_vpc_id
+  ost_aws_account_id = var.aws_account_id
 
   providers = {
     aws = aws.env
