@@ -77,10 +77,6 @@ echo "done script and done" >> ~/whatever
 
 --==BOUNDARY==
 DATA
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 resource "tls_private_key" "ec2" {
@@ -102,7 +98,7 @@ resource "aws_ssm_parameter" "instance_private_key" {
 
 resource "aws_iam_instance_profile" "beats-instance-profile" {
   name = "${var.prefix}-pttp-logging-poc-instance-profile"
-  role = "${aws_iam_role.beats-instance-role.name}"
+  role = aws_iam_role.beats-instance-role.name
 }
 
 resource "aws_iam_role_policy" "beats-instance-policy" {
