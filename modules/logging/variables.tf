@@ -17,3 +17,11 @@ variable "ost_vpc_id" {
 variable "ost_aws_account_id" {
   type = string
 }
+
+variable "ost_vpc_cidr_block" {
+  type = string
+}
+
+variable "route_table_id" {
+  type = string
+}
