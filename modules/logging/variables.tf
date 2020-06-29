@@ -23,5 +23,5 @@ variable "ost_vpc_cidr_block" {
 }
 
 variable "route_table_id" {
-  type = list(string)
+  type = string
 }
