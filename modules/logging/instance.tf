@@ -1,7 +1,7 @@
 resource "aws_instance" "test-logging-instance" {
   ami           = "ami-032598fcc7e9d1c7a"
   instance_type = "t2.medium"
-  subnet_id     = var.subnet_ids[1]
+  subnet_id     = var.subnet_ids[0]
 
   vpc_security_group_ids = [
     "${aws_security_group.pttp-logging-spike.id}"
