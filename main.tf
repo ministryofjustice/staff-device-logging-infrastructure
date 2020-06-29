@@ -70,7 +70,7 @@ module "logging_vpc" {
   source = "./modules/vpc"
   prefix = module.label.id
   region = data.aws_region.current_region.id
-  cidr_block = lookup(local.cidr_ranges, terraform.workspace, cidr_ranges['default'])
+  cidr_block = lookup(local.cidr_ranges, terraform.workspace, cidr_ranges["default"])
 
   providers = {
     aws = aws.env
