@@ -58,18 +58,14 @@ resource "random_string" "random" {
 }
 
 locals {
-  cidr_ranges = {
-    development = "10.0.0.0/16"
-    pre-production = "172.16.0.0/16"
-    production = "192.168.0.0/16"
-  }
+  cidr_range = "10.0.0.0/16"
 }
 
 module "logging_vpc" {
   source = "./modules/vpc"
   prefix = module.label.id
   region = data.aws_region.current_region.id
-  cidr_block = lookup(local.cidr_ranges, terraform.workspace, "10.0.0.0/16")
+  cidr_block = local.cidr_range
 
   providers = {
     aws = aws.env
@@ -84,7 +80,7 @@ module "logging" {
   ost_vpc_id = var.ost_vpc_id
   ost_aws_account_id = var.ost_aws_account_id
   ost_vpc_cidr_block = var.ost_vpc_cidr_block
-  route_table_id = module.logging_vpc.public_route_table_ids
+  route_table_id = module.logging_vpc.public_route_table_ids[0]
 
   providers = {
     aws = aws.env
