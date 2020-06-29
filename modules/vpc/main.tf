@@ -15,16 +15,10 @@ module "vpc" {
     "${var.region}c"
   ]
 
-  private_subnets = [
+  public_subnets = [
     cidrsubnet(var.cidr_block, 8, 1),
     cidrsubnet(var.cidr_block, 8, 2),
     cidrsubnet(var.cidr_block, 8, 3)
-  ]
-
-  public_subnets = [
-    cidrsubnet(var.cidr_block, 8, 4),
-    cidrsubnet(var.cidr_block, 8, 5),
-    cidrsubnet(var.cidr_block, 8, 6)
   ]
 
   map_public_ip_on_launch = false
