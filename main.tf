@@ -62,7 +62,6 @@ locals {
     development = "10.0.0.0/16"
     pre-production = "172.16.0.0/16"
     production = "192.168.0.0/16"
-    default = "10.0.0.0/16"
   }
 }
 
@@ -70,7 +69,7 @@ module "logging_vpc" {
   source = "./modules/vpc"
   prefix = module.label.id
   region = data.aws_region.current_region.id
-  cidr_block = lookup(local.cidr_ranges, terraform.workspace, cidr_ranges["default"])
+  cidr_block = lookup(local.cidr_ranges, terraform.workspace, "10.0.0.0/16")
 
   providers = {
     aws = aws.env
