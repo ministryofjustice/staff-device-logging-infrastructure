@@ -6,6 +6,7 @@ module "vpc" {
 
   enable_dns_hostnames = true
   enable_dns_support   = true
+  enable_nat_gateway   = true
   cidr                 = var.cidr_block
 
   azs = [
