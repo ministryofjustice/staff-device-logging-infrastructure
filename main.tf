@@ -75,7 +75,7 @@ module "logging_vpc" {
 module "logging" {
   source = "./modules/logging"
   vpc_id = module.logging_vpc.vpc_id
-  subnet_ids = module.logging_vpc.public_subnets
+  subnet_ids = module.logging_vpc.private_subnets
   prefix = module.label.id
   ost_vpc_id = var.ost_vpc_id
   ost_aws_account_id = var.ost_aws_account_id
