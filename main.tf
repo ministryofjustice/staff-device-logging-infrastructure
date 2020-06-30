@@ -62,9 +62,9 @@ locals {
 }
 
 module "logging_vpc" {
-  source = "./modules/vpc"
-  prefix = module.label.id
-  region = data.aws_region.current_region.id
+  source     = "./modules/vpc"
+  prefix     = module.label.id
+  region     = data.aws_region.current_region.id
   cidr_block = local.cidr_range
 
   providers = {
@@ -73,11 +73,11 @@ module "logging_vpc" {
 }
 
 module "logging" {
-  source = "./modules/logging"
-  vpc_id = module.logging_vpc.vpc_id
-  subnet_ids = module.logging_vpc.private_subnets
-  prefix = module.label.id
-  ost_vpc_id = var.ost_vpc_id
+  source             = "./modules/logging"
+  vpc_id             = module.logging_vpc.vpc_id
+  subnet_ids         = module.logging_vpc.private_subnets
+  prefix             = module.label.id
+  ost_vpc_id         = var.ost_vpc_id
   ost_aws_account_id = var.ost_aws_account_id
   ost_vpc_cidr_block = var.ost_vpc_cidr_block
   # route_table_id = module.logging_vpc.public_route_table_ids[0]
