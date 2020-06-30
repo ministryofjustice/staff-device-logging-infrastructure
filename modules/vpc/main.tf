@@ -4,6 +4,9 @@ module "vpc" {
   name = var.prefix
 
   cidr = var.cidr_block
+
+  enable_nat_gateway = true
+  single_nat_gateway = false
   one_nat_gateway_per_az = true
 
    azs = [
@@ -22,5 +25,4 @@ module "vpc" {
     cidrsubnet(var.cidr_block, 8, 6)  # 10.193.6.0/24
   ]
 
-  enable_nat_gateway = true
 }
