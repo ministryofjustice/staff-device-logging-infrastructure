@@ -22,6 +22,6 @@ variable "ost_vpc_cidr_block" {
   type = string
 }
 
-variable "route_table_id" {
-  type = string
-}
+# variable "route_table_id" {
+#   type = string
+# }
