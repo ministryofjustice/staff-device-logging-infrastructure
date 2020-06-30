@@ -80,6 +80,7 @@ module "logging" {
   ost_vpc_id         = var.ost_vpc_id
   ost_aws_account_id = var.ost_aws_account_id
   ost_vpc_cidr_block = var.ost_vpc_cidr_block
+  tags               = module.label.tags
   # route_table_id = module.logging_vpc.public_route_table_ids[0]
 
   providers = {
