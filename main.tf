@@ -58,7 +58,7 @@ resource "random_string" "random" {
 }
 
 locals {
-  cidr_range = "10.0.0.0/16"
+  cidr_range = "10.193.0.0/16"
 }
 
 module "logging_vpc" {
