@@ -1,7 +1,7 @@
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.28.0"
-  name = var.prefix
+  name = "${var.prefix}-vpc"
 
   cidr = var.cidr_block
 
