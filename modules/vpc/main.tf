@@ -20,8 +20,8 @@ module "vpc" {
   ]
 
   public_subnets = [
+    cidrsubnet(var.cidr_block, 8, 4), # 10.193.4.0/24
     cidrsubnet(var.cidr_block, 8, 5), # 10.193.5.0/24
     cidrsubnet(var.cidr_block, 8, 6)  # 10.193.6.0/24
   ]
-
 }
