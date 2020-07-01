@@ -11,5 +11,6 @@ phases:
       - TF_LOG=debug terraform init -no-color --backend-config="key=terraform.$ENV.state"
       - terraform workspace new $ENV || true
       - terraform workspace select $ENV
+      - TF_LOG=debug terraform destroy -no-color -var="assume_role=$ASSUME_ROLE_ARN" -var="owner-email=pttp@justice.gov.uk" -var="ost_vpc_id=$OST_VPC_ID" -var="ost_aws_account_id=$OST_AWS_ACCOUNT_ID" -var="ost_vpc_cidr_block=$OST_VPC_CIDR_BLOCK"
       - TF_LOG=debug terraform plan -no-color -var="assume_role=$ASSUME_ROLE_ARN" -var="owner-email=pttp@justice.gov.uk" -var="ost_vpc_id=$OST_VPC_ID" -var="ost_aws_account_id=$OST_AWS_ACCOUNT_ID" -var="ost_vpc_cidr_block=$OST_VPC_CIDR_BLOCK"
       - TF_LOG=debug terraform apply --auto-approve -no-color -input=false -var="assume_role=$ASSUME_ROLE_ARN" -var="owner-email=pttp@justice.gov.uk" -var="ost_vpc_id=$OST_VPC_ID" -var="ost_aws_account_id=$OST_AWS_ACCOUNT_ID" -var="ost_vpc_cidr_block=$OST_VPC_CIDR_BLOCK"
