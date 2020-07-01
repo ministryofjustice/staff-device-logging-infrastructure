@@ -8,13 +8,13 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = false
   one_nat_gateway_per_az = true
-  create_igw = true
 
-   azs = [
-     "${var.region}a",
-     "${var.region}b",
-     "${var.region}c"
-   ]
+  azs = [
+    "${var.region}a",
+    "${var.region}b",
+    "${var.region}c"
+  ]
+
   private_subnets = [
     cidrsubnet(var.cidr_block, 8, 1), # 10.193.1.0/24
     cidrsubnet(var.cidr_block, 8, 2), # 10.193.2.0/24
