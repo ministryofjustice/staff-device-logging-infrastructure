@@ -4,7 +4,6 @@ data "aws_caller_identity" "current" {}
 resource "aws_lambda_permission" "allow_cloudwatch_exec" {
   for_each = var.log_groups
 
-  statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
   function_name = var.aws_lambda_arn
   principal     = "logs.amazonaws.com"
