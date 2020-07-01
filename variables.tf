@@ -11,6 +11,10 @@ variable "assume_role" {
   type = string
 }
 
+variable "enable_peering" {
+  type = bool
+}
+
 variable "ost_vpc_id" {
   type = string
 }

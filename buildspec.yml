@@ -1,4 +1,10 @@
 version: 0.2
+
+env:
+  variables:
+    TF_IN_AUTOMATION: true
+    TF_VAR_enable_peering: false
+
 phases:
   install:
     commands:
