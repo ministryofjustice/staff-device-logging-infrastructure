@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 2.52"
+  version = "~> 2.68"
   alias   = "env"
   assume_role {
     role_arn = var.assume_role
