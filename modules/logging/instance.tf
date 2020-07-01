@@ -4,7 +4,7 @@ resource "aws_instance" "test-logging-instance" {
   subnet_id     = var.subnet_ids[0]
 
   vpc_security_group_ids = [
-    "${aws_security_group.pttp-logging-spike.id}"
+    aws_security_group.pttp-logging-spike.id
   ]
   key_name                    = aws_key_pair.test_instance_public_key_pair.key_name
   associate_public_ip_address = true
@@ -103,7 +103,7 @@ resource "aws_iam_instance_profile" "beats-instance-profile" {
 
 resource "aws_iam_role_policy" "beats-instance-policy" {
   name = "beats-instance-policy"
-  role = "${aws_iam_role.beats-instance-role.id}"
+  role = aws_iam_role.beats-instance-role.id
 
   policy = <<EOF
 {
@@ -147,7 +147,7 @@ EOF
 resource "aws_security_group" "pttp-logging-spike" {
   name        = "fe-ecs-out"
   description = "Test instance that puts Hello World data into CloudWatch"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 
   egress {
     from_port   = 0
