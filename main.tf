@@ -57,15 +57,11 @@ resource "random_string" "random" {
   special = false
 }
 
-locals {
-  cidr_range = "10.193.0.0/16"
-}
-
 module "logging_vpc" {
   source     = "./modules/vpc"
   prefix     = module.label.id
   region     = data.aws_region.current_region.id
-  cidr_block = local.cidr_range
+  cidr_block = "10.193.0.0/16" //warning changing this in a applied workspace will cause an error! https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/467
 
   providers = {
     aws = aws.env
