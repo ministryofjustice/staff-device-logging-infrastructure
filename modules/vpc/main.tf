@@ -6,8 +6,6 @@ module "vpc" {
   cidr = var.cidr_block
 
   enable_nat_gateway = true
-  single_nat_gateway = false
-  one_nat_gateway_per_az = true
 
   azs = [
     "${var.region}a",
