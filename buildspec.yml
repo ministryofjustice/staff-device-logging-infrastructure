@@ -3,9 +3,14 @@ version: 0.2
 env:
   variables:
     TF_IN_AUTOMATION: true
+    TF_INPUT: 0
+    TF_VAR_owner_email: pttp@justice.gov.uk
     TF_VAR_enable_peering: false
   parameter-store:
-    TF_VAR_ost_vpc_id: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_vpc_id"
+    TF_VAR_assume_role:        "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/assume_role"
+    TF_VAR_ost_vpc_id:         "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_vpc_id"
+    TF_VAR_ost_aws_account_id: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_aws_account_id"
+    TF_VAR_ost_vpc_cidr_block: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_vpc_cidr_block"
 
 phases:
   install:
@@ -19,5 +24,5 @@ phases:
       - terraform init -no-color --backend-config="key=terraform.$ENV.state"
       - terraform workspace new $ENV || true
       - terraform workspace select $ENV
-      - terraform plan -no-color -var="assume_role=$ASSUME_ROLE_ARN" -var="owner-email=pttp@justice.gov.uk" -var="ost_aws_account_id=$OST_AWS_ACCOUNT_ID" -var="ost_vpc_cidr_block=$OST_VPC_CIDR_BLOCK"
-      - terraform apply --auto-approve -no-color -input=false -var="assume_role=$ASSUME_ROLE_ARN" -var="owner-email=pttp@justice.gov.uk" -var="ost_vpc_id=$OST_VPC_ID" -var="ost_aws_account_id=$OST_AWS_ACCOUNT_ID" -var="ost_vpc_cidr_block=$OST_VPC_CIDR_BLOCK"
+      - terraform plan -no-color
+      - terraform apply --auto-approve -no-color

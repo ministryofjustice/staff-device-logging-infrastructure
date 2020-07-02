@@ -1,9 +1,9 @@
-variable "is-production" {
+variable "is_production" {
   type    = bool
   default = "true"
 }
 
-variable "owner-email" {
+variable "owner_email" {
   type    = string
   default = "emile.swarts@digital.justice.gov.uk"
 }
