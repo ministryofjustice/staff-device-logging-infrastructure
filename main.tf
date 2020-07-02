@@ -86,6 +86,16 @@ module "ost_vpc_peering" {
   }
 }
 
+module "customLoggingApi" {
+  source = "./modules/customLoggingApi"
+  prefix = module.label.id
+  region = data.aws_region.current_region.id
+
+  providers = {
+    aws = aws.env
+  }
+}
+
 module "logging" {
   source     = "./modules/logging"
   vpc_id     = module.logging_vpc.vpc_id

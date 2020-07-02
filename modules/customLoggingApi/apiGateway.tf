@@ -17,6 +17,7 @@ resource "aws_api_gateway_method" "proxy" {
   resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "POST"
   authorization = "NONE"
+  api_key_required = true
 }
 
 resource "aws_api_gateway_method_response" "http200" {
@@ -36,4 +37,33 @@ resource "aws_api_gateway_integration_response" "http200" {
   depends_on = [
     aws_api_gateway_integration.sqs-integration
   ]
+}
+
+resource "aws_api_gateway_deployment" "custom_log_api_deployment" {
+  rest_api_id = aws_api_gateway_rest_api.logging_gateway.id
+  stage_name = "production"
+
+  depends_on = [
+    aws_api_gateway_method.proxy,
+    aws_api_gateway_integration.sqs-integration
+  ]
+}
+
+resource "aws_api_gateway_api_key" "custom_log_api_key" {
+  name = "${var.prefix}-custom_log_api_key"
+}
+
+resource "aws_api_gateway_usage_plan" "custom_log_api_usage_plan" {
+  name         = "${var.prefix}-custom_log_api_usage_plan"
+
+  api_stages {
+    api_id = aws_api_gateway_rest_api.logging_gateway.id
+    stage  = aws_api_gateway_deployment.custom_log_api_deployment.stage_name
+  }
+}
+
+resource "aws_api_gateway_usage_plan_key" "main" {
+  key_id        = aws_api_gateway_api_key.custom_log_api_key.id
+  key_type      = "API_KEY"
+  usage_plan_id = aws_api_gateway_usage_plan.custom_log_api_usage_plan.id
 }

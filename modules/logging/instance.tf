@@ -115,7 +115,7 @@ resource "aws_iam_role_policy" "beats-instance-policy" {
             "Action": [
                 "logs:*",
                 "cloudwatch:*"
-               
+
             ],
             "Resource": "*"
         }

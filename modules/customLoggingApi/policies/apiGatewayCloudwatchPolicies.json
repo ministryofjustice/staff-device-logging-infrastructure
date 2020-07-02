@@ -13,18 +13,6 @@
         "logs:FilterLogEvents"
       ],
       "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "sqs:*"
-      ],
-      "Resource": "${sqs_arn}"
-    },
-    {
-      "Effect": "Allow",
-      "Action": "sqs:ListQueues",
-      "Resource": "*"
     }
   ]
 }
