@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func xTestRoleAssumable(t *testing.T) {
+func TestRoleAssumable(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
