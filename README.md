@@ -31,3 +31,8 @@ To run the unit test run
 
 - `cd test`
 - `go test -v -timeout 30m`
+
+## Modules
+### CustomLoggingApi
+This spins up an AWS API Gateway which is secured by an API key. JSON messages can be posted to the `/production/logs` endpoint
+which will then be placed on an encrypted SQS queue to await further processing
