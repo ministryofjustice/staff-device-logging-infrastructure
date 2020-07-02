@@ -1,4 +1,4 @@
-assume_role = "arn:aws:iam::<CURRENT_DEV_IAM_ACCOUNT>:role/pttp-production-infra-shared-services-admin"
+assume_role = "arn:aws:iam::<CURRENT_DEV_IAM_ACCOUNT>:role/pttp-development-infra-shared-services-admin"
 
 logging_cidr_block = "10.0.0.0/16"
 
