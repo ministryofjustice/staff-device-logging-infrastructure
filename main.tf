@@ -61,7 +61,7 @@ module "logging_vpc" {
   source     = "./modules/vpc"
   prefix     = module.label.id
   region     = data.aws_region.current_region.id
-  cidr_block = "10.193.0.0/16" //warning changing this in a applied workspace will cause an error! https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/467
+  cidr_block = var.logging_cidr_block
 
   providers = {
     aws = aws.env
