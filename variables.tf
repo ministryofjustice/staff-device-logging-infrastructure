@@ -3,7 +3,7 @@ variable "is-production" {
   default = true
 }
 
-variable "owner-email" {
+variable "owner_email" {
   type = string
 }
 

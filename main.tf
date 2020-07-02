@@ -35,7 +35,7 @@ module "label" {
     "business-unit" = "MoJO"
     "application"   = "infrastructure",
     "is-production" = tostring(var.is-production),
-    "owner"         = var.owner-email
+    "owner"         = var.owner_email
 
     "environment-name" = "global"
     "source-code"      = "https://github.com/ministryofjustice/pttp-infrastructure"
