@@ -22,6 +22,4 @@ module "vpc" {
     cidrsubnet(var.cidr_block, 8, 5),
     cidrsubnet(var.cidr_block, 8, 6)
   ]
-
-  create_igw = false
 }
