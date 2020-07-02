@@ -20,8 +20,11 @@ The Terraform in this repository serves 2 purposes:
 This Terraform can be run in 2 different contexts:
 Your own machine for bootstrapping AWS, or by releasing features through CodePipeline in the shared Services Account.
 
-Please see [setup instructions](./documentation/setup.md).
-
+## Getting started
+- `make init`
+- `terrafrom workspace new <MYNAME>`
+- Create a `terraform.tfvars` file and populate flowing the example in examplevars
+- then you are free to run apply ect
 ## Testing
 
 There is a testing suite called Terratest that tests modules in this codebase
