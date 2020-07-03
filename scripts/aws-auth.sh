@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eo pipefail
+set -e
 
 if [[ $# -eq 0 ]] ; then
     echo 'Please provide the arn of the role you wish to assume as an argument'
