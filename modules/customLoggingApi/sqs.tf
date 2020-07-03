@@ -6,6 +6,6 @@ resource "aws_sqs_queue" "custom_log_queue" {
 }
 
 resource "aws_kms_key" "sqs_kms_master_key" {
-  description = "SQS KMS master key"
+  description = "${var.prefix} SQS KMS master key"
   deletion_window_in_days = 7
 }

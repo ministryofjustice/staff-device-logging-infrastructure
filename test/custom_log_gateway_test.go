@@ -2,77 +2,77 @@ package test
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/gruntwork-io/terratest/modules/http-helper"
+	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/lithammer/shortuuid/v3"
-	"log"
+	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
 
-var _t *testing.T
-var _terraformOptions *terraform.Options
 const retryDelay = time.Second * 5
-
+const testRegion = "eu-west-2"
 
 func TestLogCanBeReadFromQueue(t *testing.T) {
-	SetUpTest(t)
+	config := SetUpTest(t)
 
-	SpinUpTheModule()
-	defer CleaningUpAtTheEnd()
-	WriteAMessageToTheApiAndExpect(200, withCorrectApiKey())
-	VerifyThatMessageWasPlacedOnQueue()
+	defer CleaningUpAtTheEnd(t, config)
+	SpinUpTheModule(t, config)
+
+	WriteAMessageToTheApiAndExpect(t, config,
+		200, withCorrectApiKey(t, config),
+	)
+
+	VerifyThatMessageWasPlacedOnQueue(t, config)
 }
 
 func TestLogCanBeSubmittedToAPIWithCorrectKey(t *testing.T) {
-	SetUpTest(t)
+	config := SetUpTest(t)
+	defer CleaningUpAtTheEnd(t, config)
+	SpinUpTheModule(t, config)
 
-	SpinUpTheModule()
-	defer CleaningUpAtTheEnd()
-	WriteAMessageToTheApiAndExpect(200, withCorrectApiKey())
+	WriteAMessageToTheApiAndExpect(t, config,
+		200, withCorrectApiKey(t, config),
+	)
 }
 
 func TestLogCannotBeSubmittedToApiWithoutApiKey(t *testing.T) {
-	SetUpTest(t)
+	config := SetUpTest(t)
+	defer CleaningUpAtTheEnd(t, config)
+	SpinUpTheModule(t, config)
 
-	SpinUpTheModule()
-	defer CleaningUpAtTheEnd()
-	WriteAMessageToTheApiAndExpect(403, "")
+	WriteAMessageToTheApiAndExpect(t, config,
+		403, "",
+	)
 }
-
 
 func TestThatQueueHasServerSideEncryptionEnabled(t *testing.T) {
-	SetUpTest(t)
+	config := SetUpTest(t)
+	defer CleaningUpAtTheEnd(t, config)
+	SpinUpTheModule(t, config)
 
-	SpinUpTheModule()
-	defer CleaningUpAtTheEnd()
-	VerifyThatQueueEncryptionIsEnabled(t)
+	VerifyThatQueueEncryptionIsEnabled(t, config)
 }
 
-
-func SpinUpTheModule(){
-	testUuid := shortuuid.New()
-	_terraformOptions = &terraform.Options{
-		TerraformDir: "../modules/customLoggingApi",
-		Vars:         map[string]interface{}{"prefix": testUuid, "region": "eu-west-2"},
-	}
-
-	terraform.InitAndApplyAndIdempotent(_t, _terraformOptions)
+func SpinUpTheModule(t *testing.T, config *terraform.Options) {
+	terraform.InitAndApplyAndIdempotent(t, config)
 }
 
-func CleaningUpAtTheEnd() string {
-	return terraform.Destroy(_t, _terraformOptions)
+func CleaningUpAtTheEnd(t *testing.T, config *terraform.Options) {
+	terraform.Destroy(t, config)
 }
 
-func VerifyThatMessageWasPlacedOnQueue() {
-	sess, _ := session.NewSession(&aws.Config{Region: aws.String("eu-west-2")})
+func VerifyThatMessageWasPlacedOnQueue(t *testing.T, config *terraform.Options) {
+	queueUrl := terraform.Output(t, config, "custom_log_queue_url")
+
+	sess, _ := session.NewSession(&aws.Config{Region: aws.String(testRegion)})
 
 	sqsService := sqs.New(sess)
-
-	queueUrl := terraform.Output(_t, _terraformOptions, "custom_log_queue_url")
 
 	result, err := sqsService.ReceiveMessage(&sqs.ReceiveMessageInput{
 		AttributeNames: []*string{
@@ -83,22 +83,12 @@ func VerifyThatMessageWasPlacedOnQueue() {
 		},
 		QueueUrl:            &queueUrl,
 		MaxNumberOfMessages: aws.Int64(1),
-		VisibilityTimeout:   aws.Int64(20),  // 20 seconds
-		WaitTimeSeconds:     aws.Int64(0),
+		VisibilityTimeout:   aws.Int64(20), // 20 seconds
+		WaitTimeSeconds:     aws.Int64(20),
 	})
 
-	if err != nil {
-		_t.Fatalf("***Error:***")
-		_t.Fatalf(err.Error())
-		_t.Fail()
-		return
-	}
-
-	if len(result.Messages) == 0 {
-		_t.Fatalf("***Received no messages***")
-		_t.Fail()
-		return
-	}
+	assert.NoError(t, err)
+	assert.Len(t, result.Messages, 1, "***Received no messages***")
 
 	expectedMessageBodyBytes, _ := json.Marshal(map[string]string{
 		"foo": "bar",
@@ -106,25 +96,17 @@ func VerifyThatMessageWasPlacedOnQueue() {
 
 	expectedMessageBody := string(expectedMessageBodyBytes)
 
+	messageBody := reformatJsonString(t, *result.Messages[0].Body)
 
-	messageBody := reformatJsonString(*result.Messages[0].Body)
-
-
-	if messageBody != expectedMessageBody {
-		log.Println("***expected message***:")
-		log.Println(expectedMessageBody)
-		log.Println("***but got***:")
-		log.Println(messageBody)
-		_t.Fail()
-	}
+	assert.Equal(t, expectedMessageBody, messageBody)
 }
 
-func VerifyThatQueueEncryptionIsEnabled(t *testing.T) {
-	sess, _ := session.NewSession(&aws.Config{Region: aws.String("eu-west-2")})
+func VerifyThatQueueEncryptionIsEnabled(t *testing.T, config *terraform.Options) {
+	sess, _ := session.NewSession(&aws.Config{Region: aws.String(testRegion)})
 
 	sqsService := sqs.New(sess)
 
-	queueUrl := terraform.Output(_t, _terraformOptions, "custom_log_queue_url")
+	queueUrl := terraform.Output(t, config, "custom_log_queue_url")
 
 	kmsMasterKeyIdAttributeName := "KmsMasterKeyId"
 
@@ -138,55 +120,60 @@ func VerifyThatQueueEncryptionIsEnabled(t *testing.T) {
 	queueAttributes, _ := sqsService.GetQueueAttributes(&queueAttributesInput)
 
 	if queueAttributes.Attributes[kmsMasterKeyIdAttributeName] == nil {
-		t.Fatal("***Queue does not have encryption enabled***")
-		t.Fail()
+		t.Errorf("***Queue does not have encryption enabled***")
 	}
 }
 
-func WriteAMessageToTheApiAndExpect(code int, apiKey string) {
-	loggingEndpointPath := terraform.Output(_t, _terraformOptions, "logging_endpoint_path")
+func WriteAMessageToTheApiAndExpect(t *testing.T, config *terraform.Options, code int, apiKey string) {
+	loggingEndpointPath := terraform.Output(t, config, "logging_endpoint_path")
 
 	requestBody, _ := json.Marshal(map[string]string{
 		"foo": "bar",
 	})
 
-	_, err := http_helper.HTTPDoWithRetryE(_t,
+	_, err := http_helper.HTTPDoWithRetryE(t,
 		"POST",
 		loggingEndpointPath,
 		requestBody,
 		map[string]string{"Content-Type": "application/json", "X-API-KEY": apiKey},
 		code,
-		5,
+		10,
 		retryDelay,
 		nil,
 	)
 
-	if err != nil {
-		_t.Fatalf("***Api did not return code '%d'***", code)
-		_t.Fail()
-	}
+	assert.NoError(t, err, "***Api did not return code '%d'***", code)
 }
 
-func withCorrectApiKey() string {
-	apiKey := terraform.Output(_t, _terraformOptions, "custom_logging_api_key")
+func withCorrectApiKey(t *testing.T, config *terraform.Options) string {
+	apiKey := terraform.Output(t, config, "custom_logging_api_key")
 	return apiKey
 }
 
-func reformatJsonString(theThing string) string {
+func reformatJsonString(t *testing.T, theThing string) string {
 	var messageBodyMap map[string]interface{}
 	err := json.Unmarshal([]byte(theThing), &messageBodyMap)
-
-	if err != nil {
-		log.Println("***Unable to reformat json***")
-		log.Println(err.Error())
-		log.Println(theThing)
-	}
+	assert.NoError(t, err)
 
 	messageBody, _ := json.Marshal(messageBodyMap)
 
 	return string(messageBody)
 }
 
-func SetUpTest(t *testing.T) {
-	_t = t
+func SetUpTest(t *testing.T) *terraform.Options {
+	t.Parallel()
+
+	uniqueId := random.UniqueId()
+	prefix := fmt.Sprintf("terratest-%s", uniqueId)
+
+	rootFolder := ".."
+	terraformFolderRelativeToRoot := "modules/customLoggingApi"
+
+	//this is required to run the same example in parallel
+	tempTestFolder := test_structure.CopyTerraformFolderToTemp(t, rootFolder, terraformFolderRelativeToRoot)
+
+	return &terraform.Options{
+		TerraformDir: tempTestFolder,
+		Vars:         map[string]interface{}{"prefix": prefix},
+	}
 }
