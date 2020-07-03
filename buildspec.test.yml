@@ -16,5 +16,5 @@ phases:
   build:
     commands:
       - ./scripts/aws-auth.sh "$ROLE_ARN" "test-session-$CODEBUILD_BUILD_NUMBER"
-      - . credentials.sh
+      - . ./credentials.sh
       - cd test && go test -v -timeout 30m
