@@ -8,6 +8,6 @@ output "beats_role_arn" {
   value = aws_iam_role_policy.beats-lambda-policy
 }
 
-output "beats_security_groups" {
-  value = aws_security_group.pttp-logging-spike
+output "beats_security_group_id" {
+  value = aws_security_group.pttp-logging-spike.id
 }

@@ -2,8 +2,8 @@ output "beats_role_arn" {
   value = module.logging.beats_role_arn
 }
 
-output "beats_security_groups" {
-  value = module.logging.beats_security_groups
+output "beats_security_group_id" {
+  value = module.logging.beats_security_group_id
 }
 
 output "beats_subnet_ids" {
