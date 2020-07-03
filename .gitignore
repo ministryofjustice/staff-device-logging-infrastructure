@@ -42,3 +42,4 @@ VpnCerts
 *.DS_Store
 .terraform.back
 *.code-workspace
+credentials.sh

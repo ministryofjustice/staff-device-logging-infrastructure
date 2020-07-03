@@ -22,11 +22,12 @@ CREDS=$(aws sts assume-role \
                           --output json)
 echo 'Success'
 
-export AWS_ACCESS_KEY_ID="$(    echo $CREDS | jq -r ".Credentials.AccessKeyId")"
-export AWS_SECRET_ACCESS_KEY="$(echo $CREDS | jq -r ".Credentials.SecretAccessKey")"
-export AWS_SECURITY_TOKEN="$(   echo $CREDS | jq -r ".Credentials.SessionToken")"
-export AWS_SESSION_TOKEN=$AWS_SECURITY_TOKEN
-echo "Credentials exported. Your aws cmds will now run as the provided role"
+CRED_FILE_NAME="credentials.sh"
+echo "export AWS_ACCESS_KEY_ID=$(echo $CREDS | jq -r ".Credentials.AccessKeyId")" > $CRED_FILE_NAME
+echo "export AWS_SECRET_ACCESS_KEY=$(echo $CREDS | jq -r ".Credentials.SecretAccessKey")" >> $CRED_FILE_NAME
+echo "export AWS_SECURITY_TOKEN=$(echo $CREDS | jq -r ".Credentials.SessionToken")" >> $CRED_FILE_NAME
+echo "export AWS_SESSION_TOKEN=$(echo $CREDS | jq -r ".Credentials.SessionToken")"  >> $CRED_FILE_NAME
+echo "Credentials exported to $CRED_FILE_NAME. Your should now run source $CRED_FILE_NAME"
 
 #echo "$AWS_ACCESS_KEY_ID"
 #echo "$AWS_SECRET_ACCESS_KEY"
