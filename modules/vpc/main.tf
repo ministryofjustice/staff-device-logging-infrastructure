@@ -3,7 +3,7 @@ module "vpc" {
   version = "2.44.0"
   name    = var.prefix
 
-  cidr = var.cidr_block
+  cidr               = var.cidr_block
   enable_nat_gateway = true
 
   azs = [
