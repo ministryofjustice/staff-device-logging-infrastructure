@@ -35,10 +35,19 @@ The Terraform in this repository can be run in 2 different contexts:
 <!-- What about people who join the project who don't have access to this Slack channel? -->
 - AWS account access to at least the `dev` and `shared services` accounts (ask in the channel `#moj-pttp` in Slack)
 
-## Getting started
-
+## Setup aws-vault
 - `aws-vault add moj-pttp-dev` (this will prompt you for the values of your AWS Dev account)
 - `aws-vault add moj-pttp-shared-services` (this will prompt you for the values of your AWS Shared Services account)
+
+## Setup MFA
+- Navigate to the AWS console for a given account
+- Click on IAM
+- Find your users within the users dropdown
+- Select the security credentials tab and then assign an MFA device (follow the on-screen instructions for this next step)
+- Edit you local `aws/config` with the key value pair of `mfa_serial=<iam_role_from_mfa_device>`
+
+## Getting started
+
 - `aws-vault exec moj-pttp-shared-services -- make init` (you will be prompted to bring across workspaces, say yes)
 - `aws-vault exec moj-pttp-shared-services -- terraform workspace new <myname>` (replace `<myname>` with your own name)
 - Run `aws-vault exec moj-pttp-shared-services -- terraform workspace list` and make sure that your new workspace with your name is selected
@@ -59,7 +68,7 @@ To run this codebase you will need to [install golang](https://formulae.brew.sh/
 To run the unit test run
 
 - `cd test`
-- `go test -v -timeout 30m`
+- `aws-vault exec moj-pttp-shared-services -- go test -v -timeout 30m`
 
 ## Modules
 
