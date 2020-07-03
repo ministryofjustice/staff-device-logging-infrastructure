@@ -1,10 +1,9 @@
 # Prison Technology Transformation Programme AWS Infrastructure
 
-Prison Technology Transformation Programme (PTTP) is a Ministry of Justice (MoJ)
-
 ## Introduction
 
 <!-- These maps to different accounts -->
+<!-- Do we even need this section? -->
 
 The current environments are:
 
