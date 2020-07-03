@@ -7,7 +7,8 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 ASSUME_ROLE_ARN=$1
-
+BUILD_ID=${2:-"test-session"}
+echo "role-session-name will be: $BUILD_ID"
 
 echo 'testing current credentials...'
 aws sts get-caller-identity > /dev/null
@@ -16,7 +17,7 @@ echo 'Success'
 echo "Trying to assume role: $ASSUME_ROLE_ARN ..."
 CREDS=$(aws sts assume-role \
                           --role-arn "$ASSUME_ROLE_ARN" \
-                          --role-session-name "test-session" \
+                          --role-session-name "$BUILD_ID" \
                           --duration-seconds 3600 \
                           --output json)
 echo 'Success'
