@@ -15,9 +15,16 @@ phases:
       - unzip terraform.zip
       - mv terraform /bin
       - apt-get install -y jq
+      - go get -u gotest.tools/gotestsum
 
   build:
     commands:
       - ./scripts/aws-auth.sh "$ROLE_ARN" "test-session-$CODEBUILD_BUILD_NUMBER"
       - . ./credentials.sh
-      - cd test && go test -v -timeout 30m
+      - cd test && gotestsum --format testname --junitfile unit-tests.xml -- -timeout 30m
+
+reports:
+  terratestReports:
+    files:
+      - unit-tests.xml
+    base-directory: test

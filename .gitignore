@@ -43,3 +43,4 @@ VpnCerts
 .terraform.back
 *.code-workspace
 credentials.sh
+/test/unit-tests.xml
