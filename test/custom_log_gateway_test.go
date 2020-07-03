@@ -167,7 +167,7 @@ func SetUpTest(t *testing.T) *terraform.Options {
 	prefix := fmt.Sprintf("terratest-%s", uniqueId)
 
 	rootFolder := ".."
-	terraformFolderRelativeToRoot := "modules/customLoggingApi"
+	terraformFolderRelativeToRoot := "modules/custom_logging_api"
 
 	//this is required to run the same example in parallel
 	tempTestFolder := test_structure.CopyTerraformFolderToTemp(t, rootFolder, terraformFolderRelativeToRoot)
