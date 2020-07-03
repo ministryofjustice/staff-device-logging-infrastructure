@@ -47,7 +47,8 @@ resource "aws_iam_role_policy" "beats-lambda-policy" {
                 "s3:PutObject",
                 "ec2:*",
                 "sqs:*",
-                "s3:GetObject"
+                "s3:GetObject",
+                "kms:*"
             ],
             "Resource": "*"
         }

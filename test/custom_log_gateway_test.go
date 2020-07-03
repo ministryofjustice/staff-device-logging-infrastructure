@@ -19,56 +19,52 @@ const retryDelay = time.Second * 5
 const testRegion = "eu-west-2"
 
 func TestLogCanBeReadFromQueue(t *testing.T) {
-	config := SetUpTest(t)
+	test := SetUpTest(t)
 
-	defer CleaningUpAtTheEnd(t, config)
-	SpinUpTheModule(t, config)
+	defer CleaningUpUntilTheEndOf(test)
+	SpinUpTheModuleFor(test)
 
-	WriteAMessageToTheApiAndExpect(t, config,
-		200, withCorrectApiKey(t, config),
-	)
-
-	VerifyThatMessageWasPlacedOnQueue(t, config)
+	WriteAMessageToTheApiAndExpect(200, withCorrectApiKeyFor(test), test)
+	VerifyThatMessageWasPlacedOnQueue(test)
 }
 
 func TestLogCanBeSubmittedToAPIWithCorrectKey(t *testing.T) {
-	config := SetUpTest(t)
-	defer CleaningUpAtTheEnd(t, config)
-	SpinUpTheModule(t, config)
+	test := SetUpTest(t)
 
-	WriteAMessageToTheApiAndExpect(t, config,
-		200, withCorrectApiKey(t, config),
-	)
+	defer CleaningUpUntilTheEndOf(test)
+	SpinUpTheModuleFor(test)
+
+	WriteAMessageToTheApiAndExpect(200, withCorrectApiKeyFor(test), test)
 }
 
 func TestLogCannotBeSubmittedToApiWithoutApiKey(t *testing.T) {
-	config := SetUpTest(t)
-	defer CleaningUpAtTheEnd(t, config)
-	SpinUpTheModule(t, config)
+	test := SetUpTest(t)
 
-	WriteAMessageToTheApiAndExpect(t, config,
-		403, "",
-	)
+	defer CleaningUpUntilTheEndOf(test)
+	SpinUpTheModuleFor(test)
+
+	WriteAMessageToTheApiAndExpect(403, "", test)
 }
 
 func TestThatQueueHasServerSideEncryptionEnabled(t *testing.T) {
-	config := SetUpTest(t)
-	defer CleaningUpAtTheEnd(t, config)
-	SpinUpTheModule(t, config)
+	thisTest := SetUpTest(t)
 
-	VerifyThatQueueEncryptionIsEnabled(t, config)
+	defer CleaningUpUntilTheEndOf(thisTest)
+	SpinUpTheModuleFor(thisTest)
+
+	VerifyThatQueueEncryptionIsEnabled(thisTest)
 }
 
-func SpinUpTheModule(t *testing.T, config *terraform.Options) {
-	terraform.InitAndApplyAndIdempotent(t, config)
+func SpinUpTheModuleFor(test testInfo) {
+	terraform.InitAndApplyAndIdempotent(test.instance, test.config)
 }
 
-func CleaningUpAtTheEnd(t *testing.T, config *terraform.Options) {
-	terraform.Destroy(t, config)
+func CleaningUpUntilTheEndOf(test testInfo) {
+	terraform.Destroy(test.instance, test.config)
 }
 
-func VerifyThatMessageWasPlacedOnQueue(t *testing.T, config *terraform.Options) {
-	queueUrl := terraform.Output(t, config, "custom_log_queue_url")
+func VerifyThatMessageWasPlacedOnQueue(thisTest testInfo) {
+	queueUrl := terraform.Output(thisTest.instance, thisTest.config, "custom_log_queue_url")
 
 	sess, _ := session.NewSession(&aws.Config{Region: aws.String(testRegion)})
 
@@ -87,8 +83,8 @@ func VerifyThatMessageWasPlacedOnQueue(t *testing.T, config *terraform.Options) 
 		WaitTimeSeconds:     aws.Int64(20),
 	})
 
-	assert.NoError(t, err)
-	assert.Len(t, result.Messages, 1, "***Received no messages***")
+	assert.NoError(thisTest.instance, err)
+	assert.Len(thisTest.instance, result.Messages, 1, "***Received no messages***")
 
 	expectedMessageBodyBytes, _ := json.Marshal(map[string]string{
 		"foo": "bar",
@@ -96,17 +92,17 @@ func VerifyThatMessageWasPlacedOnQueue(t *testing.T, config *terraform.Options) 
 
 	expectedMessageBody := string(expectedMessageBodyBytes)
 
-	messageBody := reformatJsonString(t, *result.Messages[0].Body)
+	messageBody := reformatJsonString(*result.Messages[0].Body, thisTest)
 
-	assert.Equal(t, expectedMessageBody, messageBody)
+	assert.Equal(thisTest.instance, expectedMessageBody, messageBody)
 }
 
-func VerifyThatQueueEncryptionIsEnabled(t *testing.T, config *terraform.Options) {
+func VerifyThatQueueEncryptionIsEnabled(thisTest testInfo) {
 	sess, _ := session.NewSession(&aws.Config{Region: aws.String(testRegion)})
 
 	sqsService := sqs.New(sess)
 
-	queueUrl := terraform.Output(t, config, "custom_log_queue_url")
+	queueUrl := terraform.Output(thisTest.instance, thisTest.config, "custom_log_queue_url")
 
 	kmsMasterKeyIdAttributeName := "KmsMasterKeyId"
 
@@ -120,18 +116,18 @@ func VerifyThatQueueEncryptionIsEnabled(t *testing.T, config *terraform.Options)
 	queueAttributes, _ := sqsService.GetQueueAttributes(&queueAttributesInput)
 
 	if queueAttributes.Attributes[kmsMasterKeyIdAttributeName] == nil {
-		t.Errorf("***Queue does not have encryption enabled***")
+		thisTest.instance.Errorf("***Queue does not have encryption enabled***")
 	}
 }
 
-func WriteAMessageToTheApiAndExpect(t *testing.T, config *terraform.Options, code int, apiKey string) {
-	loggingEndpointPath := terraform.Output(t, config, "logging_endpoint_path")
+func WriteAMessageToTheApiAndExpect(code int, apiKey string, thisTest testInfo) {
+	loggingEndpointPath := terraform.Output(thisTest.instance, thisTest.config, "logging_endpoint_path")
 
 	requestBody, _ := json.Marshal(map[string]string{
 		"foo": "bar",
 	})
 
-	_, err := http_helper.HTTPDoWithRetryE(t,
+	_, err := http_helper.HTTPDoWithRetryE(thisTest.instance,
 		"POST",
 		loggingEndpointPath,
 		requestBody,
@@ -142,25 +138,25 @@ func WriteAMessageToTheApiAndExpect(t *testing.T, config *terraform.Options, cod
 		nil,
 	)
 
-	assert.NoError(t, err, "***Api did not return code '%d'***", code)
+	assert.NoError(thisTest.instance, err, "***Api did not return code '%d'***", code)
 }
 
-func withCorrectApiKey(t *testing.T, config *terraform.Options) string {
-	apiKey := terraform.Output(t, config, "custom_logging_api_key")
+func withCorrectApiKeyFor(thisTest testInfo) string {
+	apiKey := terraform.Output(thisTest.instance, thisTest.config, "custom_logging_api_key")
 	return apiKey
 }
 
-func reformatJsonString(t *testing.T, theThing string) string {
+func reformatJsonString(theThing string, thisTest testInfo) string {
 	var messageBodyMap map[string]interface{}
 	err := json.Unmarshal([]byte(theThing), &messageBodyMap)
-	assert.NoError(t, err)
+	assert.NoError(thisTest.instance, err)
 
 	messageBody, _ := json.Marshal(messageBodyMap)
 
 	return string(messageBody)
 }
 
-func SetUpTest(t *testing.T) *terraform.Options {
+func SetUpTest(t *testing.T) testInfo {
 	t.Parallel()
 
 	uniqueId := random.UniqueId()
@@ -172,8 +168,16 @@ func SetUpTest(t *testing.T) *terraform.Options {
 	//this is required to run the same example in parallel
 	tempTestFolder := test_structure.CopyTerraformFolderToTemp(t, rootFolder, terraformFolderRelativeToRoot)
 
-	return &terraform.Options{
-		TerraformDir: tempTestFolder,
-		Vars:         map[string]interface{}{"prefix": prefix, "region": testRegion},
+	return testInfo{
+		instance: t,
+		config: &terraform.Options{
+			TerraformDir: tempTestFolder,
+			Vars:         map[string]interface{}{"prefix": prefix, "region": testRegion},
+		},
 	}
+}
+
+type testInfo struct {
+	instance *testing.T
+	config *terraform.Options
 }
