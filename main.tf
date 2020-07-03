@@ -87,7 +87,7 @@ module "ost_vpc_peering" {
 }
 
 module "customLoggingApi" {
-  source = "modules/custom_logging_api"
+  source = "./modules/custom_logging_api"
   prefix = module.label.id
   region = data.aws_region.current_region.id
 
