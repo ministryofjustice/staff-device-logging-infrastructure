@@ -174,6 +174,6 @@ func SetUpTest(t *testing.T) *terraform.Options {
 
 	return &terraform.Options{
 		TerraformDir: tempTestFolder,
-		Vars:         map[string]interface{}{"prefix": prefix},
+		Vars:         map[string]interface{}{"prefix": prefix, "region": testRegion},
 	}
 }
