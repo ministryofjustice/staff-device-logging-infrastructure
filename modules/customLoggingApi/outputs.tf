@@ -9,3 +9,7 @@ output "custom_log_queue_url" {
 output "custom_logging_api_key" {
   value = aws_api_gateway_api_key.custom_log_api_key.value
 }
+
+output "custom_log_queue_arn" {
+  value = aws_sqs_queue.custom_log_queue.arn
+}
