@@ -19,6 +19,15 @@ provider "aws" {
 provider "tls" {
   version = "> 2.1"
 }
+provider "local" {
+  version = "~> 1.4"
+}
+provider "template" {
+  version = "~> 2.1"
+}
+provider "random" {
+  version = "~> 2.2.1"
+}
 
 data "aws_region" "current_region" {}
 
@@ -47,9 +56,6 @@ module "label" {
 #   shared_services_account_arn = var.shared_services_account_arn
 #   prefix = ""
 # }
-provider "random" {
-  version = "~> 2.2.1"
-}
 
 resource "random_string" "random" {
   length  = 10
