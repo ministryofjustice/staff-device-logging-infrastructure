@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/gruntwork-io/terratest/modules/http-helper"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/lithammer/shortuuid/v3"
 	"log"
 	"testing"
 	"time"
@@ -53,9 +54,10 @@ func TestThatQueueHasServerSideEncryptionEnabled(t *testing.T) {
 
 
 func SpinUpTheModule(){
+	testUuid := shortuuid.New()
 	_terraformOptions = &terraform.Options{
 		TerraformDir: "../modules/customLoggingApi",
-		Vars:         map[string]interface{}{"prefix": "david-test", "region": "eu-west-2"},
+		Vars:         map[string]interface{}{"prefix": testUuid, "region": "eu-west-2"},
 	}
 
 	terraform.InitAndApplyAndIdempotent(_t, _terraformOptions)
