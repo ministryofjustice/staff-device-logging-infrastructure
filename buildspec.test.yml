@@ -1,6 +1,20 @@
 version: 0.2
 
+env:
+  variables:
+    TF_IN_AUTOMATION: true
+    TF_INPUT: 0
+    AWS_REGION: eu-west-2
+  parameter-store:
+    ROLE_ARN: /codebuild/pttp-ci-infrastructure-core-pipeline/development/assume_role # tests hardcoded to only run in development
+
 phases:
   install:
     commands:
+      - apt-get install -y jq
+
+  build:
+    commands:
       - echo "test"
+      - source ./scripts/aws-auth.sh $ROLE_ARN
+      - cd test && go test -v -timeout 30m
