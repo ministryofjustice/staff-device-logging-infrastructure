@@ -36,10 +36,12 @@ The Terraform in this repository can be run in 2 different contexts:
 - AWS account access to at least the `dev` and `shared services` accounts (ask in the channel `#moj-pttp` in Slack)
 
 ## Setup aws-vault
+
 - `aws-vault add moj-pttp-dev` (this will prompt you for the values of your AWS Dev account)
 - `aws-vault add moj-pttp-shared-services` (this will prompt you for the values of your AWS Shared Services account)
 
 ## Setup MFA
+
 - Navigate to the AWS console for a given account
 - Click on IAM
 - Find your users within the users dropdown
@@ -52,7 +54,7 @@ The Terraform in this repository can be run in 2 different contexts:
 - `aws-vault exec moj-pttp-shared-services -- terraform workspace new <myname>` (replace `<myname>` with your own name)
 - Run `aws-vault exec moj-pttp-shared-services -- terraform workspace list` and make sure that your new workspace with your name is selected
 - If you don't see your new workspace selected, run `aws-vault exec moj-pttp-shared-services -- terraform workspace select <myname>`
-- Create a `terraform.tfvars` in the root of the project and populate it with the values in examplevars, you can find a completed example of this in 1password7, in a vault named "PTTP". Make sure to change the field "owner_email" to your own email address
+- Create a `terraform.tfvars` in the root of the project and populate it with the values in examplevars, you can find a completed example of this in 1password7, in a vault named "PTTP".
 - Edit your aws config (usually found in `.aws/config`) to include the key value pair of `region=eu-west-2` for both the `profile moj-pttp-dev` and the `profile moj-pttp-shared-services` workspaces
 - Run `aws-vault exec moj-pttp-shared-services -- terraform plan` and check that for an output. If it appears as correct terraform output, run `aws-vault exec moj-pttp-shared-services -- terraform apply`.
 
