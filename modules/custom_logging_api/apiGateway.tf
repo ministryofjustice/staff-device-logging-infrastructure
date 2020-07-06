@@ -43,14 +43,16 @@ resource "aws_api_gateway_deployment" "custom_log_api_deployment" {
   rest_api_id = aws_api_gateway_rest_api.logging_gateway.id
 
 //  triggers = {
-//    redeployment = sha1(join(",", list(
-//    jsonencode(aws_api_gateway_integration.sqs-integration),
-//    )))
+//    redeployment = timestamp()
 //  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
   depends_on = [
     aws_api_gateway_method.proxy,
-    aws_api_gateway_integration.sqs-integration
+    aws_api_gateway_integration.sqs-integration,
   ]
 }
 
