@@ -113,3 +113,14 @@ module "logging" {
     aws = aws.env
   }
 }
+
+module "cloudtrail" {
+  source = "./modules/cloudtrail"
+  prefix = module.label.id
+  region = data.aws_region.current_region.id
+  // TO DO: tags
+
+  providers = {
+    aws = aws.env
+  }
+}
