@@ -41,12 +41,23 @@ resource "aws_api_gateway_integration_response" "http200" {
 
 resource "aws_api_gateway_deployment" "custom_log_api_deployment" {
   rest_api_id = aws_api_gateway_rest_api.logging_gateway.id
-  stage_name  = "production"
+
+//  triggers = {
+//    redeployment = sha1(join(",", list(
+//    jsonencode(aws_api_gateway_integration.sqs-integration),
+//    )))
+//  }
 
   depends_on = [
     aws_api_gateway_method.proxy,
     aws_api_gateway_integration.sqs-integration
   ]
+}
+
+resource "aws_api_gateway_stage" "custom_log_api_stage" {
+  deployment_id = aws_api_gateway_deployment.custom_log_api_deployment.id
+  rest_api_id = aws_api_gateway_rest_api.logging_gateway.id
+  stage_name = "production"
 }
 
 resource "aws_api_gateway_api_key" "custom_log_api_key" {
@@ -58,7 +69,7 @@ resource "aws_api_gateway_usage_plan" "custom_log_api_usage_plan" {
 
   api_stages {
     api_id = aws_api_gateway_rest_api.logging_gateway.id
-    stage  = aws_api_gateway_deployment.custom_log_api_deployment.stage_name
+    stage  = aws_api_gateway_stage.custom_log_api_stage.stage_name
   }
 }
 
