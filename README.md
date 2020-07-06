@@ -79,8 +79,8 @@ To run the unit test run
 This spins up an AWS API Gateway which is secured by an API key. JSON messages can be posted to the `/production/logs` endpoint
 which will then be placed on an encrypted SQS queue to await further processing. The module provides four outputs:
 
-- `logging_endpoint_path` - The full path to the logs endpoint on the API.
-- `custom_logging_api_key` - The API key for the logging API. This should be provided to the API via the x-api-key header.
+- `logging_endpoint_path` - The full path to the logs endpoint on the API (Also exposed via `logging_api_endpoint_path` in the main outputs file for the project).
+- `custom_logging_api_key` - The API key for the logging API. This should be provided to the API via the x-api-key header (also exposed via `logging_api_key`in the main outputs file for the project).
 - `custom_log_queue_url` - The URL of the SQS queue onto which logs are placed.
 - `custom_log_queue_arn` - The ARN of the SQS queue onto which logs are placed.
 
