@@ -118,7 +118,7 @@ module "cloudtrail" {
   source = "./modules/cloudtrail"
   prefix = module.label.id
   region = data.aws_region.current_region.id
-  // TO DO: tags
+  tags   = module.label.tags
 
   providers = {
     aws = aws.env
