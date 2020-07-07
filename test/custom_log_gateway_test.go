@@ -56,7 +56,7 @@ func TestThatQueueHasServerSideEncryptionEnabled(t *testing.T) {
 }
 
 func SpinUpTheModuleFor(test testInfo) {
-	terraform.InitAndApplyAndIdempotent(test.instance, test.config)
+	terraform.InitAndApply(test.instance, test.config)
 }
 
 func CleaningUpUntilTheEndOf(test testInfo) {
