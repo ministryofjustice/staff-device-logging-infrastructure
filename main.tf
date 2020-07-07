@@ -129,7 +129,7 @@ module "functionbeat_config" {
   source = "./modules/function_beats_config"
 
   prefix             = module.label.id
-  deploy_bucket      = "${module.label.id}-build-artifact-bucket"
+  deploy_bucket      = module.logging.beats_deploy_bucket
   deploy_role_arn    = module.logging.beats_role_arn
   security_group_ids = [module.logging.beats_security_group_id]
 

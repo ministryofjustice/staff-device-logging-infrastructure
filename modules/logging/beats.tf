@@ -1,3 +1,22 @@
+resource "aws_kms_key" "functionbeat" {
+  description             = "${var.prefix}-functionbeat"
+  deletion_window_in_days = 10
+}
+
+resource "aws_s3_bucket" "functionbeat-deploy" {
+  bucket = "${var.prefix}-functionbeat-artifacts"
+  acl    = "private"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = aws_kms_key.functionbeat.arn
+        sse_algorithm     = "aws:kms"
+      }
+    }
+  }
+}
+
 resource "aws_iam_role_policy" "beats-lambda-policy" {
   name = "${var.prefix}-beats-lambda-policy"
   role = aws_iam_role.beats-lambda-role.id
