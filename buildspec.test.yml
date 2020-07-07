@@ -14,7 +14,9 @@ phases:
       - wget -O terraform.zip https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
       - unzip terraform.zip
       - mv terraform /bin
-      - go get -u gotest.tools/gotestsum
+      - wget -O gotestsum.tar.gz https://github.com/gotestyourself/gotestsum/releases/download/v0.5.1/gotestsum_0.5.1_linux_amd64.tar.gz
+      - tar -xzvf gotestsum.tar.gz
+      - mv gotestsum /bin
 
   build:
     commands:
