@@ -1,9 +1,13 @@
+// TODO: see if we can find a way to write a test for this
+// With retries
 data "aws_caller_identity" "current" {}
 
 locals {
   s3_bucket_log_prefix = "cloudtrail_logs"
 }
 
+// TODO: encrypt this
+// TODO: is there a limit/cost implication to KMS keys
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
   name = "${var.prefix}-cloudtrail-log-group"
 
@@ -15,9 +19,9 @@ resource "aws_cloudtrail" "pttp_cloudtrail" {
   s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.id
   s3_key_prefix                 = local.s3_bucket_log_prefix
   cloud_watch_logs_group_arn    = aws_cloudwatch_log_group.cloudtrail_log_group.arn
+  cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_role.arn
   include_global_service_events = true
   is_multi_region_trail         = true
-  cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_role.arn
 
   tags = var.tags
 }
@@ -29,6 +33,7 @@ resource "aws_kms_key" "cloudtrail_s3_bucket_key" {
 }
 
 resource "aws_s3_bucket" "cloudtrail_bucket" {
+  // TODO: turn this value into a local variable
   bucket        = "${var.prefix}-cloudtrail-bucket"
   force_destroy = true
 
@@ -43,6 +48,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
 
   tags = var.tags
 
+  // TODO: put this policy into its own file
   policy = <<POLICY
 {
     "Version": "2012-10-17",
