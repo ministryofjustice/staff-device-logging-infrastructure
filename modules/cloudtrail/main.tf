@@ -1,5 +1,9 @@
 data "aws_caller_identity" "current" {}
 
+locals {
+  s3_bucket_log_prefix = "cloudtrail_logs"
+}
+
 // TODO: rename this resource
 resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
   name = "${var.prefix}-cloudwatch-log-group"
@@ -8,6 +12,7 @@ resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
 resource "aws_cloudtrail" "pttp_cloudtrail" {
   name                          = "${var.prefix}-cloudtrail"
   s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.id
+  s3_key_prefix                 = local.s3_bucket_log_prefix
   cloud_watch_logs_group_arn    = aws_cloudwatch_log_group.cloudwatch_log_group.arn
   include_global_service_events = true
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_role.arn
@@ -17,12 +22,10 @@ resource "aws_cloudtrail" "pttp_cloudtrail" {
 resource "aws_kms_key" "cloudtrail_s3_bucket_key" {
   description             = "${var.prefix}-cloudtrail-s3-bucket-key"
   deletion_window_in_days = 10
-
-  tags = module.label.tags
 }
 
 // TODO: do we need versioning?
-// TODO: encrypt this bucket
+
 // TODO: how to test this?
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   # To do: add environment to bucket name
@@ -58,7 +61,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${var.prefix}-cloudtrail-bucket/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+            "Resource": "arn:aws:s3:::${var.prefix}-cloudtrail-bucket/${local.s3_bucket_log_prefix}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control"
@@ -69,4 +72,3 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
 }
 POLICY
 }
-
