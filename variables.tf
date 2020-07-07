@@ -31,3 +31,15 @@ variable "ost_aws_account_id" {
 variable "ost_vpc_cidr_block" {
   type = string
 }
+
+variable "ost_username" {
+  type = string
+}
+
+variable "ost_password" {
+  type = string
+}
+
+variable "ost_url" {
+  type = string
+}

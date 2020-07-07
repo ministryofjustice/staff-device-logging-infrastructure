@@ -12,6 +12,12 @@ env:
     TF_VAR_ost_vpc_id:         "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_vpc_id"
     TF_VAR_ost_aws_account_id: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_aws_account_id"
     TF_VAR_ost_vpc_cidr_block: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_vpc_cidr_block"
+    TF_VAR_ost_username:       "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_username"
+    TF_VAR_ost_password:       "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_password"
+    TF_VAR_ost_hostname:       "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_hostname"
+    OST_KEY:                   "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/moj.key"
+    OST_CRT:                   "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/moj.crt"
+    OST_CA_CRT:                "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/elk-ca.crt"
 
 phases:
   install:
@@ -19,6 +25,9 @@ phases:
       - wget -O terraform.zip https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
       - unzip terraform.zip
       - mv terraform /bin
+      - wget -O functionbeat.tar.gz https://artifacts.elastic.co/downloads/beats/functionbeat/functionbeat-7.8.0-linux-x86_64.tar.gz
+      - tar -xzf functionbeat.tar.gz
+      - mv functionbeat-*-linux-x86_64 functionbeat
 
   build:
     commands:
@@ -27,3 +36,8 @@ phases:
       - terraform workspace select $ENV
       - terraform plan -no-color
       - terraform apply --auto-approve -no-color
+      - cd functionbeat
+      - echo $OST_KEY    > moj.key
+      - echo $OST_CRT    > moj.crt
+      - echo $OST_CA_CRT > elk-ca.crt
+      - ./functionbeat -c ../functionbeat-config.yml test config

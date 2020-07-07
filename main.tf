@@ -124,3 +124,25 @@ module "cloudtrail" {
     aws = aws.env
   }
 }
+
+module "functionbeat_config" {
+  source = "./modules/function_beats_config"
+
+  prefix             = module.label.id
+  deploy_bucket      = module.logging.beats_deploy_bucket
+  deploy_role_arn    = module.logging.beats_role_arn
+  security_group_ids = [module.logging.beats_security_group_id]
+
+  subnet_ids = module.logging_vpc.private_subnets
+
+  sqs_log_queue = module.customLoggingApi.custom_log_queue_arn
+
+  log_groups = [
+    "/cormac/test/1",
+    "/cormac/test/2"
+  ]
+
+  destination_url      = var.ost_url
+  destination_username = var.ost_username
+  destination_password = var.ost_password
+}

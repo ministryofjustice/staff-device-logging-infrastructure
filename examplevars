@@ -7,4 +7,8 @@ ost_vpc_id         = ""
 ost_aws_account_id = ""
 ost_vpc_cidr_block = ""
 
+ost_username = "fakeusername"
+ost_password = "fakepassword"
+ost_url      = "justice.gov.uk"
+
 owner_email = "<MYEMAIL>"

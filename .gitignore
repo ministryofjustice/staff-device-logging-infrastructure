@@ -44,3 +44,4 @@ VpnCerts
 *.code-workspace
 credentials.sh
 /test/unit-tests.xml
+functionbeat-config.yml

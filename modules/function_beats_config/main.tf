@@ -66,7 +66,7 @@ locals {
 }
 
 resource "local_file" "config" {
-  filename        = "functionbeat.yml"
-  file_permission = "0600"
-  content         = local.config
+  filename          = "functionbeat-config.yml"
+  file_permission   = "0600"
+  sensitive_content = local.config
 }

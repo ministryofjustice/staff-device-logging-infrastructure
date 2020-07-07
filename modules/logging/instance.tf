@@ -4,7 +4,7 @@ resource "aws_instance" "test-logging-instance" {
   subnet_id     = var.subnet_ids[0]
 
   vpc_security_group_ids = [
-    aws_security_group.pttp-logging-spike.id
+    aws_security_group.functionbeats.id
   ]
   key_name                    = aws_key_pair.test_instance_public_key_pair.key_name
   associate_public_ip_address = true
@@ -144,7 +144,7 @@ resource "aws_iam_role" "beats-instance-role" {
 EOF
 }
 
-resource "aws_security_group" "pttp-logging-spike" {
+resource "aws_security_group" "functionbeats" {
   name        = "fe-ecs-out"
   description = "Test instance that puts Hello World data into CloudWatch"
   vpc_id      = var.vpc_id
@@ -162,4 +162,10 @@ resource "aws_security_group" "pttp-logging-spike" {
     protocol    = -1
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "local_file" "ec2_private_key" {
+  filename          = "ec2.pem"
+  file_permission   = "0600"
+  sensitive_content = tls_private_key.ec2.private_key_pem
 }
