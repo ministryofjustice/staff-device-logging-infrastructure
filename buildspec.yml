@@ -37,9 +37,9 @@ phases:
       - terraform plan -no-color
       - terraform apply --auto-approve -no-color
       - cd functionbeat
-      - echo $OST_KEY    > moj.key
-      - echo $OST_CRT    > moj.crt
-      - echo $OST_CA_CRT > elk-ca.crt
+      - echo $OST_KEY    | base64 -d > moj.key
+      - echo $OST_CRT    | base64 -d > moj.crt
+      - echo $OST_CA_CRT | base64 -d > elk-ca.crt
       - cat moj.key
       - cat moj.crt
       - cat elk-ca.crt
