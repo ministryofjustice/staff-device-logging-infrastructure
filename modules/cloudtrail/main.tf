@@ -5,16 +5,17 @@ locals {
 }
 
 // TODO: rename this resource
-resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
-  name = "${var.prefix}-cloudwatch-log-group"
+resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
+  name = "${var.prefix}-cloudtrail-log-group"
 }
 
 resource "aws_cloudtrail" "pttp_cloudtrail" {
   name                          = "${var.prefix}-cloudtrail"
   s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.id
   s3_key_prefix                 = local.s3_bucket_log_prefix
-  cloud_watch_logs_group_arn    = aws_cloudwatch_log_group.cloudwatch_log_group.arn
+  cloud_watch_logs_group_arn    = aws_cloudwatch_log_group.cloudtrail_log_group.arn
   include_global_service_events = true
+  is_multi_region_trail         = true
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_role.arn
   // TODO (do we need this?):
   // include_management_events = true
@@ -28,7 +29,6 @@ resource "aws_kms_key" "cloudtrail_s3_bucket_key" {
 
 // TODO: how to test this?
 resource "aws_s3_bucket" "cloudtrail_bucket" {
-  # To do: add environment to bucket name
   bucket        = "${var.prefix}-cloudtrail-bucket"
   force_destroy = true
 
