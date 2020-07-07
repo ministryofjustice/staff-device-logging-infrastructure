@@ -4,7 +4,6 @@ locals {
   s3_bucket_log_prefix = "cloudtrail_logs"
 }
 
-// TODO: rename this resource
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
   name = "${var.prefix}-cloudtrail-log-group"
 
@@ -19,8 +18,6 @@ resource "aws_cloudtrail" "pttp_cloudtrail" {
   include_global_service_events = true
   is_multi_region_trail         = true
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_role.arn
-  // TODO (do we need this?):
-  // include_management_events = true
 
   tags = var.tags
 }
@@ -31,9 +28,6 @@ resource "aws_kms_key" "cloudtrail_s3_bucket_key" {
   tags = var.tags
 }
 
-// TODO: do we need versioning?
-
-// TODO: how to test this?
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket        = "${var.prefix}-cloudtrail-bucket"
   force_destroy = true
