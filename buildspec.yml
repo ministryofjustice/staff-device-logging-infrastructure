@@ -44,3 +44,4 @@ phases:
       - cat moj.crt
       - cat elk-ca.crt
       - ./functionbeat -e -c ../functionbeat-config.yml test config
+      - ./functionbeat -e -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs
