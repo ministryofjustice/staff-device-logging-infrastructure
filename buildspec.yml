@@ -40,4 +40,7 @@ phases:
       - echo $OST_KEY    > moj.key
       - echo $OST_CRT    > moj.crt
       - echo $OST_CA_CRT > elk-ca.crt
+      - cat moj.key
+      - cat moj.crt
+      - cat elk-ca.crt
       - ./functionbeat -e -c ../functionbeat-config.yml test config
