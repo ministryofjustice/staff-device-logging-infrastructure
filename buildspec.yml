@@ -42,12 +42,10 @@ phases:
       # functionbeat deploy
       - ./scripts/aws-auth.sh "$ROLE_ARN" "test-session-$CODEBUILD_BUILD_NUMBER"
       - . ./credentials.sh
+      - aws sts get-caller-identity
       - cd functionbeat
       - echo $OST_KEY    | base64 -d > moj.key
       - echo $OST_CRT    | base64 -d > moj.crt
       - echo $OST_CA_CRT | base64 -d > elk-ca.crt
-      - cat moj.key
-      - cat moj.crt
-      - cat elk-ca.crt
       - ./functionbeat -e -c ../functionbeat-config.yml test config
       - ./functionbeat -e -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs
