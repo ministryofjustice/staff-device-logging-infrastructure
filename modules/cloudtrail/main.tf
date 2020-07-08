@@ -50,6 +50,11 @@ resource "aws_kms_key" "cloudtrail_kms_key" {
 POLICY
 }
 
+resource "aws_kms_alias" "cloudtrail_kms_key_alias" {
+  name          = "alias/${var.prefix}-cloudtrail-kms-key-alias"
+  target_key_id = aws_kms_key.cloudtrail_kms_key.key_id
+}
+
 // TODO: encrypt this
 // TODO: is there a limit/cost implication to KMS keys
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
