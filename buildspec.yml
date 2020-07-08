@@ -46,7 +46,7 @@ phases:
       - echo $OST_CA_CRT | base64 -d > elk-ca.crt
       - ./functionbeat -e -c ../functionbeat-config.yml test config
       # functionbeat deploy
-      - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name $CODEBUILD_BUILD_ID`
+      - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
       - export TEMP_ROLE
       - echo $TEMP_ROLE
       - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
