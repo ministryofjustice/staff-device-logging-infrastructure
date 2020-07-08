@@ -125,6 +125,18 @@ module "cloudtrail" {
   }
 }
 
+module "vpc_flow_logs" {
+  source = "./modules/vpc_flow_logs"
+  prefix = module.label.id
+  region = data.aws_region.current_region.id
+  tags   = module.label.tags
+  vpc_id = module.logging_vpc.vpc_id
+
+  providers = {
+    aws = aws.env
+  }
+}
+
 module "functionbeat_config" {
   source = "./modules/function_beats_config"
 
