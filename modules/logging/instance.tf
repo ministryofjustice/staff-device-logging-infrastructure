@@ -145,8 +145,8 @@
 //}
 
 resource "aws_security_group" "functionbeats" {
-  name        = "${var.prefix}-functionbeats"
-  vpc_id      = var.vpc_id
+  name   = "${var.prefix}-functionbeats"
+  vpc_id = var.vpc_id
 
   egress {
     from_port   = 0

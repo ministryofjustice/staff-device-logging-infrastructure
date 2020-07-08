@@ -17,58 +17,70 @@ resource "aws_s3_bucket" "functionbeat-deploy" {
   }
 }
 
+data "aws_iam_policy_document" "beats-lambda-policy" {
+  statement {
+    actions = [
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:CreateNetworkInterface",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DescribeInstances",
+      "ec2:AttachNetworkInterface",
+      "cloudformation:CreateStack",
+      "cloudformation:DeleteStack",
+      "cloudformation:DescribeStacks",
+      "cloudformation:DescribeStackEvents",
+      "cloudformation:DescribeStackResources",
+      "cloudformation:GetTemplate",
+      "cloudformation:UpdateStack",
+      "cloudformation:ValidateTemplate",
+      "iam:CreateRole",
+      "iam:DeleteRole",
+      "iam:DeleteRolePolicy",
+      "iam:GetRole",
+      "iam:GetRolePolicy",
+      "iam:PassRole",
+      "iam:PutRolePolicy",
+      "lambda:AddPermission",
+      "lambda:CreateFunction",
+      "lambda:CreateEventSourceMapping",
+      "lambda:DeleteFunction",
+      "lambda:DeleteEventSourceMapping",
+      "lambda:GetEventSourceMapping",
+      "lambda:GetFunction",
+      "lambda:GetFunctionConfiguration",
+      "lambda:PutFunctionConcurrency",
+      "lambda:RemovePermission",
+      "lambda:UpdateFunctionCode",
+      "lambda:UpdateFunctionConfiguration",
+      "logs:DescribeLogGroups",
+      "logs:CreateLogGroup",
+      "logs:DeleteLogGroup",
+      "logs:DeleteSubscriptionFilter",
+      "logs:DescribeLogGroups",
+      "logs:PutSubscriptionFilter",
+      "s3:CreateBucket",
+      "s3:DeleteObject",
+      "s3:ListBucket",
+      "s3:PutObject",
+      "s3:GetObject",
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey"
+    ]
+    resources = ["*"]
+  }
+}
+
 resource "aws_iam_role_policy" "beats-lambda-policy" {
   name = "${var.prefix}-beats-lambda-policy"
   role = aws_iam_role.beats-lambda-role.id
 
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-                "cloudformation:CreateStack",
-                "cloudformation:DeleteStack",
-                "cloudformation:DescribeStacks",
-                "cloudformation:DescribeStackEvents",
-                "cloudformation:DescribeStackResources",
-                "cloudformation:GetTemplate",
-                "cloudformation:UpdateStack",
-                "cloudformation:ValidateTemplate",
-                "iam:CreateRole",
-                "iam:DeleteRole",
-                "iam:DeleteRolePolicy",
-                "iam:GetRole",
-                "iam:GetRolePolicy",
-                "iam:PassRole",
-                "iam:PutRolePolicy",
-                "lambda:AddPermission",
-                "lambda:CreateFunction",
-                "lambda:DeleteFunction",
-                "lambda:GetFunction",
-                "lambda:GetFunctionConfiguration",
-                "lambda:PutFunctionConcurrency",
-                "lambda:RemovePermission",
-                "lambda:UpdateFunctionCode",
-                "lambda:UpdateFunctionConfiguration",
-                "logs:*",
-                "cloudwatch:*",
-                "s3:CreateBucket",
-                "s3:DeleteObject",
-                "s3:ListBucket",
-                "s3:PutObject",
-                "ec2:*",
-                "sqs:*",
-                "s3:GetObject",
-                "kms:*"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
-EOF
+  policy = data.aws_iam_policy_document.beats-lambda-policy.json
 }
 
 resource "aws_iam_role" "beats-lambda-role" {
