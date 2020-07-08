@@ -24,10 +24,10 @@ env:
 phases:
   install:
     commands:
-      - wget -O terraform.zip https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+      - wget --no-verbose -O terraform.zip https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
       - unzip terraform.zip
       - mv terraform /bin
-      - wget -O functionbeat.tar.gz https://artifacts.elastic.co/downloads/beats/functionbeat/functionbeat-7.8.0-linux-x86_64.tar.gz
+      - wget --no-verbose -O functionbeat.tar.gz https://artifacts.elastic.co/downloads/beats/functionbeat/functionbeat-7.8.0-linux-x86_64.tar.gz
       - tar -xzf functionbeat.tar.gz
       - mv functionbeat-*-linux-x86_64 functionbeat
 
