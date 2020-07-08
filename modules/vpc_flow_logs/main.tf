@@ -1,11 +1,12 @@
 data "aws_caller_identity" "current" {}
 
-// TODO: find out what `max_aggregation_interval` and other inputs mean here
+// TODO: go check CloudWatch logs for logs written after 16:04
 resource "aws_flow_log" "pttp_flow_logs" {
-  iam_role_arn    = aws_iam_role.flow_logs_role.arn
-  log_destination = aws_cloudwatch_log_group.vpc_flow_logs_log_group.arn
-  traffic_type    = "ALL"
-  vpc_id          = var.vpc_id
+  iam_role_arn             = aws_iam_role.flow_logs_role.arn
+  log_destination          = aws_cloudwatch_log_group.vpc_flow_logs_log_group.arn
+  traffic_type             = "ALL"
+  max_aggregation_interval = 60 // 1 Minute
+  vpc_id                   = var.vpc_id
 }
 
 resource "aws_kms_key" "vpc_flow_logs_kms_key" {
@@ -58,7 +59,7 @@ resource "aws_kms_alias" "vpc_flow_logs_kms_key_alias" {
   target_key_id = aws_kms_key.vpc_flow_logs_kms_key.key_id
 }
 
-// TODO: fill this in
+// TODO: think about retention periods
 resource "aws_cloudwatch_log_group" "vpc_flow_logs_log_group" {
   name       = "${var.prefix}-vpc-flow-logs-log-group"
   kms_key_id = aws_kms_key.vpc_flow_logs_kms_key.arn
