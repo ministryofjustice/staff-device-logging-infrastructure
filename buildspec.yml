@@ -54,5 +54,5 @@ phases:
       - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
       - export AWS_DEFAULT_REGION=eu-west-2
       - export AWS_REGION=eu-west-2
-      - aws s3api head-bucket --bucket pttp-$env-infra-functionbeat-artifacts # this is the first cmd functionbeats calls
+      - aws s3api head-bucket --bucket  pttp-development-infra-functionbeat-artifacts # this is the first cmd functionbeats calls
       - ./functionbeat -e -d "*" -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs
