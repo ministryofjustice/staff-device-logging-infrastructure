@@ -3,7 +3,8 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  s3_bucket_log_prefix = "cloudtrail_logs"
+  s3_bucket_log_prefix    = "cloudtrail_logs"
+  cloud_trail_bucket_name = "${var.prefix}-cloudtrail-bucket"
 }
 
 resource "aws_kms_key" "cloudtrail_kms_key" {
@@ -55,8 +56,6 @@ resource "aws_kms_alias" "cloudtrail_kms_key_alias" {
   target_key_id = aws_kms_key.cloudtrail_kms_key.key_id
 }
 
-// TODO: encrypt this
-// TODO: is there a limit/cost implication to KMS keys
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
   name       = "${var.prefix}-cloudtrail-log-group"
   kms_key_id = aws_kms_key.cloudtrail_kms_key.arn
@@ -77,8 +76,7 @@ resource "aws_cloudtrail" "pttp_cloudtrail" {
 }
 
 resource "aws_s3_bucket" "cloudtrail_bucket" {
-  // TODO: turn this value into a local variable
-  bucket        = "${var.prefix}-cloudtrail-bucket"
+  bucket        = local.cloud_trail_bucket_name
   force_destroy = true
 
   server_side_encryption_configuration {
@@ -104,7 +102,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::${var.prefix}-cloudtrail-bucket"
+            "Resource": "arn:aws:s3:::${local.cloud_trail_bucket_name}"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -113,7 +111,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${var.prefix}-cloudtrail-bucket/${local.s3_bucket_log_prefix}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+            "Resource": "arn:aws:s3:::${local.cloud_trail_bucket_name}/${local.s3_bucket_log_prefix}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control"
