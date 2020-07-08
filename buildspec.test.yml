@@ -20,8 +20,7 @@ phases:
 
   build:
     commands:
-      - ./scripts/aws-auth.sh "$ROLE_ARN" "test-session-$CODEBUILD_BUILD_NUMBER"
-      - . ./credentials.sh
+      - ./scripts/aws-profile.sh "$ROLE_ARN" "test-session-$CODEBUILD_BUILD_NUMBER"
       - cd test && gotestsum --format testname --junitfile unit-tests.xml -- -timeout 30m
 
 reports:
