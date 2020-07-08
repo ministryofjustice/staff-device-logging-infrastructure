@@ -1,5 +1,4 @@
-// TODO: see if we can find a way to write a test for this
-// With retries
+// TODO: see if we can find a way to write a test for this (with retries)
 data "aws_caller_identity" "current" {}
 
 locals {
@@ -13,6 +12,7 @@ resource "aws_kms_key" "cloudtrail_kms_key" {
 
   tags = var.tags
 
+  // TODO: put this policy into its own file
   policy = <<POLICY
 {
  "Version": "2012-10-17",
