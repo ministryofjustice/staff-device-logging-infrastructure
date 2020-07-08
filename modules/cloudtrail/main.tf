@@ -11,12 +11,50 @@ resource "aws_kms_key" "cloudtrail_kms_key" {
   deletion_window_in_days = 10
 
   tags = var.tags
+
+  policy = <<POLICY
+{
+ "Version": "2012-10-17",
+    "Id": "key-default-1",
+    "Statement": [
+        {
+            "Sid": "Enable IAM User Permissions",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+            },
+            "Action": "kms:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "logs.${var.region}.amazonaws.com"
+            },
+            "Action": [
+                "kms:Encrypt*",
+                "kms:Decrypt*",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Describe*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ArnEquals": {
+                    "kms:EncryptionContext:aws:logs:arn": "arn:aws:logs:${var.region}:${data.aws_caller_identity.current.account_id}:log-group:*"
+                }
+            }
+        }    
+    ]
+}
+POLICY
 }
 
 // TODO: encrypt this
 // TODO: is there a limit/cost implication to KMS keys
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
-  name = "${var.prefix}-cloudtrail-log-group"
+  name       = "${var.prefix}-cloudtrail-log-group"
+  kms_key_id = aws_kms_key.cloudtrail_kms_key.arn
 
   tags = var.tags
 }
