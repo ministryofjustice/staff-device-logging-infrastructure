@@ -6,6 +6,13 @@ locals {
   s3_bucket_log_prefix = "cloudtrail_logs"
 }
 
+resource "aws_kms_key" "cloudtrail_kms_key" {
+  description             = "${var.prefix}-cloudtrail-kms-key"
+  deletion_window_in_days = 10
+
+  tags = var.tags
+}
+
 // TODO: encrypt this
 // TODO: is there a limit/cost implication to KMS keys
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
@@ -25,12 +32,6 @@ resource "aws_cloudtrail" "pttp_cloudtrail" {
 
   tags = var.tags
 }
-resource "aws_kms_key" "cloudtrail_s3_bucket_key" {
-  description             = "${var.prefix}-cloudtrail-s3-bucket-key"
-  deletion_window_in_days = 10
-
-  tags = var.tags
-}
 
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   // TODO: turn this value into a local variable
@@ -40,7 +41,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.cloudtrail_s3_bucket_key.arn
+        kms_master_key_id = aws_kms_key.cloudtrail_kms_key.arn
         sse_algorithm     = "aws:kms"
       }
     }
