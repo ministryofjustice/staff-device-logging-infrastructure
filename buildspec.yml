@@ -45,16 +45,13 @@ phases:
       - echo $OST_CRT    | base64 -d > moj.crt
       - echo $OST_CA_CRT | base64 -d > elk-ca.crt
       - ./functionbeat -e -c ../functionbeat-config.yml test config
-      # functionbeat deploy
+      - ./functionbeat -e -d "*" -c ../functionbeat-config.yml package
+      - zip -u package-aws.zip moj.crt moj.key elk-ca.crt
+      # functionbeat upload artifact
       - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
       - export TEMP_ROLE
       - echo $TEMP_ROLE
       - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
       - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
       - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
-      - export AWS_DEFAULT_REGION=eu-west-2
-      - export AWS_REGION=eu-west-2
-      - aws s3api head-bucket --bucket  pttp-development-infra-functionbeat-artifacts # this is the first cmd functionbeats calls
-      - cat ../functionbeat-config.yml
-      - echo $AWS_ACCESS_KEY_ID
-      - sh -c "AWS_DEFAULT_REGION=eu-west-2 AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY ./functionbeat -e -d "*" -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs"
+      - aws s3 cp ./package-aws.zip  s3://pttp-$env-infra-functionbeat-artifacts/fb-package-aws.zip
