@@ -20,8 +20,9 @@ phases:
 
   build:
     commands:
-      - ./scripts/aws-profile.sh "$ROLE_ARN" "test-session-$CODEBUILD_BUILD_NUMBER"
-      - cd test && gotestsum --format testname --junitfile unit-tests.xml -- -timeout 30m
+      - ./scripts/aws-profile.sh "$ROLE_ARN" development "test-session-$CODEBUILD_BUILD_NUMBER"
+      - cd test
+      - AWS_PROFILE=development gotestsum --format testname --junitfile unit-tests.xml -- -timeout 30m
 
 reports:
   terratestReports:

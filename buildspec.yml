@@ -40,12 +40,11 @@ phases:
       - terraform plan -no-color
       - terraform apply --auto-approve -no-color
       # functionbeat deploy
-      - ./scripts/aws-auth.sh "$ROLE_ARN" "test-session-$CODEBUILD_BUILD_NUMBER"
-      - . ./credentials.sh
-      - aws sts get-caller-identity
+      - ./scripts/aws-profile.sh "$ROLE_ARN" $env "test-session-$CODEBUILD_BUILD_NUMBER"
+      - AWS_PROFILE=$env aws sts get-caller-identity
       - cd functionbeat
       - echo $OST_KEY    | base64 -d > moj.key
       - echo $OST_CRT    | base64 -d > moj.crt
       - echo $OST_CA_CRT | base64 -d > elk-ca.crt
-      - ./functionbeat -e -c ../functionbeat-config.yml test config
-      - ./functionbeat -e -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs
+      - AWS_PROFILE=$env ./functionbeat -e -c ../functionbeat-config.yml test config
+      - AWS_PROFILE=$env ./functionbeat -e -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs
