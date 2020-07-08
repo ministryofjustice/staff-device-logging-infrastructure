@@ -1,6 +1,5 @@
 data "aws_caller_identity" "current" {}
 
-// TODO: go check CloudWatch logs for logs written after 16:04
 resource "aws_flow_log" "pttp_flow_logs" {
   iam_role_arn             = aws_iam_role.flow_logs_role.arn
   log_destination          = aws_cloudwatch_log_group.vpc_flow_logs_log_group.arn
@@ -61,10 +60,10 @@ resource "aws_kms_alias" "vpc_flow_logs_kms_key_alias" {
   target_key_id = aws_kms_key.vpc_flow_logs_kms_key.key_id
 }
 
-// TODO: think about retention periods
 resource "aws_cloudwatch_log_group" "vpc_flow_logs_log_group" {
-  name       = "${var.prefix}-vpc-flow-logs-log-group"
-  kms_key_id = aws_kms_key.vpc_flow_logs_kms_key.arn
+  name              = "${var.prefix}-vpc-flow-logs-log-group"
+  kms_key_id        = aws_kms_key.vpc_flow_logs_kms_key.arn
+  retention_in_days = 1
 
   tags = var.tags
 }

@@ -57,8 +57,9 @@ resource "aws_kms_alias" "cloudtrail_kms_key_alias" {
 }
 
 resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
-  name       = "${var.prefix}-cloudtrail-log-group"
-  kms_key_id = aws_kms_key.cloudtrail_kms_key.arn
+  name              = "${var.prefix}-cloudtrail-log-group"
+  kms_key_id        = aws_kms_key.cloudtrail_kms_key.arn
+  retention_in_days = 1
 
   tags = var.tags
 }
@@ -85,6 +86,14 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
         kms_master_key_id = aws_kms_key.cloudtrail_kms_key.arn
         sse_algorithm     = "aws:kms"
       }
+    }
+  }
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = 1
     }
   }
 
