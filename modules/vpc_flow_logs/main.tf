@@ -7,6 +7,8 @@ resource "aws_flow_log" "pttp_flow_logs" {
   traffic_type             = "ALL"
   max_aggregation_interval = 60 // 1 Minute
   vpc_id                   = var.vpc_id
+
+  tags = var.tags
 }
 
 resource "aws_kms_key" "vpc_flow_logs_kms_key" {
@@ -64,12 +66,13 @@ resource "aws_cloudwatch_log_group" "vpc_flow_logs_log_group" {
   name       = "${var.prefix}-vpc-flow-logs-log-group"
   kms_key_id = aws_kms_key.vpc_flow_logs_kms_key.arn
 
-  // TODO: tags for everything
   tags = var.tags
 }
 
 resource "aws_iam_role" "flow_logs_role" {
   name = "${var.prefix}-vpc-flow-logs-role"
+
+  tags = var.tags
 
   assume_role_policy = <<EOF
 {

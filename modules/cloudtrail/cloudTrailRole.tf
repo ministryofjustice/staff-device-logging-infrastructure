@@ -1,6 +1,8 @@
 resource "aws_iam_role" "cloudtrail_role" {
   name               = "${var.prefix}-cloudtrail-role"
   assume_role_policy = data.template_file.cloudtrail_assume_role_policy.rendered
+
+  tags = var.tags
 }
 
 data "template_file" "cloudtrail_assume_role_policy" {
