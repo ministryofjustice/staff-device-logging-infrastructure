@@ -55,3 +55,5 @@ phases:
       - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
       - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
       - aws s3 cp ./package-aws.zip  s3://pttp-$env-infra-functionbeat-artifacts/fb-package-aws.zip
+      - echo "\[default\]\nregion = eu-west-2\naws_access_key_id = $AWS_ACCESS_KEY_ID\naws_secret_access_key = $AWS_SECRET_ACCESS_KEY_ID" >> ~/.aws/credentials
+      - cat ~/.aws/credentials
