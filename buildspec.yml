@@ -40,6 +40,7 @@ phases:
       - terraform plan -no-color
       - terraform apply --auto-approve -no-color
       # functionbeat deploy
+      - cd functionbeat
       - ./functionbeat -e -c ../functionbeat-config.yml test config
       - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name test-$BUILD_ID`
       - export TEMP_ROLE
@@ -50,7 +51,6 @@ phases:
       - echo $AWS_ACCESS_KEY_ID
       - echo $AWS_SECRET_ACCESS_KEY
       - echo $AWS_SESSION_TOKEN
-      - cd functionbeat
       - echo $OST_KEY    | base64 -d > moj.key
       - echo $OST_CRT    | base64 -d > moj.crt
       - echo $OST_CA_CRT | base64 -d > elk-ca.crt
