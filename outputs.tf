@@ -19,5 +19,6 @@ output "logging_api_endpoint_path" {
 }
 
 output "logging_api_key" {
-  value = module.customLoggingApi.custom_logging_api_key
+  value     = module.customLoggingApi.custom_logging_api_key
+  sensitive = true
 }
