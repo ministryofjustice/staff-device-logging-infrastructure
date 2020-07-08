@@ -55,4 +55,6 @@ phases:
       - export AWS_DEFAULT_REGION=eu-west-2
       - export AWS_REGION=eu-west-2
       - aws s3api head-bucket --bucket  pttp-development-infra-functionbeat-artifacts # this is the first cmd functionbeats calls
-      - ./functionbeat -e -d "*" -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs
+      - cat ../functionbeat-config.yml
+      - echo $AWS_ACCESS_KEY_ID
+      - AWS_DEFAULT_REGION=eu-west-2 AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY ./functionbeat -e -d "*" -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs
