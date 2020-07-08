@@ -22,6 +22,7 @@ phases:
     commands:
       - ./scripts/aws-profile.sh "$ROLE_ARN" development "test-session-$CODEBUILD_BUILD_NUMBER"
       - cd test
+      - AWS_PROFILE=development aws sts get-caller-identity
       - AWS_PROFILE=development gotestsum --format testname --junitfile unit-tests.xml -- -timeout 30m
 
 reports:
