@@ -44,6 +44,6 @@ variable "ost_url" {
   type = string
 }
 
-variables "critical_notification_recipients" {
+variable "critical_notification_recipients" {
   type = list(string)
 }
