@@ -336,7 +336,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
   metric_name         = "Throttles"
   namespace           = "AWS/Lambda"
   statistic           = "Minimum"
-  eriod              = "60"
+  period              = "60"
 
   dimensions = {
     FunctionName = "${var.prefix}-infra-sqs"
