@@ -75,7 +75,7 @@ To run the unit test run
 To run a single unit test (in this case, one name "TestCloudTrailEventsAppearInCloudWatch"), run
 
 - `cd test`
-- `aws-vault exec moj-pttp-shared-services -- go test -run TestCloudTrailEventsAppearInCloudWatch`
+- `aws-vault exec moj-pttp-shared-services -- go test -v -run TestCloudTrailEventsAppearInCloudWatch`
 
 ## Modules
 
