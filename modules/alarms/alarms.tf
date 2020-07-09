@@ -6,7 +6,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
   metric_name         = "ApproximateNumberOfMessagesVisible"
   namespace           = "AWS/SQS"
   period              = "60"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   threshold           = "1000"
 
   dimensions = {
@@ -27,7 +27,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
   evaluation_periods  = "1"
   metric_name         = "NumberOfMessagesSent"
   namespace           = "AWS/SQS"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "600"
 
   dimensions = {
@@ -48,7 +48,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
   evaluation_periods  = "1"
   metric_name         = "NumberOfEmptyReceives"
   namespace           = "AWS/SQS"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -69,7 +69,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
   evaluation_periods  = "1"
   metric_name         = "NumberOfMessagesReceived"
   namespace           = "AWS/SQS"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -90,7 +90,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
   evaluation_periods  = "1"
   metric_name         = "4XXError"
   namespace           = "AWS/ApiGateway"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -111,7 +111,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
   evaluation_periods  = "1"
   metric_name         = "5XXError"
   namespace           = "AWS/ApiGateway"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -132,7 +132,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
   evaluation_periods  = "1"
   metric_name         = "Count"
   namespace           = "AWS/ApiGateway"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -153,7 +153,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
   evaluation_periods  = "1"
   metric_name         = "Count"
   namespace           = "AWS/ApiGateway"
-  statistic           = "Minimum"
+  statistic           = "Maximum"
   period              = "60"
 
   dimensions = {
@@ -174,7 +174,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
   evaluation_periods  = "1"
   metric_name         = "Count"
   namespace           = "AWS/ApiGateway"
-  statistic           = "Minimum"
+  statistic           = "Maximum"
   period              = "60"
 
   dimensions = {
@@ -194,7 +194,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
   evaluation_periods  = "1"
   metric_name         = "Count"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -214,7 +214,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
   evaluation_periods  = "1"
   metric_name         = "Count"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -234,7 +234,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
   evaluation_periods  = "1"
   metric_name         = "Errors"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -254,7 +254,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
   evaluation_periods  = "1"
   metric_name         = "Errors"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -274,7 +274,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-
   evaluation_periods  = "1"
   metric_name         = "DestinationDeliveryFailures"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -294,7 +294,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-
   evaluation_periods  = "1"
   metric_name         = "DestinationDeliveryFailures"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -314,7 +314,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
   evaluation_periods  = "1"
   metric_name         = "Throttles"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -334,7 +334,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
   evaluation_periods  = "1"
   metric_name         = "Throttles"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -354,7 +354,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
   evaluation_periods  = "1"
   metric_name         = "ProvisionedConcurrencySpilloverInvocations"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
@@ -374,7 +374,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
   evaluation_periods  = "1"
   metric_name         = "ProvisionedConcurrencySpilloverInvocations"
   namespace           = "AWS/Lambda"
-  statistic           = "Minimum"
+  statistic           = "Sum"
   period              = "60"
 
   dimensions = {
