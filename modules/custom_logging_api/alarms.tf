@@ -1,5 +1,10 @@
+locals {
+  critical_notifications_count = var.enable_critical_notifications ? 1 : 0
+}
+
+# sqs ApproximateNumberOfMessagesVisible > 1k / 1 min
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-sqs-messages-visible-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
@@ -20,7 +25,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-sqs-messages-sent"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -41,7 +46,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-sqs-empty-receives"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -62,7 +67,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-count" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-sqs-number-of-messages-received"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -83,7 +88,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-number-of-400-error-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -104,7 +109,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-number-of-500-error-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -125,7 +130,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-request-count"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -146,7 +151,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-integration-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1000"
@@ -167,7 +172,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
-  count               = var.enable_critical_notifications
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1000"

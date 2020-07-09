@@ -11,5 +11,5 @@ variable "sns_topic_arn" {
 }
 
 variable "enable_critical_notifications" {
-  type = number
+  type = bool
 }

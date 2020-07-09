@@ -12,5 +12,5 @@ variable "prefix" {
 }
 
 variable "enable_critical_notifications" {
-  type = number
+  type = bool
 }

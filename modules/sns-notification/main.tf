@@ -1,3 +1,7 @@
+locals {
+  critical_notifications_count = var.enable_critical_notifications ? 1 : 0
+}
+
 resource "aws_sns_topic" "this" {
   name = "${var.prefix}-${var.topic-name}"
 }
@@ -27,7 +31,7 @@ data "template_file" "email_subscription" {
 }
 
 resource "aws_cloudformation_stack" "email" {
-  count = var.enable_critical_notifications
+  count = local.critical_notifications_count
   name  = "${var.prefix}-${var.topic-name}-subscriptions"
 
   template_body = <<-STACK
