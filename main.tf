@@ -57,6 +57,10 @@ module "label" {
 #   prefix = ""
 # }
 
+locals {
+  on_ci = terraform.workspace == "development" || terraform.workspace == "pre-production" || terraform.workspace == "production" ? 1 : 0
+}
+
 resource "random_string" "random" {
   length  = 10
   upper   = false
@@ -93,10 +97,11 @@ module "ost_vpc_peering" {
 }
 
 module "customLoggingApi" {
-  source = "./modules/custom_logging_api"
-  prefix = module.label.id
-  region = data.aws_region.current_region.id
-  sns_topic_arn = module.sns-notification.topic-arn
+  source                        = "./modules/custom_logging_api"
+  prefix                        = module.label.id
+  region                        = data.aws_region.current_region.id
+  sns_topic_arn                 = module.sns-notification.topic-arn
+  enable_critical_notifications = local.on_ci
 
   providers = {
     aws = aws.env
@@ -116,10 +121,11 @@ module "logging" {
 }
 
 module "sns-notification" {
-  source = "./modules/sns-notification"
-  emails = var.critical_notification_recipients
-  topic-name = "critical-notifications"
-  prefix = module.label.id
+  source                        = "./modules/sns-notification"
+  emails                        = var.critical_notification_recipients
+  topic-name                    = "critical-notifications"
+  prefix                        = module.label.id
+  enable_critical_notifications = local.on_ci
 
   providers = {
     aws = aws.env

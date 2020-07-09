@@ -9,3 +9,7 @@ variable "region" {
 variable "sns_topic_arn" {
   type = string
 }
+
+variable "enable_critical_notifications" {
+  type = number
+}

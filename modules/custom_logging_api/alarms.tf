@@ -1,5 +1,6 @@
 # sqs ApproximateNumberOfMessagesVisible > 1k / 1 min
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-sqs-messages-visible-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
@@ -21,6 +22,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
 
 # sqs NumberOfMessagesSent < 1  / 10 min
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-sqs-messages-sent"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -42,6 +44,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
 
 # sqs NumberOfEmptyReceives > 1 / 1 min
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-sqs-empty-receives"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -63,6 +66,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
 
 # sqs NumberOfMessagesReceived < 100 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-count" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-sqs-number-of-messages-received"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -84,6 +88,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
 
 # apigateway 4XXError > 0 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-number-of-400-error-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -105,6 +110,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
 
 # apigateway 5XXError > 0 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-number-of-500-error-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -126,6 +132,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
 
 # apigateway Count < 100 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-request-count"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -147,6 +154,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
 
 # apigateway IntegrationLatency > 1000ms / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-integration-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1000"
@@ -168,6 +176,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
 
 # apigateway Latency > 1000ms / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
+  count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1000"

@@ -10,3 +10,7 @@ variable "emails" {
 variable "prefix" {
   type    = "string"
 }
+
+variable "enable_critical_notifications" {
+  type = number
+}
