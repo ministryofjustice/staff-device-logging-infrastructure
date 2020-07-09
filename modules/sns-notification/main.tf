@@ -12,7 +12,7 @@ data "template_file" "email_subscription" {
 
     # Name must be alphanumeric, unique, but also consistent based on the email address.
     # It also needs to stay under 255 characters.
-    name = "${var.prefix}-${sha256("${var.topic-name}-${element(var.emails, count.index)}")}"
+    name = "${sha256("${var.topic-name}-${element(var.emails, count.index)}")}"
   }
 
   template = <<-STACK
