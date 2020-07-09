@@ -17,18 +17,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const retryDelay2 = time.Second * 5
-const testRegion2 = "eu-west-2"
+const cloudTrailTestRegion = "eu-west-2"
+const cloudTrailTestRetryDelay = time.Second * 5
+const cloudTrailTestMaxRetries = 12 // One minute of 5 second slots
 
 func TestCloudTrailEventsAppearInCloudWatch(t *testing.T) {
-	test := SetUpTest2(t)
+	test := SetUpTestCloudTrailTests(t)
 
 	randomID := strings.ToLower(random.UniqueId())
-	// fmt.Printf("%s", randomID)
 	bucketName := fmt.Sprintf("terratest-s3-bucket-%v", randomID)
 
-	defer CleaningUpUntilTheEndOf2(test, bucketName)
-	SpinUpTheModuleFor2(test)
+	defer CleaningUpUntilTheEndOfCloudTrailTests(test, bucketName)
+	SpinUpTheModuleForCloudTrailTests(test)
 
 	CreateAnS3Bucket(bucketName)
 	VerifyThatAMessageAppearedInACloudWatchLogGroup(test)
@@ -36,7 +36,7 @@ func TestCloudTrailEventsAppearInCloudWatch(t *testing.T) {
 
 func CreateAnS3Bucket(bucketName string) {
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String(testRegion2)},
+		Region: aws.String(cloudTrailTestRegion)},
 	)
 
 	svc := s3.New(sess)
@@ -57,17 +57,15 @@ func CreateAnS3Bucket(bucketName string) {
 
 func VerifyThatAMessageAppearedInACloudWatchLogGroup(thisTest testInfo) {
 	accountNumber := terraform.Output(thisTest.instance, thisTest.config, "aws_account_number")
-	logStream := accountNumber + "_CloudTrail_" + testRegion2
+	logStream := accountNumber + "_CloudTrail_" + cloudTrailTestRegion
 	logGroup := terraform.Output(thisTest.instance, thisTest.config, "log_group_name")
 
-	sess, _ := session.NewSession(&aws.Config{Region: aws.String(testRegion2)})
+	sess, _ := session.NewSession(&aws.Config{Region: aws.String(cloudTrailTestRegion)})
 
 	svc := cloudwatchlogs.New(sess)
 
-	maxRetries := 12 // One minute with 5 second sleeps
-
 	messagesReceived := false
-	for i := 0; i <= maxRetries; i++ {
+	for i := 0; i <= cloudTrailTestMaxRetries; i++ {
 
 		resp, err := svc.GetLogEvents(&cloudwatchlogs.GetLogEventsInput{
 			Limit:         aws.Int64(100),
@@ -85,14 +83,13 @@ func VerifyThatAMessageAppearedInACloudWatchLogGroup(thisTest testInfo) {
 			break
 		}
 
-		time.Sleep(5 * time.Second)
+		time.Sleep(cloudTrailTestRetryDelay)
 	}
 
 	assert.True(thisTest.instance, messagesReceived, "***Received no CloudWatch log messages from CloudTrail***")
 }
 
-// TODO: either make test info globally scoped, or create a local version here
-func SetUpTest2(t *testing.T) testInfo {
+func SetUpTestCloudTrailTests(t *testing.T) testInfo {
 	t.Parallel()
 
 	uniqueID := strings.ToLower(random.UniqueId())
@@ -101,7 +98,7 @@ func SetUpTest2(t *testing.T) testInfo {
 	rootFolder := ".."
 	terraformFolderRelativeToRoot := "modules/cloudtrail"
 
-	//this is required to run the same example in parallel
+	// This is required to run the same example in parallel
 	tempTestFolder := test_structure.CopyTerraformFolderToTemp(t, rootFolder, terraformFolderRelativeToRoot)
 
 	emptyMap := map[string]string{}
@@ -112,21 +109,21 @@ func SetUpTest2(t *testing.T) testInfo {
 			TerraformDir: tempTestFolder,
 			Vars: map[string]interface{}{
 				"prefix": prefix,
-				"region": testRegion2,
+				"region": cloudTrailTestRegion,
 				"tags":   emptyMap},
 		},
 	}
 }
 
-func SpinUpTheModuleFor2(test testInfo) {
+func SpinUpTheModuleForCloudTrailTests(test testInfo) {
 	terraform.InitAndApply(test.instance, test.config)
 }
 
-func CleaningUpUntilTheEndOf2(test testInfo, bucketName string) {
+func CleaningUpUntilTheEndOfCloudTrailTests(test testInfo, bucketName string) {
 	terraform.Destroy(test.instance, test.config)
 
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String(testRegion2)},
+		Region: aws.String(cloudTrailTestRegion)},
 	)
 
 	svc := s3.New(sess)
@@ -145,7 +142,6 @@ func CleaningUpUntilTheEndOf2(test testInfo, bucketName string) {
 	})
 }
 
-// TODO: have a proper look at this
 func exitErrorf(msg string, args ...interface{}) {
 	fmt.Fprintf(os.Stderr, msg+"\n", args...)
 	os.Exit(1)
