@@ -51,11 +51,11 @@ module "label" {
   }
 }
 
-# module "bootstrap" {
-#   source                      = "./modules/bootstrap"
-#   shared_services_account_arn = var.shared_services_account_arn
-#   prefix = ""
-# }
+module "bootstrap" {
+  source                      = "./modules/bootstrap"
+  shared_services_account_arn = var.shared_services_account_arn
+  prefix = ""
+}
 
 locals {
   on_ci = terraform.workspace == "development" || terraform.workspace == "pre-production" || terraform.workspace == "production" ? 1 : 0
