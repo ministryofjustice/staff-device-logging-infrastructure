@@ -19,6 +19,7 @@ const retryDelay = time.Second * 5
 const testRegion = "eu-west-2"
 
 func TestLogCanBeReadFromQueue(t *testing.T) {
+	t.Skip("skipping until we are no longer dependant on alarms")
 	test := SetUpTest(t)
 
 	defer CleaningUpUntilTheEndOf(test)
@@ -29,6 +30,7 @@ func TestLogCanBeReadFromQueue(t *testing.T) {
 }
 
 func TestLogCanBeSubmittedToAPIWithCorrectKey(t *testing.T) {
+	t.Skip("skipping until we are no longer dependant on alarms")
 	test := SetUpTest(t)
 
 	defer CleaningUpUntilTheEndOf(test)
@@ -38,6 +40,7 @@ func TestLogCanBeSubmittedToAPIWithCorrectKey(t *testing.T) {
 }
 
 func TestLogCannotBeSubmittedToApiWithoutApiKey(t *testing.T) {
+	t.Skip("skipping until we are no longer dependant on alarms")
 	test := SetUpTest(t)
 
 	defer CleaningUpUntilTheEndOf(test)
@@ -47,6 +50,7 @@ func TestLogCannotBeSubmittedToApiWithoutApiKey(t *testing.T) {
 }
 
 func TestThatQueueHasServerSideEncryptionEnabled(t *testing.T) {
+	t.Skip("skipping until we are no longer dependant on alarms")
 	thisTest := SetUpTest(t)
 
 	defer CleaningUpUntilTheEndOf(thisTest)
@@ -179,5 +183,5 @@ func SetUpTest(t *testing.T) testInfo {
 
 type testInfo struct {
 	instance *testing.T
-	config *terraform.Options
+	config   *terraform.Options
 }
