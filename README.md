@@ -46,7 +46,7 @@ The Terraform in this repository can be run in 2 different contexts:
 - Click on IAM
 - Find your users within the users dropdown
 - Select the security credentials tab and then assign an MFA device (follow the on-screen instructions for this next step)
-- Edit you local `aws/config` with the key value pair of `mfa_serial=<iam_role_from_mfa_device>`
+- Edit you local `~/.aws/config` with the key value pair of `mfa_serial=<iam_role_from_mfa_device>`
 
 ## Getting started
 
