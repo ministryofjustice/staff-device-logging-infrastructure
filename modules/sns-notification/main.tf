@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "this" {
-  name = "${var.topic-name}"
+  name = "${var.prefix}-${var.topic-name}"
 }
 
 data "template_file" "email_subscription" {
@@ -12,7 +12,7 @@ data "template_file" "email_subscription" {
 
     # Name must be alphanumeric, unique, but also consistent based on the email address.
     # It also needs to stay under 255 characters.
-    name = "${sha256("${var.topic-name}-${element(var.emails, count.index)}")}"
+    name = "${var.prefix}-${sha256("${var.topic-name}-${element(var.emails, count.index)}")}"
   }
 
   template = <<-STACK
@@ -28,7 +28,7 @@ data "template_file" "email_subscription" {
 }
 
 resource "aws_cloudformation_stack" "email" {
-  name  = "${var.topic-name}-subscriptions"
+  name  = "${var.prefix}-${var.topic-name}-subscriptions"
 
   template_body = <<-STACK
   {

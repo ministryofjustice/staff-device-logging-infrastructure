@@ -6,3 +6,7 @@ variable "emails" {
   type    = "list"
   default = []
 }
+
+variable "prefix" {
+  type    = "string"
+}

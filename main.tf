@@ -119,6 +119,7 @@ module "sns-notification" {
   source = "./modules/sns-notification"
   emails = ["emile.swarts@digital.justice.gov.uk"]
   topic-name = "critical-notifications"
+  prefix = module.label.id
 
   providers = {
     aws = aws.env
