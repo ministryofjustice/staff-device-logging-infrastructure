@@ -46,15 +46,15 @@ The Terraform in this repository can be run in 2 different contexts:
 - Click on IAM
 - Find your users within the users dropdown
 - Select the security credentials tab and then assign an MFA device (follow the on-screen instructions for this next step)
-- Edit you local `~/.aws/config` with the key value pair of `mfa_serial=<iam_role_from_mfa_device>`
+- Edit you local `~/.aws/config` with the key value pair of `mfa_serial=<iam_role_from_mfa_device>`. Ensure you remove (virtual) from the key value pair
 
 ## Getting started
 
-- `aws-vault exec moj-pttp-shared-services -- make init` (you will be prompted to bring across workspaces, say yes)
+- `aws-vault exec moj-pttp-shared-services -- make init` (if you are prompted to bring across workspaces, say yes)
 - `aws-vault exec moj-pttp-shared-services -- terraform workspace new <myname>` (replace `<myname>` with your own name)
 - Run `aws-vault exec moj-pttp-shared-services -- terraform workspace list` and make sure that your new workspace with your name is selected
 - If you don't see your new workspace selected, run `aws-vault exec moj-pttp-shared-services -- terraform workspace select <myname>`
-- Create a `terraform.tfvars` in the root of the project and populate it with the values in examplevars, you can find a completed example of this in 1password7, in a vault named "PTTP".
+- Create a `terraform.tfvars` in the root of the project and populate it with the values in examplevars, you can find a completed example of this in 1password7, in a vault named "PTTP". Update owner_email to your own email.
 - Edit your aws config (usually found in `.aws/config`) to include the key value pair of `region=eu-west-2` for both the `profile moj-pttp-dev` and the `profile moj-pttp-shared-services` workspaces
 - Run `aws-vault exec moj-pttp-shared-services -- terraform plan` and check that for an output. If it appears as correct terraform output, run `aws-vault exec moj-pttp-shared-services -- terraform apply`.
 
