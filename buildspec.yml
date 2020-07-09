@@ -60,8 +60,8 @@ phases:
       # upload lambdas
       - export CW_S3_KEY=`cat cf-$ENV-cloudwatch.json | jq -r '.. |."S3Key"? | select(. != null)'`
       - export SQS_S3_KEY=`cat cf-$ENV-sqs.json       | jq -r '.. |."S3Key"? | select(. != null)'`
-      - aws s3 cp ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$CW_S3_KEY
-      - aws s3 cp ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$SQS_S3_KEY
+      - aws s3 cp --no-progress ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$CW_S3_KEY
+      - aws s3 cp --no-progress ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$SQS_S3_KEY
       # upload templates
       - |
         aws cloudformation deploy \
