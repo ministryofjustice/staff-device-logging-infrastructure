@@ -117,7 +117,7 @@ module "logging" {
 
 module "sns-notification" {
   source = "./modules/sns-notification"
-  emails = ["emile.swarts@digital.justice.gov.uk"]
+  emails = var.critical_notification_recipients
   topic-name = "critical-notifications"
   prefix = module.label.id
 

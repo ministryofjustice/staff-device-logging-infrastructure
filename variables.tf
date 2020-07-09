@@ -43,3 +43,7 @@ variable "ost_password" {
 variable "ost_url" {
   type = string
 }
+
+variables "critical_notification_recipients" {
+  type = list(string)
+}
