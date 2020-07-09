@@ -60,7 +60,7 @@ locals {
 
     processors : [
       { add_host_metadata : null },
-      { add_cloud_metadata : { "providers": ["aws"] } }
+      { add_cloud_metadata : { "providers" : ["aws"] } }
     ]
   })
 }

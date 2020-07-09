@@ -44,7 +44,7 @@ resource "aws_api_gateway_deployment" "custom_log_api_deployment" {
 
   triggers = {
     redeployment = sha1(join(",", list(
-    jsonencode(aws_api_gateway_integration.sqs-integration),
+      jsonencode(aws_api_gateway_integration.sqs-integration),
     )))
   }
 
@@ -60,8 +60,8 @@ resource "aws_api_gateway_deployment" "custom_log_api_deployment" {
 
 resource "aws_api_gateway_stage" "custom_log_api_stage" {
   deployment_id = aws_api_gateway_deployment.custom_log_api_deployment.id
-  rest_api_id = aws_api_gateway_rest_api.logging_gateway.id
-  stage_name = "main"
+  rest_api_id   = aws_api_gateway_rest_api.logging_gateway.id
+  stage_name    = "main"
 }
 
 resource "aws_api_gateway_api_key" "custom_log_api_key" {

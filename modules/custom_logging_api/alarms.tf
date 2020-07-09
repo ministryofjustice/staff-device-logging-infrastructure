@@ -16,7 +16,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the number of visible messages"
+  alarm_description  = "This alarm monitors the number of visible messages"
   treat_missing_data = "breaching"
 }
 
@@ -38,7 +38,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the minimum amount of message sent"
+  alarm_description  = "This alarm monitors the minimum amount of message sent"
   treat_missing_data = "breaching"
 }
 
@@ -60,7 +60,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the amount of empty receives"
+  alarm_description  = "This alarm monitors the amount of empty receives"
   treat_missing_data = "breaching"
 }
 
@@ -82,7 +82,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the minimum amount of expected received messages"
+  alarm_description  = "This alarm monitors the minimum amount of expected received messages"
   treat_missing_data = "breaching"
 }
 
@@ -104,7 +104,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the any 400 errors on the API Gateway"
+  alarm_description  = "This alarm monitors the any 400 errors on the API Gateway"
   treat_missing_data = "breaching"
 }
 
@@ -126,7 +126,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the any 500 errors on the API Gateway"
+  alarm_description  = "This alarm monitors the any 500 errors on the API Gateway"
   treat_missing_data = "breaching"
 }
 
@@ -148,7 +148,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the the number of expected minimum requests to the API Gateway"
+  alarm_description  = "This alarm monitors the the number of expected minimum requests to the API Gateway"
   treat_missing_data = "breaching"
 }
 
@@ -170,7 +170,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the integration latency for API Gateway"
+  alarm_description  = "This alarm monitors the integration latency for API Gateway"
   treat_missing_data = "breaching"
 }
 
@@ -192,6 +192,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the latency"
+  alarm_description  = "This alarm monitors the latency"
   treat_missing_data = "breaching"
 }

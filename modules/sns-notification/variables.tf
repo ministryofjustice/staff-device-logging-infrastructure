@@ -8,7 +8,7 @@ variable "emails" {
 }
 
 variable "prefix" {
-  type    = "string"
+  type = "string"
 }
 
 variable "enable_critical_notifications" {

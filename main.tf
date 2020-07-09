@@ -58,10 +58,6 @@ module "label" {
 #   prefix = ""
 # }
 
-locals {
-  on_ci = terraform.workspace == "development" || terraform.workspace == "pre-production" || terraform.workspace == "production" ? 1 : 0
-}
-
 resource "random_string" "random" {
   length  = 10
   upper   = false
@@ -102,7 +98,7 @@ module "customLoggingApi" {
   prefix                        = module.label.id
   region                        = data.aws_region.current_region.id
   sns_topic_arn                 = module.sns-notification.topic-arn
-  enable_critical_notifications = local.on_ci
+  enable_critical_notifications = var.enable_critical_notifications
 
   providers = {
     aws = aws.env
@@ -126,7 +122,7 @@ module "sns-notification" {
   emails                        = var.critical_notification_recipients
   topic-name                    = "critical-notifications"
   prefix                        = module.label.id
-  enable_critical_notifications = local.on_ci
+  enable_critical_notifications = var.enable_critical_notifications
 
   providers = {
     aws = aws.env
@@ -178,8 +174,8 @@ module "functionbeat_config" {
 }
 
 module "firewall_roles" {
-  source = "./modules/firewall_roles"
-  prefix = module.label.id
+  source                      = "./modules/firewall_roles"
+  prefix                      = module.label.id
   shared_services_account_arn = data.aws_caller_identity.shared_services_account.arn
   providers = {
     aws = aws.env

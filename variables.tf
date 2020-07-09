@@ -20,6 +20,10 @@ variable "enable_peering" {
   type = bool
 }
 
+variable "enable_critical_notifications" {
+  type = bool
+}
+
 variable "ost_vpc_id" {
   type = string
 }
