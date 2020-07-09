@@ -15,7 +15,7 @@ env:
     TF_VAR_ost_username:                     "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_username"
     TF_VAR_ost_password:                     "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_password"
     TF_VAR_ost_url:                          "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_url"
-    TF_VAR_critical_notification_recipients: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/critical-notification-recipients"
+    TF_VAR_critical_notification_recipients: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/critical_notification_recipients"
     # function beats related config
     ROLE_ARN:                                "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/assume_role"
     OST_KEY:                                 "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/moj.key"
