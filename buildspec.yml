@@ -34,11 +34,11 @@ phases:
   build:
     commands:
       # functionbeat upload artifact
-      - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
-      - echo $TEMP_ROLE
-      - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
-      - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
-      - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
+      # - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
+      # - echo $TEMP_ROLE
+      # - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
+      # - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
+      # - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
       - export AWS_DEFAULT_REGION=eu-west-2
       # terraform deploy
       - terraform init -no-color --backend-config="key=terraform.$ENV.state"
