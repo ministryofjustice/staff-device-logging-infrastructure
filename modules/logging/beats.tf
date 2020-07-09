@@ -52,6 +52,9 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "lambda:RemovePermission",
       "lambda:UpdateFunctionCode",
       "lambda:UpdateFunctionConfiguration",
+      "cloudwatch:PutMetricData",
+      "cloudwatch:PutMetricAlarm",
+      "cloudwatch:SetAlarmState",
       "logs:DescribeLogGroups",
       "logs:CreateLogGroup",
       "logs:DeleteLogGroup",
@@ -84,7 +87,7 @@ resource "aws_iam_role_policy" "beats-lambda-policy" {
 }
 
 resource "aws_iam_role" "beats-lambda-role" {
-  name = "${var.prefix}-pttp-test-beats-lambda-role"
+  name = "${var.prefix}-beats-lambda-role"
 
   assume_role_policy = <<EOF
 {
