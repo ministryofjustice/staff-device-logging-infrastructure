@@ -48,7 +48,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
   evaluation_periods  = "1"
   metric_name         = "NumberOfEmptyReceives"
   namespace           = "AWS/SQS"
-  statistic           = "Average"
+  statistic           = "Minimum"
   period              = "60"
 
   dimensions = {
@@ -227,14 +227,14 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
   treat_missing_data = "breaching"
 }
 
-resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloud-watch" {
-  alarm_name          = "${var.prefix}-custom-logs-lambda-errors-cloud-watch"
+resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
+  alarm_name          = "${var.prefix}-custom-logs-lambda-errors-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
   evaluation_periods  = "1"
   metric_name         = "Errors"
   namespace           = "AWS/Lambda"
-  statistic           = "Average"
+  statistic           = "Minimum"
   period              = "60"
 
   dimensions = {
@@ -254,7 +254,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
   evaluation_periods  = "1"
   metric_name         = "Errors"
   namespace           = "AWS/Lambda"
-  statistic           = "Average"
+  statistic           = "Minimum"
   period              = "60"
 
   dimensions = {
@@ -364,7 +364,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillover invocations Cloud Watch data source "
+  alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillover invocations Cloud Watch data source"
   treat_missing_data = "breaching"
 }
 
@@ -384,6 +384,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
 
   alarm_actions = [var.sns_topic_arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillover invocations SQS data source "
+  alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillover invocations SQS data source"
   treat_missing_data = "breaching"
 }
