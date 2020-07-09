@@ -33,6 +33,13 @@ phases:
 
   build:
     commands:
+      # functionbeat upload artifact
+      - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
+      - echo $TEMP_ROLE
+      - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
+      - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
+      - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
+      - export AWS_DEFAULT_REGION=eu-west-2
       # terraform deploy
       - terraform init -no-color --backend-config="key=terraform.$ENV.state"
       - terraform workspace new $ENV || true
@@ -47,18 +54,12 @@ phases:
       - ./functionbeat -e -c ../functionbeat-config.yml test config
       - ./functionbeat -e -d "*" -c ../functionbeat-config.yml package
       - zip -u package-aws.zip moj.crt moj.key elk-ca.crt
-      # functionbeat upload artifact
-      - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
-      - export TEMP_ROLE
-      - echo $TEMP_ROLE
-      - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
-      - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
-      - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
-      - aws s3 cp ./package-aws.zip  s3://pttp-$ENV-infra-functionbeat-artifacts/fb-package-aws.zip
+      - aws s3 cp ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/fb-package-aws.zip
       - mkdir -p ~/.aws/
       - echo "[default]" >> ~/.aws/credentials
       - echo "region = eu-west-2" >> ~/.aws/credentials
       - echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
       - echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
       - cat ~/.aws/credentials
+      - env
       - AWS_PROFILE=default ./functionbeat -e -d "*" -c ../functionbeat-config.yml deploy pttp-$ENV-infra-cloudwatch pttp-$ENV-infra-sqs
