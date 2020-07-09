@@ -72,7 +72,7 @@ func VerifyThatAMessageAppearedInACloudWatchLogGroup(thisTest testInfo) {
     })
 
 	assert.NoError(thisTest.instance, err)
-	assert.Len(thisTest.instance, resp.Events, 200, "***No CloudWatch messages received***")
+	assert.Len(thisTest.instance, resp.Events, 0, "***No CloudWatch messages received***")
 }
 
 // TODO: either make test info globally scoped, or create a local version here
