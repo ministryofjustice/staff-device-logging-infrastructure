@@ -51,3 +51,9 @@ module "iam-panw-global-east-west" {
   iam-name                    = "CodeBuildPanwEastWest"
   shared_services_account_arn = var.shared_services_account_arn
 }
+
+module "iam-panw-global-sop-oci-access" {
+  source                      = "../iam"
+  iam-name                    = "CodeBuildPanwSOPOCIAccess"
+  shared_services_account_arn = var.shared_services_account_arn
+}
