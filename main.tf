@@ -162,8 +162,7 @@ module "functionbeat_config" {
   sqs_log_queue = module.customLoggingApi.custom_log_queue_arn
 
   log_groups = [
-    "/cormac/test/1",
-    "/cormac/test/2"
+    "/var/log/dummy-log"
   ]
 
   destination_url      = var.ost_url
