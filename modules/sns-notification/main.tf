@@ -4,7 +4,6 @@ resource "aws_sns_topic" "this" {
 
 data "template_file" "email_subscription" {
   count = "${length(var.emails)}"
-
   vars = {
     email     = "${element(var.emails, count.index)}"
     index     = "${count.index}"
@@ -28,6 +27,7 @@ data "template_file" "email_subscription" {
 }
 
 resource "aws_cloudformation_stack" "email" {
+  count = var.enable_critical_notifications
   name  = "${var.prefix}-${var.topic-name}-subscriptions"
 
   template_body = <<-STACK
