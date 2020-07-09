@@ -40,27 +40,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
   treat_missing_data = "breaching"
 }
 
-resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
-  count               = local.critical_notifications_count
-  alarm_name          = "${var.prefix}-custom-logs-sqs-empty-receives"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  threshold           = "1"
-  evaluation_periods  = "1"
-  metric_name         = "NumberOfEmptyReceives"
-  namespace           = "AWS/SQS"
-  statistic           = "Sum"
-  period              = "60"
-
-  dimensions = {
-    QueueName = "${var.custom_log_queue_name}"
-  }
-
-  alarm_actions = [aws_sns_topic.this.arn]
-
-  alarm_description  = "This alarm monitors the amount of empty receives"
-  treat_missing_data = "breaching"
-}
-
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-count" {
   count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-sqs-number-of-messages-received"
