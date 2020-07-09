@@ -10,8 +10,10 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+    "github.com/aws/aws-sdk-go/service/cloudwatchlogs"
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 )
 
@@ -54,7 +56,23 @@ func CreateAnS3Bucket(bucketName string) {
 }
 
 func VerifyThatAMessageAppearedInACloudWatchLogGroup(thisTest testInfo) {
+	accountNumber := terraform.Output(thisTest.instance, thisTest.config, "aws_account_number")
+	logStream := accountNumber + "_CloudTrail_" + testRegion2
+	logGroup := terraform.Output(thisTest.instance, thisTest.config, "log_group_name")
 
+
+	sess, _ := session.NewSession(&aws.Config{Region: aws.String(testRegion2)})
+
+	svc := cloudwatchlogs.New(sess)
+
+    resp, err := svc.GetLogEvents(&cloudwatchlogs.GetLogEventsInput{
+        Limit:         aws.Int64(100),
+        LogGroupName:  aws.String(logGroup),
+        LogStreamName: aws.String(logStream),
+    })
+
+	assert.NoError(thisTest.instance, err)
+	assert.Len(thisTest.instance, resp.Events, 200, "***No CloudWatch messages received***")
 }
 
 // TODO: either make test info globally scoped, or create a local version here
