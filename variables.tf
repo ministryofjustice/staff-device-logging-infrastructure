@@ -47,7 +47,3 @@ variable "ost_url" {
 variable "critical_notification_recipients" {
   type = list(string)
 }
-
-variable "shared_services_account_arn" {
-  type = string
-}

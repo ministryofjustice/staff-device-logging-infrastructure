@@ -30,6 +30,7 @@ provider "random" {
 }
 
 data "aws_region" "current_region" {}
+data "aws_caller_identity" "shared_services_account" {}
 
 module "label" {
   source  = "cloudposse/label/null"
@@ -51,11 +52,11 @@ module "label" {
   }
 }
 
-module "bootstrap" {
-  source                      = "./modules/bootstrap"
-  shared_services_account_arn = var.shared_services_account_arn
-  prefix = ""
-}
+# module "bootstrap" {
+#   source                      = "./modules/bootstrap"
+#   shared_services_account_arn = var.shared_services_account_arn
+#   prefix = ""
+# }
 
 locals {
   on_ci = terraform.workspace == "development" || terraform.workspace == "pre-production" || terraform.workspace == "production" ? 1 : 0
@@ -174,4 +175,13 @@ module "functionbeat_config" {
   destination_url      = var.ost_url
   destination_username = var.ost_username
   destination_password = var.ost_password
+}
+
+module "firewall_roles" {
+  source = "./modules/firewall_roles"
+  prefix = module.label.id
+  shared_services_account_arn = data.aws_caller_identity.shared_services_account.arn
+  providers = {
+    aws = aws.env
+  }
 }
