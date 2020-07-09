@@ -12,8 +12,8 @@ echo "$OST_CA_CRT" | base64 -d > elk-ca.crt
 zip -u package-aws.zip moj.crt moj.key elk-ca.crt
 
 # build templates
-./functionbeat -e -c ../functionbeat-config.yml export "function pttp-$ENV-infra-cloudwatch" > "cf-$ENV-cloudwatch.json"
-./functionbeat -e -c ../functionbeat-config.yml export "function pttp-$ENV-infra-sqs"        > "cf-$ENV-sqs.json"
+./functionbeat -e -c ../functionbeat-config.yml export function "pttp-$ENV-infra-cloudwatch" > "cf-$ENV-cloudwatch.json"
+./functionbeat -e -c ../functionbeat-config.yml export function "pttp-$ENV-infra-sqs"        > "cf-$ENV-sqs.json"
 
 CW_S3_KEY=`cat cf-$ENV-cloudwatch.json | jq -r '.. |."S3Key"? | select(. != null)'`
 SQS_S3_KEY=`cat cf-$ENV-sqs.json       | jq -r '.. |."S3Key"? | select(. != null)'`
