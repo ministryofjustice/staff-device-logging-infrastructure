@@ -72,6 +72,11 @@ To run the unit test run
 - `cd test`
 - `aws-vault exec moj-pttp-shared-services -- go test -v -timeout 30m`
 
+To run a single unit test (in this case, one name "TestCloudTrailEventsAppearInCloudWatch"), run
+
+- `cd test`
+- `aws-vault exec moj-pttp-shared-services -- go test -run TestCloudTrailEventsAppearInCloudWatch`
+
 ## Modules
 
 ### CustomLoggingApi
@@ -87,3 +92,9 @@ which will then be placed on an encrypted SQS queue to await further processing.
 The API can be tested with the following curl command:
 
 `curl -H "x-api-key: <custom_logging_api_key>" -H "Content-Type: application/json" -X POST <logging_endpoint_path> -d "{\"SomeKey\":\"SomeValue\"}"`
+
+## Useful commands
+
+- To log in to the browser-based AWS console using `aws-vault`, run either of the following commands:
+  - `aws-vault login moj-pttp-dev` to log in to the dev account
+  - `aws-vault login moj-pttp-shared-services` to log in to the shared services account
