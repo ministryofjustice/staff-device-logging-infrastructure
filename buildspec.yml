@@ -46,7 +46,7 @@ phases:
       - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
       - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
       - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
-      # build lambda
+      # build lambdas
       - cd functionbeat
       - echo $OST_KEY    | base64 -d > moj.key
       - echo $OST_CRT    | base64 -d > moj.crt
@@ -54,13 +54,22 @@ phases:
       - ./functionbeat -e -c ../functionbeat-config.yml test config
       - ./functionbeat -e -d "*" -c ../functionbeat-config.yml package
       - zip -u package-aws.zip moj.crt moj.key elk-ca.crt
-      # build template
+      # build templates
       - ./functionbeat -e -d "*" -c ../functionbeat-config.yml export function pttp-$ENV-infra-cloudwatch > cf-$ENV-cloudwatch.json
-      # upload lambda
+      - ./functionbeat -e -d "*" -c ../functionbeat-config.yml export function pttp-$ENV-infra-sqs        > cf-$ENV-sqs.json
+      # upload lambdas
       - export CW_S3_KEY=`cat cf-$ENV-cloudwatch.json | jq -r '.. |."S3Key"? | select(. != null)'`
+      - export SQS_S3_KEY=`cat cf-$ENV-sqs.json       | jq -r '.. |."S3Key"? | select(. != null)'`
       - aws s3 cp ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$CW_S3_KEY
-      # upload template
+      - aws s3 cp ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$SQS_S3_KEY
+      # upload templates
       - |
-        aws cloudformation create-stack \
+        aws cloudformation deploy \
           --stack-name pttp-$ENV-infra-cloudwatch \
-          --template-body file://cf-$ENV-cloudwatch.json
+          --template-file ./cf-$ENV-cloudwatch.json \
+          --no-fail-on-empty-changeset
+      - |
+        aws cloudformation deploy \
+          --stack-name pttp-$ENV-infra-sqs \
+          --template-file ./cf-$ENV-sqs.json \
+          --no-fail-on-empty-changeset
