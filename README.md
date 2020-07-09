@@ -70,7 +70,7 @@ To run this codebase you will need to [install golang](https://formulae.brew.sh/
 To run the unit test run
 
 - `cd test`
-- `aws-vault exec moj-pttp-shared-services -- go test -v -timeout 30m`
+- `aws-vault exec pttp-development -- go test -v -timeout 30m`
 
 To run a single unit test (in this case, one name "TestCloudTrailEventsAppearInCloudWatch"), run
 
