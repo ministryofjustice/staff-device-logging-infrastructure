@@ -198,7 +198,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-cloudwatch"
+    FunctionName = "${var.prefix}-cloudwatch"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -218,7 +218,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-sqs"
+    FunctionName = "${var.prefix}-sqs"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -238,7 +238,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-cloudwatch"
+    FunctionName = "${var.prefix}-cloudwatch"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -258,7 +258,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-sqs"
+    FunctionName = "${var.prefix}-sqs"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -278,7 +278,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-cloudwatch"
+    FunctionName = "${var.prefix}-cloudwatch"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -298,7 +298,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-sqs"
+    FunctionName = "${var.prefix}-sqs"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -318,8 +318,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-cloudwatch"
-
+    FunctionName = "${var.prefix}-cloudwatch"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -339,7 +338,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-sqs"
+    FunctionName = "${var.prefix}-sqs"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -359,7 +358,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-cloudwatch"
+    FunctionName = "${var.prefix}-cloudwatch"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -379,7 +378,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-infra-sqs"
+    FunctionName = "${var.prefix}-sqs"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
