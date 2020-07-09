@@ -21,7 +21,7 @@ variable "enable_peering" {
 }
 
 variable "enable_critical_notifications" {
-  type = bool
+  type = number
 }
 
 variable "ost_vpc_id" {
