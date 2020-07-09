@@ -3,6 +3,7 @@ assume_role = "arn:aws:iam::<CURRENT_DEV_IAM_ACCOUNT>:role/pttp-development-infr
 logging_cidr_block = "10.0.0.0/16"
 
 enable_critical_notifications = false
+critical_notification_recipients = []
 
 enable_peering     = false
 ost_vpc_id         = ""
