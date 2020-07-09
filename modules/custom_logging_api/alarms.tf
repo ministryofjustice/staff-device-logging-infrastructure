@@ -1,4 +1,3 @@
-# sqs ApproximateNumberOfMessagesVisible > 1k / 1 min
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-sqs-messages-visible-count"
@@ -20,7 +19,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
   treat_missing_data = "breaching"
 }
 
-# sqs NumberOfMessagesSent < 1  / 10 min
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-sqs-messages-sent"
@@ -42,7 +40,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
   treat_missing_data = "breaching"
 }
 
-# sqs NumberOfEmptyReceives > 1 / 1 min
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-sqs-empty-receives"
@@ -64,7 +61,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
   treat_missing_data = "breaching"
 }
 
-# sqs NumberOfMessagesReceived < 100 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-count" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-sqs-number-of-messages-received"
@@ -86,7 +82,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
   treat_missing_data = "breaching"
 }
 
-# apigateway 4XXError > 0 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-number-of-400-error-count"
@@ -108,7 +103,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
   treat_missing_data = "breaching"
 }
 
-# apigateway 5XXError > 0 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-number-of-500-error-count"
@@ -130,7 +124,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
   treat_missing_data = "breaching"
 }
 
-# apigateway Count < 100 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-request-count"
@@ -152,7 +145,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
   treat_missing_data = "breaching"
 }
 
-# apigateway IntegrationLatency > 1000ms / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-integration-latency"
@@ -174,7 +166,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
   treat_missing_data = "breaching"
 }
 
-# apigateway Latency > 1000ms / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
   count               = var.enable_critical_notifications
   alarm_name          = "${var.prefix}-custom-logs-api-gateway-latency"
@@ -196,7 +187,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
   treat_missing_data = "breaching"
 }
 
-# lambda Invocations <= 1 / 1m
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatch" {
   alarm_name          = "${var.prefix}-custom-logs-lambda-invocations-cloudwatch"
   comparison_operator = "LessThanOrEqualToThreshold"
@@ -236,8 +226,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
   alarm_description = "This alarm monitors the the number of Lambda invocations for SQS data source"
   treat_missing_data = "breaching"
 }
-
-# # lambda Errors > 0 / 1m
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloud-watch" {
   alarm_name          = "${var.prefix}-custom-logs-lambda-errors-cloud-watch"
@@ -279,11 +267,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
   treat_missing_data = "breaching"
 }
 
-
-# lambda DeadLetterErrors (TBC)
-
-# lambda DestinationDeliveryFailures > 0 / 1m
-
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-failures-cloudwatch" {
   alarm_name          = "${var.prefix}-custom-logs-lambda-destination-delivery-failures-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
@@ -323,9 +306,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-
   alarm_description = "This alarm monitors the the number of Lambda destination delivery errors for SQS data source"
   treat_missing_data = "breaching"
 }
-
-
-# lambda Throttles > 0 / 1m
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
   alarm_name          = "${var.prefix}-custom-logs-lambda-throttle-count-cloudwatch"
@@ -368,8 +348,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
   treat_missing_data = "breaching"
 }
 
-# # lambda ProvisionedConcurrencySpilloverInvocations > 0 / 1m
-
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-invocations-cloudwatch" {
   alarm_name          = "${var.prefix}-custom-logs-lambda-provisioned-concurrency-spillover-count-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
@@ -409,4 +387,3 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
   alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillover invocations SQS data source "
   treat_missing_data = "breaching"
 }
-
