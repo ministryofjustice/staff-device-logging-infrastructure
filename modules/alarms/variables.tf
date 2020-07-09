@@ -14,3 +14,12 @@ variable "prefix" {
 variable "enable_critical_notifications" {
   type = bool
 }
+
+variable "custom_log_queue_name" {
+  type = string
+}
+
+variable "custom_log_api_gateway_name" {
+  type = string
+}
+

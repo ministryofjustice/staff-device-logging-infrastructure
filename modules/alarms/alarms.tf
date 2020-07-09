@@ -1,8 +1,3 @@
-locals {
-  critical_notifications_count = var.enable_critical_notifications ? 1 : 0
-}
-
-# sqs ApproximateNumberOfMessagesVisible > 1k / 1 min
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
   count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-custom-logs-sqs-messages-visible-count"
@@ -15,10 +10,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
   threshold           = "1000"
 
   dimensions = {
-    QueueName = "${aws_sqs_queue.custom_log_queue.name}"
+    QueueName = "${var.custom_log_queue_name}"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the number of visible messages"
   treat_missing_data = "breaching"
@@ -36,10 +31,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
   period              = "600"
 
   dimensions = {
-    QueueName = "${aws_sqs_queue.custom_log_queue.name}"
+    QueueName = "${var.custom_log_queue_name}"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the minimum amount of message sent"
   treat_missing_data = "breaching"
@@ -57,10 +52,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-count-empty-receives" {
   period              = "60"
 
   dimensions = {
-    QueueName = "${aws_sqs_queue.custom_log_queue.name}"
+    QueueName = "${var.custom_log_queue_name}"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the amount of empty receives"
   treat_missing_data = "breaching"
@@ -78,10 +73,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
   period              = "60"
 
   dimensions = {
-    QueueName = "${aws_sqs_queue.custom_log_queue.name}"
+    QueueName = "${var.custom_log_queue_name}"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the minimum amount of expected received messages"
   treat_missing_data = "breaching"
@@ -99,10 +94,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${aws_api_gateway_rest_api.logging_gateway.name}"
+    ApiName = "${var.custom_log_api_gateway_name}"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the any 400 errors on the API Gateway"
   treat_missing_data = "breaching"
@@ -120,10 +115,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${aws_api_gateway_rest_api.logging_gateway.name}"
+    ApiName = "${var.custom_log_api_gateway_name}" 
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the any 500 errors on the API Gateway"
   treat_missing_data = "breaching"
@@ -141,10 +136,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${aws_api_gateway_rest_api.logging_gateway.name}"
+    ApiName = "${var.custom_log_api_gateway_name}"   
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the the number of expected minimum requests to the API Gateway"
   treat_missing_data = "breaching"
@@ -162,10 +157,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
   period              = "60"
 
   dimensions = {
-    ApiName = "${aws_api_gateway_rest_api.logging_gateway.name}"
+   ApiName = "${var.custom_log_api_gateway_name}" 
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the integration latency for API Gateway"
   treat_missing_data = "breaching"
@@ -183,10 +178,10 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${aws_api_gateway_rest_api.logging_gateway.name}"
+    ApiName = "${var.custom_log_api_gateway_name}" 
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description  = "This alarm monitors the latency"
   treat_missing_data = "breaching"
@@ -206,7 +201,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
     FunctionName = "${var.prefix}-infra-cloudwatch"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda invocations for CloudWatch data source"
   treat_missing_data = "breaching"
@@ -226,7 +221,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
     FunctionName = "${var.prefix}-infra-sqs"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda invocations for SQS data source"
   treat_missing_data = "breaching"
@@ -246,7 +241,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
     FunctionName = "${var.prefix}-infra-cloudwatch"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda Errors for CloudWatch data source"
   treat_missing_data = "breaching"
@@ -266,7 +261,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
     FunctionName = "${var.prefix}-infra-sqs"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda Errors for SQS data source"
   treat_missing_data = "breaching"
@@ -286,7 +281,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-
     FunctionName = "${var.prefix}-infra-cloudwatch"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda destination delivery errors for Cloudwatch data source"
   treat_missing_data = "breaching"
@@ -306,7 +301,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-
     FunctionName = "${var.prefix}-infra-sqs"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda destination delivery errors for SQS data source"
   treat_missing_data = "breaching"
@@ -327,7 +322,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
 
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda throttles for CloudWatch data source"
   treat_missing_data = "breaching"
@@ -347,7 +342,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
     FunctionName = "${var.prefix}-infra-sqs"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda throttles for SQS data source"
   treat_missing_data = "breaching"
@@ -367,7 +362,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
     FunctionName = "${var.prefix}-infra-cloudwatch"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillover invocations Cloud Watch data source"
   treat_missing_data = "breaching"
@@ -387,7 +382,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-concurrency-spillover-inv
     FunctionName = "${var.prefix}-infra-sqs"
   }
 
-  alarm_actions = [var.sns_topic_arn]
+  alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillover invocations SQS data source"
   treat_missing_data = "breaching"

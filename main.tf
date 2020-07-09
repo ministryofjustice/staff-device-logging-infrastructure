@@ -94,11 +94,23 @@ module "ost_vpc_peering" {
 }
 
 module "customLoggingApi" {
-  source                        = "./modules/custom_logging_api"
-  prefix                        = module.label.id
-  region                        = data.aws_region.current_region.id
-  sns_topic_arn                 = module.sns-notification.topic-arn
+  source = "./modules/custom_logging_api"
+  prefix = module.label.id
+  region = data.aws_region.current_region.id
+
+  providers = {
+    aws = aws.env
+  }
+}
+
+module "alarms" {
+  source                        = "./modules/alarms"
   enable_critical_notifications = var.enable_critical_notifications
+  emails                        = var.critical_notification_recipients
+  topic-name                    = "critical-notifications"
+  prefix                        = module.label.id
+  custom_log_queue_name         = module.customLoggingApi.custom_log_queue_name
+  custom_log_api_gateway_name   = module.customLoggingApi.custom_log_api_gateway_name
 
   providers = {
     aws = aws.env
@@ -111,18 +123,6 @@ module "logging" {
   subnet_ids = module.logging_vpc.private_subnets
   prefix     = module.label.id
   tags       = module.label.tags
-
-  providers = {
-    aws = aws.env
-  }
-}
-
-module "sns-notification" {
-  source                        = "./modules/sns-notification"
-  emails                        = var.critical_notification_recipients
-  topic-name                    = "critical-notifications"
-  prefix                        = module.label.id
-  enable_critical_notifications = var.enable_critical_notifications
 
   providers = {
     aws = aws.env
