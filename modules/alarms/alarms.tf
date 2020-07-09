@@ -267,46 +267,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
   treat_missing_data = "breaching"
 }
 
-resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-failures-cloudwatch" {
-  alarm_name          = "${var.prefix}-custom-logs-lambda-destination-delivery-failures-cloudwatch"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  threshold           = "1"
-  evaluation_periods  = "1"
-  metric_name         = "DestinationDeliveryFailures"
-  namespace           = "AWS/Lambda"
-  statistic           = "Sum"
-  period              = "60"
-
-  dimensions = {
-    FunctionName = "${var.prefix}-cloudwatch"
-  }
-
-  alarm_actions = [aws_sns_topic.this.arn]
-
-  alarm_description = "This alarm monitors the the number of Lambda destination delivery errors for Cloudwatch data source"
-  treat_missing_data = "breaching"
-}
-
-resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-destination-delivery-failures-sqs" {
-  alarm_name          = "${var.prefix}-custom-logs-lambda-destination-delivery-failures-sqs"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  threshold           = "1"
-  evaluation_periods  = "1"
-  metric_name         = "DestinationDeliveryFailures"
-  namespace           = "AWS/Lambda"
-  statistic           = "Sum"
-  period              = "60"
-
-  dimensions = {
-    FunctionName = "${var.prefix}-sqs"
-  }
-
-  alarm_actions = [aws_sns_topic.this.arn]
-
-  alarm_description = "This alarm monitors the the number of Lambda destination delivery errors for SQS data source"
-  treat_missing_data = "breaching"
-}
-
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
   alarm_name          = "${var.prefix}-custom-logs-lambda-throttle-count-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
