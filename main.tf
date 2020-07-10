@@ -187,3 +187,12 @@ module "firewall_roles" {
     aws = aws.env
   }
 }
+
+module "shared_services_log_destionation" {
+  source                      = "./modules/shared_services_kinesis_firehose"
+  prefix                      = module.label.id
+
+  providers = {
+    aws = aws.env
+  }
+}
