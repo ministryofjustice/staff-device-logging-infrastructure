@@ -98,3 +98,8 @@ The API can be tested with the following curl command:
 - To log in to the browser-based AWS console using `aws-vault`, run either of the following commands:
   - `aws-vault login moj-pttp-dev` to log in to the dev account
   - `aws-vault login moj-pttp-shared-services` to log in to the shared services account
+
+## Alarms
+
+A number of alarms are configured to monitor the health of the log forwarding platform.
+Alerting is done with SNS topics and subscriptions.
