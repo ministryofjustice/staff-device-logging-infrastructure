@@ -176,7 +176,7 @@ module "functionbeat_config" {
 module "firewall_roles" {
   source                      = "./modules/firewall_roles"
   prefix                      = module.label.id
-  shared_services_account_arn = data.aws_caller_identity.shared_services_account.arn
+  shared_services_account_arn = data.aws_caller_identity.shared_services_account.account_id
   providers = {
     aws = aws.env
   }
