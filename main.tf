@@ -165,7 +165,9 @@ module "functionbeat_config" {
   sqs_log_queue = module.customLoggingApi.custom_log_queue_arn
 
   log_groups = [
-    "/var/log/dummy-log"
+    "PaloAltoNetworksFirewalls",
+    "${module.label.id}-cloudtrail-log-group",
+    "${module.label.id}-vpc-flow-logs-log-group"
   ]
 
   destination_url      = var.ost_url
