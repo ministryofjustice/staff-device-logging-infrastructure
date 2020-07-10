@@ -21,6 +21,7 @@ const retryDelay2 = time.Second * 5
 const testRegion2 = "eu-west-2"
 
 func TestCloudTrailEventsAppearInCloudWatch(t *testing.T) {
+	t.Skip("Skipping because we're hitting our cloudtrail limit")
 	test := SetUpTest2(t)
 
 	randomID := strings.ToLower(random.UniqueId())
