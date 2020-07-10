@@ -28,3 +28,6 @@ variable "log_groups" {
 variable sqs_log_queue {
   type = string
 }
+variable beats_dead_letter_queue_arn {
+  type = string
+}

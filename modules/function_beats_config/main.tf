@@ -23,7 +23,8 @@ locals {
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
-        }
+        },
+        "dead_letter_config.target_arn" : var.beats_dead_letter_queue_arn
         triggers : local.log_group_map_array
       },
       {
@@ -36,7 +37,8 @@ locals {
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
-        }
+        },
+        "dead_letter_config.target_arn" : var.beats_dead_letter_queue_arn
         triggers : [
           { event_source_arn : var.sqs_log_queue }
         ]

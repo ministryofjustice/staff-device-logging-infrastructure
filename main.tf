@@ -163,6 +163,7 @@ module "functionbeat_config" {
   subnet_ids = module.logging_vpc.private_subnets
 
   sqs_log_queue = module.customLoggingApi.custom_log_queue_arn
+  beats_dead_letter_queue_arn = module.customLoggingApi.dlq_custom_log_queue_arn
 
   log_groups = [
     "PaloAltoNetworksFirewalls",
