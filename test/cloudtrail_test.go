@@ -21,7 +21,7 @@ const retryDelay2 = time.Second * 5
 const testRegion2 = "eu-west-2"
 
 func TestCloudTrailEventsAppearInCloudWatch(t *testing.T) {
-	t.Skip("Skipping because we're hitting our cloudtrail limit")
+	// t.Skip("Skipping because we're hitting our cloudtrail limit")
 	test := SetUpTest2(t)
 
 	randomID := strings.ToLower(random.UniqueId())
@@ -65,15 +65,17 @@ func VerifyThatAMessageAppearedInACloudWatchLogGroup(thisTest testInfo) {
 
 	svc := cloudwatchlogs.New(sess)
 
-	resp, err := svc.GetLogEvents(&cloudwatchlogs.GetLogEventsInput{
+		resp, err := svc.GetLogEvents(&cloudwatchlogs.GetLogEventsInput{
 		Limit:         aws.Int64(100),
 		LogGroupName:  aws.String(logGroup),
 		LogStreamName: aws.String(logStream),
 	})
 
 	assert.NoError(thisTest.instance, err)
-	assert.Len(thisTest.instance, resp.Events, 0, "***No CloudWatch messages received***")
+	assert.Len(thisTest.instance, resp.Events, 1, "***No CloudWatch messages received***")
 }
+
+
 
 // TODO: either make test info globally scoped, or create a local version here
 func SetUpTest2(t *testing.T) testInfo {
