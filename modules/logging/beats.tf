@@ -108,3 +108,22 @@ resource "aws_iam_role" "beats-lambda-role" {
 }
 EOF
 }
+
+resource "aws_security_group" "functionbeats" {
+  name   = "${var.prefix}-functionbeats"
+  vpc_id = var.vpc_id
+
+  egress {
+    from_port   = 9200
+    to_port     = 9200
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
