@@ -303,7 +303,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
   alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillovers for SQS data source"
-  treat_missing_data = "breaching"
+  treat_missing_data = "notBreaching"
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatch" {
@@ -323,5 +323,5 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatc
   alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillovers for CloudWatch data source"
-  treat_missing_data = "breaching"
+  treat_missing_data = "notBreaching"
 }
