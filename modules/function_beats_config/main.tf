@@ -67,7 +67,11 @@ locals {
     "output.elasticsearch.ssl.key" : "moj.key"
 
     processors : [
-      { add_host_metadata : null },
+      {
+        add_host_metadata : {
+          environment: var.prefix
+        }
+      },
       { add_cloud_metadata : { "providers" : ["aws"] } }
     ]
   })
