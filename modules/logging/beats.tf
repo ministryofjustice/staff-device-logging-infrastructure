@@ -71,6 +71,7 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "sqs:ReceiveMessage",
       "sqs:DeleteMessage",
       "sqs:GetQueueAttributes",
+      "sqs:SendMessage",
       "kms:Encrypt",
       "kms:Decrypt",
       "kms:ReEncrypt*",
