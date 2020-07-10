@@ -165,7 +165,9 @@ module "functionbeat_config" {
   sqs_log_queue = module.customLoggingApi.custom_log_queue_arn
 
   log_groups = [
-    "/var/log/dummy-log"
+    "PaloAltoNetworksFirewalls",
+    "${module.label.id}-cloudtrail-log-group",
+    "${module.label.id}-vpc-flow-logs-log-group"
   ]
 
   destination_url      = var.ost_url
@@ -176,7 +178,7 @@ module "functionbeat_config" {
 module "firewall_roles" {
   source                      = "./modules/firewall_roles"
   prefix                      = module.label.id
-  shared_services_account_arn = data.aws_caller_identity.shared_services_account.arn
+  shared_services_account_arn = data.aws_caller_identity.shared_services_account.account_id
   providers = {
     aws = aws.env
   }
