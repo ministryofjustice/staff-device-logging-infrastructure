@@ -15,6 +15,7 @@ locals {
     "functionbeat.provider.aws.functions" : [
       {
         name : local.cloudwatch_name,
+        concurrency: 100,
         enabled : true,
         type : "cloudwatch_logs",
         description : "lambda function for cloudwatch logs",
@@ -27,6 +28,7 @@ locals {
       },
       {
         name : local.sqs_name,
+        concurrency: 100,
         enabled : true,
         type : "sqs",
         description : "lambda function for SQS events",
