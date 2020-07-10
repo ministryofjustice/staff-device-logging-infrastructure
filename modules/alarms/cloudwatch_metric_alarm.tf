@@ -198,7 +198,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-cloudwatch"
+    FunctionName = "${var.cloudwatch_function_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -218,7 +218,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-sqs"
+    FunctionName = "${var.sqs_function_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -238,7 +238,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-cloudwatch"
+    FunctionName = "${var.cloudwatch_function_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -258,7 +258,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-sqs"
+    FunctionName = "${var.sqs_function_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -278,7 +278,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-cloudwatch"
+    FunctionName = "${var.cloudwatch_function_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -298,7 +298,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-sqs"
+    FunctionName = "${var.sqs_function_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -318,7 +318,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-sqs"
+    FunctionName = "${var.sqs_function_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -338,7 +338,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatc
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.prefix}-cloudwatch"
+    FunctionName = "${var.cloudwatch_function_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
