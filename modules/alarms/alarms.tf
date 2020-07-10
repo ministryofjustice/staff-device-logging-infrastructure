@@ -61,6 +61,27 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
   treat_missing_data = "breaching"
 }
 
+resource "aws_cloudwatch_metric_alarm" "logging-dead-letter-queue-size" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-dead-letter-queue-size"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "1"
+  evaluation_periods  = "1"
+  metric_name         = "ApproximateNumberOfMessagesVisible"
+  namespace           = "AWS/SQS"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    QueueName = "${var.beats_dead_letter_queue_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description  = "This alarm monitors the the number of messages in the dead letter queue"
+  treat_missing_data = "breaching"
+}
+
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
   count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-api-gateway-number-of-400-error-count"

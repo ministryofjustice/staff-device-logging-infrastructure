@@ -111,6 +111,7 @@ module "alarms" {
   prefix                        = module.label.id
   custom_log_queue_name         = module.customLoggingApi.custom_log_queue_name
   custom_log_api_gateway_name   = module.customLoggingApi.custom_log_api_gateway_name
+  beats_dead_letter_queue_name  = module.customLoggingApi.dlq_custom_log_queue_name
 
   providers = {
     aws = aws.env

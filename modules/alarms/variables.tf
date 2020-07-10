@@ -23,3 +23,6 @@ variable "custom_log_api_gateway_name" {
   type = string
 }
 
+variable "beats_dead_letter_queue_name" {
+  type = string
+}
