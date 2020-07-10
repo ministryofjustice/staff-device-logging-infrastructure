@@ -66,12 +66,12 @@ phases:
       - aws s3 cp --no-progress ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$SQS_S3_KEY
       # upload templates
       - |
-        aws cloudformation deploy \
+        aws cloudformation update-stack \
           --stack-name pttp-$ENV-infra-cloudwatch \
           --template-file ./cf-$ENV-cloudwatch.json \
           --no-fail-on-empty-changeset
       - |
-        aws cloudformation deploy \
+        aws cloudformation update-stack \
           --stack-name pttp-$ENV-infra-sqs \
           --template-file ./cf-$ENV-sqs.json \
           --no-fail-on-empty-changeset
