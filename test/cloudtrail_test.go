@@ -22,9 +22,6 @@ const cloudTrailTestRetryDelay = time.Second * 5
 const cloudTrailTestMaxRetries = 12 // One minute of 5 second slots
 
 func TestCloudTrailEventsAppearInCloudWatch(t *testing.T) {
-
-	t.Skip("Skipping because we're hitting our cloudtrail limit")
-
 	test := SetUpTestCloudTrailTests(t)
 
 	randomID := strings.ToLower(random.UniqueId())
@@ -113,7 +110,8 @@ func SetUpTestCloudTrailTests(t *testing.T) testInfo {
 			Vars: map[string]interface{}{
 				"prefix": prefix,
 				"region": cloudTrailTestRegion,
-				"tags":   emptyMap},
+				"tags":   emptyMap,
+				"enable_cloudtrail_log_shipping_to_cloudwatch": true},
 		},
 	}
 }
