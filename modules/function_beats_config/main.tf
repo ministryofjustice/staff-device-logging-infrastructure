@@ -6,6 +6,7 @@ locals {
   ]
   cloudwatch_name = "${var.prefix}-cloudwatch"
   sqs_name        = "${var.prefix}-sqs"
+  kinesis_name    = "${var.prefix}-kinesis"
 
   config = yamlencode({
     "functionbeat.provider.aws.endpoint" : "s3.amazonaws.com"
@@ -45,6 +46,24 @@ locals {
         },
         triggers : [
           { event_source_arn : var.sqs_log_queue }
+        ]
+      },
+      {
+        name : local.kinesis_name,
+        concurrency: 100,
+        enabled : true,
+        type : "kinesis",
+        description : "lambda function for Kinesis stream",
+        role : var.deploy_role_arn,
+        virtual_private_cloud : {
+          security_group_ids : var.security_group_ids
+          subnet_ids : var.subnet_ids
+        },
+        dead_letter_config : {
+          target_arn : var.beats_dead_letter_queue_arn
+        },
+        triggers : [
+          { event_source_arn : var.kinesis_stream_arn }
         ]
       }
     ],

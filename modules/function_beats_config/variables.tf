@@ -31,3 +31,7 @@ variable sqs_log_queue {
 variable beats_dead_letter_queue_arn {
   type = string
 }
+
+variable kinesis_stream_arn {
+  type = string
+}

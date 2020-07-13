@@ -168,6 +168,7 @@ module "functionbeat_config" {
 
   sqs_log_queue               = module.customLoggingApi.custom_log_queue_arn
   beats_dead_letter_queue_arn = module.customLoggingApi.dlq_custom_log_queue_arn
+  kinesis_stream_arn          = module.shared_services_log_destination.kinesis_stream_arn
 
   log_groups = [
     "PaloAltoNetworksFirewalls",
