@@ -188,7 +188,7 @@ module "firewall_roles" {
   }
 }
 
-module "shared_services_log_destionation" {
+module "shared_services_log_destination" {
   source = "./modules/shared_services_kinesis_firehose"
   prefix = module.label.id
   region = data.aws_region.current_region.id
