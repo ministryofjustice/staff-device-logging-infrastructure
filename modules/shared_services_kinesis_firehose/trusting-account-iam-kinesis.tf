@@ -1,6 +1,6 @@
 resource "aws_iam_role" "kinesis-cloudwatch-subscription-role" {
   name = "${var.prefix}-kinesis-cloudwatch-subscription-role"
-  policy = jsonencode({
+  assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
