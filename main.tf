@@ -165,7 +165,7 @@ module "functionbeat_config" {
 
   subnet_ids = module.logging_vpc.private_subnets
 
-  sqs_log_queue = module.customLoggingApi.custom_log_queue_arn
+  sqs_log_queue               = module.customLoggingApi.custom_log_queue_arn
   beats_dead_letter_queue_arn = module.customLoggingApi.dlq_custom_log_queue_arn
 
   log_groups = [
@@ -189,8 +189,9 @@ module "firewall_roles" {
 }
 
 module "shared_services_log_destionation" {
-  source                      = "./modules/shared_services_kinesis_firehose"
-  prefix                      = module.label.id
+  source = "./modules/shared_services_kinesis_firehose"
+  prefix = module.label.id
+  region = data.aws_region.current_region.id
 
   providers = {
     aws = aws.env

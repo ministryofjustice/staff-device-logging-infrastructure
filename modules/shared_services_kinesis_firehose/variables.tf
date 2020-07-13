@@ -1,3 +1,7 @@
 variable "prefix" {
-    type = string
+  type = string
+}
+
+variable "region" {
+  type = string
 }
