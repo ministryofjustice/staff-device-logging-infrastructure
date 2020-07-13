@@ -1,4 +1,3 @@
-// TODO: see if we can find a way to write a test for this (with retries)
 data "aws_caller_identity" "current" {}
 
 locals {
