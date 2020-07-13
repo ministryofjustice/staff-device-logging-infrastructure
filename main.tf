@@ -192,6 +192,7 @@ module "shared_services_log_destination" {
   source = "./modules/shared_services_kinesis_firehose"
   prefix = module.label.id
   region = data.aws_region.current_region.id
+  shared_services_account_arn = data.aws_caller_identity.shared_services_account.account_id
 
   providers = {
     aws = aws.env

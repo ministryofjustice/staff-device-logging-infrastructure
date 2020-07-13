@@ -16,8 +16,28 @@ resource "aws_kms_key" "kinesis_stream_key" {
   deletion_window_in_days = 10
 }
 
-resource "aws_cloudwatch_log_destination" "log-forward-to-kinesis-arn" {
-  name       = "${var.prefix}-log-forward-to-kinesis-arn"
+resource "aws_cloudwatch_log_destination" "log-forward-to-kinesis" {
+  name       = "${var.prefix}-log-forward-to-kinesis"
   role_arn   = "${aws_iam_role.kinesis-cloudwatch-subscription-role.arn}"
   target_arn = "${aws_kinesis_stream.shared_services_destination_stream.arn}"
+}
+
+resource "aws_iam_policy" "kinesis-cloudwatch-subscription-destination-policy" {
+  name = "${var.prefix}-kinesis-cloudwatch-subscription-destination-policy"
+  path = "/"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+      "Sid" : "",
+      "Effect" : "Allow",
+      "Principal" : {
+          "AWS" : var.shared_services_account_arn
+      },
+      "Action" : "logs:PutSubscriptionFilter",
+      "Resource" : "${aws_cloudwatch_log_destination.log-forward-to-kinesis.arn}"
+      }
+    ]
+  })
 }
