@@ -12,7 +12,7 @@ resource "aws_iam_role" "kinesis-cloudwatch-subscription-role" {
   })
 }
 
-resource "aws_iam_policy" "kinesis-cloudwatch-subscription" {
+resource "aws_iam_policy" "kinesis-cloudwatch-subscription-policy" {
   name = "${var.prefix}-kinesis-cloudwatch-subscription-policy"
   path = "/"
 
