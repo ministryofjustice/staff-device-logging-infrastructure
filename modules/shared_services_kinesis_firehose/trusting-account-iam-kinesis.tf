@@ -1,5 +1,5 @@
-resource "aws_iam_role" "kinesis-cloudwatch-subscription" {
-  name = "${var.prefix}-kinesis-cloudwatch-subscription"
+resource "aws_iam_role" "kinesis-cloudwatch-subscription-role" {
+  name = "${var.prefix}-kinesis-cloudwatch-subscription-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -13,7 +13,7 @@ resource "aws_iam_role" "kinesis-cloudwatch-subscription" {
 }
 
 resource "aws_iam_policy" "kinesis-cloudwatch-subscription" {
-  name = "${var.prefix}-kinesis-cloudwatch-subscription"
+  name = "${var.prefix}-kinesis-cloudwatch-subscription-policy"
   path = "/"
 
   policy = jsonencode({
@@ -34,6 +34,6 @@ resource "aws_iam_policy" "kinesis-cloudwatch-subscription" {
 }
 
 resource "aws_iam_role_policy_attachment" "codebuild-attachment" {
-  role       = aws_iam_role.kinesis-cloudwatch-subscription.name
-  policy_arn = aws_iam_policy.kinesis-cloudwatch-subscription.arn
+  role       = aws_iam_role.kinesis-cloudwatch-subscription-role.name
+  policy_arn = aws_iam_policy.kinesis-cloudwatch-subscription-policy.arn
 }
