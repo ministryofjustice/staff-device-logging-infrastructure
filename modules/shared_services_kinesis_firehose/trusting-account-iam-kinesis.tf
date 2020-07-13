@@ -4,11 +4,9 @@ resource "aws_iam_role" "kinesis-cloudwatch-subscription" {
     Version = "2012-10-17",
     Statement = [
       {
-        "Statement": {
-          "Effect": "Allow",
-          "Principal": { "Service": "logs.${var.region}.amazonaws.com" },
-          "Action": "sts:AssumeRole"
-        }
+        "Effect": "Allow",
+        "Principal": { "Service": "logs.${var.region}.amazonaws.com" },
+        "Action": "sts:AssumeRole"
       }
     ]
   })
@@ -20,6 +18,7 @@ resource "aws_iam_policy" "kinesis-cloudwatch-subscription" {
 
   policy = <<EOF
 {
+  "Version": "2012-10-17",
   "Statement": [
     {
       "Effect": "Allow",
