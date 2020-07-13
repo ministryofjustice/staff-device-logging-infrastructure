@@ -76,7 +76,10 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "kms:Decrypt",
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
-      "kms:DescribeKey"
+      "kms:DescribeKey",
+      "kinesis:DescribeStream",
+      "kinesis:GetRecords",
+      "kinesis:PutMetricData"
     ]
     resources = ["*"]
   }
