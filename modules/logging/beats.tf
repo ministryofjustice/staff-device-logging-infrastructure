@@ -52,12 +52,17 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "lambda:RemovePermission",
       "lambda:UpdateFunctionCode",
       "lambda:UpdateFunctionConfiguration",
+      "cloudwatch:PutMetricData",
+      "cloudwatch:PutMetricAlarm",
+      "cloudwatch:SetAlarmState",
       "logs:DescribeLogGroups",
       "logs:CreateLogGroup",
+      "logs:CreateLogStream",
       "logs:DeleteLogGroup",
       "logs:DeleteSubscriptionFilter",
       "logs:DescribeLogGroups",
       "logs:PutSubscriptionFilter",
+      "logs:PutLogEvents",
       "s3:CreateBucket",
       "s3:DeleteObject",
       "s3:ListBucket",
@@ -66,6 +71,7 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "sqs:ReceiveMessage",
       "sqs:DeleteMessage",
       "sqs:GetQueueAttributes",
+      "sqs:SendMessage",
       "kms:Encrypt",
       "kms:Decrypt",
       "kms:ReEncrypt*",
@@ -84,7 +90,7 @@ resource "aws_iam_role_policy" "beats-lambda-policy" {
 }
 
 resource "aws_iam_role" "beats-lambda-role" {
-  name = "${var.prefix}-pttp-test-beats-lambda-role"
+  name = "${var.prefix}-beats-lambda-role"
 
   assume_role_policy = <<EOF
 {
@@ -101,4 +107,23 @@ resource "aws_iam_role" "beats-lambda-role" {
   ]
 }
 EOF
+}
+
+resource "aws_security_group" "functionbeats" {
+  name   = "${var.prefix}-functionbeats"
+  vpc_id = var.vpc_id
+
+  egress {
+    from_port   = 9200
+    to_port     = 9200
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }

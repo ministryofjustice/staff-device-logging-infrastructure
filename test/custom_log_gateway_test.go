@@ -179,5 +179,5 @@ func SetUpTest(t *testing.T) testInfo {
 
 type testInfo struct {
 	instance *testing.T
-	config *terraform.Options
+	config   *terraform.Options
 }

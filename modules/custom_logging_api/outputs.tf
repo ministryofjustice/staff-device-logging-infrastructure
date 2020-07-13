@@ -13,3 +13,23 @@ output "custom_logging_api_key" {
 output "custom_log_queue_arn" {
   value = aws_sqs_queue.custom_log_queue.arn
 }
+
+output "custom_log_queue_name" {
+  value = aws_sqs_queue.custom_log_queue.name
+}
+
+output "dlq_custom_log_queue_url" {
+  value = aws_sqs_queue.dlq_custom_log_queue.id
+}
+
+output "dlq_custom_log_queue_arn" {
+  value = aws_sqs_queue.dlq_custom_log_queue.arn
+}
+
+output "dlq_custom_log_queue_name" {
+  value = aws_sqs_queue.dlq_custom_log_queue.name
+}
+
+output "custom_log_api_gateway_name" {
+  value = aws_api_gateway_rest_api.logging_gateway.name
+}

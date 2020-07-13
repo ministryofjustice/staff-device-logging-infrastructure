@@ -15,18 +15,23 @@ locals {
     "functionbeat.provider.aws.functions" : [
       {
         name : local.cloudwatch_name,
+        concurrency: 100,
         enabled : true,
         type : "cloudwatch_logs",
         description : "lambda function for cloudwatch logs",
+        dead_letter_config : { 
+          target_arn : var.beats_dead_letter_queue_arn 
+        },
         role : var.deploy_role_arn,
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
-        }
+        },
         triggers : local.log_group_map_array
       },
       {
         name : local.sqs_name,
+        concurrency: 100,
         enabled : true,
         type : "sqs",
         description : "lambda function for SQS events",
@@ -34,7 +39,10 @@ locals {
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
-        }
+        },
+        dead_letter_config : { 
+          target_arn : var.beats_dead_letter_queue_arn 
+        },
         triggers : [
           { event_source_arn : var.sqs_log_queue }
         ]
@@ -59,7 +67,11 @@ locals {
     "output.elasticsearch.ssl.key" : "moj.key"
 
     processors : [
-      { add_host_metadata : null },
+      {
+        add_host_metadata : {
+          environment: var.prefix
+        }
+      },
       { add_cloud_metadata : { "providers" : ["aws"] } }
     ]
   })

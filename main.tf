@@ -94,11 +94,26 @@ module "ost_vpc_peering" {
 }
 
 module "customLoggingApi" {
-  source                        = "./modules/custom_logging_api"
-  prefix                        = module.label.id
-  region                        = data.aws_region.current_region.id
-  sns_topic_arn                 = module.sns-notification.topic-arn
+  source = "./modules/custom_logging_api"
+  prefix = module.label.id
+  region = data.aws_region.current_region.id
+
+  providers = {
+    aws = aws.env
+  }
+}
+
+module "alarms" {
+  source                        = "./modules/alarms"
   enable_critical_notifications = var.enable_critical_notifications
+  emails                        = var.critical_notification_recipients
+  topic-name                    = "critical-notifications"
+  prefix                        = module.label.id
+  custom_log_queue_name         = module.customLoggingApi.custom_log_queue_name
+  custom_log_api_gateway_name   = module.customLoggingApi.custom_log_api_gateway_name
+  beats_dead_letter_queue_name  = module.customLoggingApi.dlq_custom_log_queue_name
+  cloudwatch_function_name      = module.functionbeat_config.cloudwatch_name
+  sqs_function_name             = module.functionbeat_config.sqs_name
 
   providers = {
     aws = aws.env
@@ -111,18 +126,6 @@ module "logging" {
   subnet_ids = module.logging_vpc.private_subnets
   prefix     = module.label.id
   tags       = module.label.tags
-
-  providers = {
-    aws = aws.env
-  }
-}
-
-module "sns-notification" {
-  source                        = "./modules/sns-notification"
-  emails                        = var.critical_notification_recipients
-  topic-name                    = "critical-notifications"
-  prefix                        = module.label.id
-  enable_critical_notifications = var.enable_critical_notifications
 
   providers = {
     aws = aws.env
@@ -163,9 +166,12 @@ module "functionbeat_config" {
   subnet_ids = module.logging_vpc.private_subnets
 
   sqs_log_queue = module.customLoggingApi.custom_log_queue_arn
+  beats_dead_letter_queue_arn = module.customLoggingApi.dlq_custom_log_queue_arn
 
   log_groups = [
-    "/var/log/dummy-log"
+    "PaloAltoNetworksFirewalls",
+    "${module.label.id}-cloudtrail-log-group",
+    "${module.label.id}-vpc-flow-logs-log-group"
   ]
 
   destination_url      = var.ost_url
@@ -176,7 +182,16 @@ module "functionbeat_config" {
 module "firewall_roles" {
   source                      = "./modules/firewall_roles"
   prefix                      = module.label.id
-  shared_services_account_arn = data.aws_caller_identity.shared_services_account.arn
+  shared_services_account_arn = data.aws_caller_identity.shared_services_account.account_id
+  providers = {
+    aws = aws.env
+  }
+}
+
+module "shared_services_log_destionation" {
+  source                      = "./modules/shared_services_kinesis_firehose"
+  prefix                      = module.label.id
+
   providers = {
     aws = aws.env
   }
