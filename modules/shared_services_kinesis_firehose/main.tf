@@ -62,26 +62,29 @@ resource "aws_cloudwatch_log_destination" "log-forward-to-kinesis" {
   target_arn = aws_kinesis_stream.shared_services_destination_stream.arn
 }
 
-# resource "aws_iam_policy" "kinesis-cloudwatch-subscription-destination-policy" {
-#   name = "${var.prefix}-kinesis-cloudwatch-subscription-destination-policy"
-#   path = "/"
+data "aws_iam_policy_document" "log-forward-to-kinesis" {
+  statement {
+    effect = "Allow"
 
-#   policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [
-#       {
-#         "Sid" : "",
-#         "Effect" : "Allow",
-#         "Principal" : {
-#             "AWS" : var.shared_services_account_arn
-#         },
-#         "Action" : "logs:PutSubscriptionFilter",
-#         "Resource" : "${aws_cloudwatch_log_destination.log-forward-to-kinesis.arn}"
-#       }
-#     ]
-#   })
+    principals {
+      type = "AWS"
 
-#   depends_on = [
-#       aws_cloudwatch_log_destination.log-forward-to-kinesis
-#   ]
-# }
+      identifiers = [
+        var.shared_services_account_arn,
+      ]
+    }
+
+    actions = [
+      "logs:PutSubscriptionFilter",
+    ]
+
+    resources = [
+      "${aws_cloudwatch_log_destination.log-forward-to-kinesis.arn}"
+    ]
+  }
+}
+
+resource "aws_cloudwatch_log_destination_policy" "cross_account_destination_policy" {
+  destination_name = "${aws_cloudwatch_log_destination.log-forward-to-kinesis.name}"
+  access_policy    = "${data.aws_iam_policy_document.log-forward-to-kinesis.json}"
+}
