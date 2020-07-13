@@ -6,6 +6,7 @@ env:
     TF_INPUT: 0
     TF_VAR_owner_email: pttp@justice.gov.uk
     TF_VAR_enable_critical_notifications: true
+    TF_VAR_enable_cloudtrail_log_shipping_to_cloudwatch: true
   parameter-store:
     TF_VAR_enable_peering:                   "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/enable_peering"
     TF_VAR_assume_role:                      "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/assume_role"

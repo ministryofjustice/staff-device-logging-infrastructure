@@ -133,10 +133,11 @@ module "logging" {
 }
 
 module "cloudtrail" {
-  source = "./modules/cloudtrail"
-  prefix = module.label.id
-  region = data.aws_region.current_region.id
-  tags   = module.label.tags
+  source                                       = "./modules/cloudtrail"
+  enable_cloudtrail_log_shipping_to_cloudwatch = var.enable_cloudtrail_log_shipping_to_cloudwatch
+  prefix                                       = module.label.id
+  region                                       = data.aws_region.current_region.id
+  tags                                         = module.label.tags
 
   providers = {
     aws = aws.env
@@ -189,9 +190,9 @@ module "firewall_roles" {
 }
 
 module "shared_services_log_destination" {
-  source = "./modules/shared_services_kinesis_firehose"
-  prefix = module.label.id
-  region = data.aws_region.current_region.id
+  source                      = "./modules/shared_services_kinesis_firehose"
+  prefix                      = module.label.id
+  region                      = data.aws_region.current_region.id
   shared_services_account_arn = data.aws_caller_identity.shared_services_account.account_id
 
   providers = {

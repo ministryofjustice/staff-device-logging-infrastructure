@@ -51,3 +51,7 @@ variable "ost_url" {
 variable "critical_notification_recipients" {
   type = list(string)
 }
+
+variable "enable_cloudtrail_log_shipping_to_cloudwatch" {
+  type = bool
+}
