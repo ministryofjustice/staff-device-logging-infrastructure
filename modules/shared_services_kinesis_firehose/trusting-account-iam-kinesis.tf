@@ -27,7 +27,7 @@ resource "aws_iam_policy" "kinesis-cloudwatch-subscription-policy" {
       {
         "Effect": "Allow",
         "Action": "iam:PassRole",
-        "Resource": "${aws_iam_role.kinesis-cloudwatch-subscription.arn}"
+        "Resource": "${aws_iam_role.kinesis-cloudwatch-subscription-role.arn}"
       }
     ]
   })
