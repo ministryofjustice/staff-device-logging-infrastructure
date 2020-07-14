@@ -30,11 +30,11 @@ func TestCloudTrailEventsAppearInCloudWatch(t *testing.T) {
 	defer CleaningUpUntilTheEndOfCloudTrailTests(test, bucketName)
 	SpinUpTheModuleForCloudTrailTests(test)
 
-	CreateAnS3Bucket(bucketName)
+	CreateAResourceThatGeneratesACloudTrailEvent(bucketName)
 	VerifyThatAMessageAppearedInACloudWatchLogGroup(test)
 }
 
-func CreateAnS3Bucket(bucketName string) {
+func CreateAResourceThatGeneratesACloudTrailEvent(bucketName string) {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(cloudTrailTestRegion)},
 	)
