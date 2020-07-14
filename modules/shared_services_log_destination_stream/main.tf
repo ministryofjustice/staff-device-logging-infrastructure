@@ -4,7 +4,7 @@ locals {
 
 resource "aws_kinesis_stream" "shared_services_destination_stream" {
   count            = local.shared_service_log_destination_count
-  name             = "${var.prefix}_shared_services_log_destination_stream"
+  name             = "${var.prefix}-shared-services-log-destination-stream"
   shard_count      = 1
   encryption_type  = "KMS"
   kms_key_id       = aws_kms_key.kinesis_stream_key.id
@@ -22,7 +22,7 @@ resource "aws_kms_key" "kinesis_stream_key" {
 }
 
 resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
-  name = "${var.prefix}_cloudwatch_to_kinesis_role"
+  name = "${var.prefix}-cloudwatch-to-kinesis-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -37,7 +37,7 @@ resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
 
 resource "aws_iam_policy" "cloudwatch_to_kinesis_policy" {
   count      = local.shared_service_log_destination_count
-  name = "${var.prefix}_cloudwatch_to_kinesis_policy"
+  name = "${var.prefix}-cloudwatch-to-kinesis-policy"
   path = "/"
 
   policy = jsonencode({
@@ -76,7 +76,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_to_kinesis_attachment" {
 
 resource "aws_cloudwatch_log_destination" "log_forward_to_kinesis" {
   count      = local.shared_service_log_destination_count
-  name       = "${var.prefix}_log_forward_to_kinesis"
+  name       = "${var.prefix}-log-forward-to-kinesis"
   role_arn   = aws_iam_role.cloudwatch_to_kinesis_role.arn
   target_arn = element(aws_kinesis_stream.shared_services_destination_stream.*.arn, 0)
 }
