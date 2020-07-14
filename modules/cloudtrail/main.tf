@@ -52,6 +52,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
 
   bucket        = local.cloud_trail_bucket_name
   force_destroy = true
+  policy        = element(data.template_file.s3_bucket_policies.*.rendered, 0)
 
   server_side_encryption_configuration {
     rule {
@@ -71,36 +72,4 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
   }
 
   tags = var.tags
-
-  // TODO: put this policy into its own file
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::${local.cloud_trail_bucket_name}"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${local.cloud_trail_bucket_name}/${local.s3_bucket_log_prefix}/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
-}
-POLICY
 }
