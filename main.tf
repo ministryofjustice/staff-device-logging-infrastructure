@@ -165,6 +165,7 @@ module "functionbeat_config" {
   security_group_ids = [module.logging.beats_security_group_id]
 
   subnet_ids = module.logging_vpc.private_subnets
+  public_subnet_ids = module.logging_vpc.public_subnets
 
   sqs_log_queue               = module.customLoggingApi.custom_log_queue_arn
   beats_dead_letter_queue_arn = module.customLoggingApi.dlq_custom_log_queue_arn

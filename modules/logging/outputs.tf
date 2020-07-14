@@ -7,3 +7,6 @@ output "beats_deploy_bucket" {
 output "beats_security_group_id" {
   value = aws_security_group.functionbeats.id
 }
+output "beats_public_security_group_id" {
+  value = aws_security_group.functionbeats.id
+}
