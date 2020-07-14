@@ -101,7 +101,6 @@ resource "aws_iam_role_policy" "flow_logs_role_policy" {
   "Statement": [
     {
       "Action": [
-        "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents",
         "logs:DescribeLogGroups",
