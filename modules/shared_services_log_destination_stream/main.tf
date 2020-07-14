@@ -49,6 +49,11 @@ resource "aws_iam_policy" "cloudwatch-to-kinesis-policy" {
       },
       {
         "Effect": "Allow",
+        "Action": "kms:*",
+        "Resource": "*"
+      },
+      {
+        "Effect": "Allow",
         "Action": "iam:PassRole",
         "Resource": "${aws_iam_role.cloudwatch-to-kinesis-role.arn}"
       }
