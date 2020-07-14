@@ -18,8 +18,8 @@ import (
 )
 
 const cloudTrailTestRegion = "eu-west-2"
-const cloudTrailTestRetryDelay = time.Second * 5
-const cloudTrailTestMaxRetries = 12 // One minute of 5 second slots
+const cloudTrailTestRetryDelay = time.Second * 30
+const cloudTrailTestMaxRetries = 30 // 15 minutes max timeout
 
 func TestCloudTrailEventsAppearInCloudWatch(t *testing.T) {
 	test := SetUpTestCloudTrailTests(t)
