@@ -20,7 +20,61 @@ resource "aws_s3_bucket" "functionbeat-deploy" {
 data "aws_iam_policy_document" "beats-lambda-policy" {
   statement {
     actions = [ "*" ]
-    resources = ["*"]
+    resources = [
+    actions = [
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:CreateNetworkInterface",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DescribeInstances",
+      "ec2:AttachNetworkInterface",
+      "cloudformation:CreateStack",
+      "cloudformation:DeleteStack",
+      "cloudformation:DescribeStacks",
+      "cloudformation:DescribeStackEvents",
+      "cloudformation:DescribeStackResources",
+      "cloudformation:GetTemplate",
+      "cloudformation:UpdateStack",
+      "cloudformation:ValidateTemplate",
+      "iam:CreateRole",
+      "iam:DeleteRole",
+      "iam:DeleteRolePolicy",
+      "iam:GetRole",
+      "iam:GetRolePolicy",
+      "iam:PassRole",
+      "iam:PutRolePolicy",
+      "lambda:AddPermission",
+      "lambda:CreateFunction",
+      "lambda:CreateEventSourceMapping",
+      "lambda:DeleteFunction",
+      "lambda:DeleteEventSourceMapping",
+      "lambda:GetEventSourceMapping",
+      "lambda:GetFunction",
+      "lambda:GetFunctionConfiguration",
+      "lambda:PutFunctionConcurrency",
+      "lambda:RemovePermission",
+      "lambda:UpdateFunctionCode",
+      "lambda:UpdateFunctionConfiguration",
+      "cloudwatch:PutMetricData",
+      "cloudwatch:PutMetricAlarm",
+      "cloudwatch:SetAlarmState",
+      "logs:DescribeLogGroups",
+      "logs:PutSubscriptionFilter",
+      "logs:PutLogEvents",
+      "s3:CreateBucket",
+      "s3:DeleteObject",
+      "s3:ListBucket",
+      "s3:PutObject",
+      "s3:GetObject",
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:SendMessage",
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey"
+    ]
   }
 }
 

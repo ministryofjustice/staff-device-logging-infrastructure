@@ -49,7 +49,13 @@ resource "aws_iam_policy" "cloudwatch-to-kinesis-policy" {
       },
       {
         "Effect": "Allow",
-        "Action": [ "kms:Encrypt", "kms:Decrypt"]
+        "Action": [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ]
         "Resource": "*"
       },
       {
