@@ -31,26 +31,15 @@ resource "aws_cloudwatch_log_group" "vpc_flow_logs_log_group" {
   tags = var.tags
 }
 
+data "template_file" "vpc_flow_logs_assume_role_policy" {
+  template = file("${path.module}/policies/vpcFlowLogsRolePolicy.json")
+}
+
 resource "aws_iam_role" "flow_logs_role" {
-  name = "${var.prefix}-vpc-flow-logs-role"
+  name               = "${var.prefix}-vpc-flow-logs-role"
+  assume_role_policy = data.template_file.vpc_flow_logs_assume_role_policy.rendered
 
   tags = var.tags
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "vpc-flow-logs.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
 }
 
 // TODO: get this looking the same way it does for our CloudTrail policies
