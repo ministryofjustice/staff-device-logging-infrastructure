@@ -55,6 +55,7 @@ locals {
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_arn,
+        timeout: 5s,
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
@@ -73,7 +74,7 @@ locals {
     "setup.template.name" : "functionbeat"
     "setup.template.pattern" : "functionbeat-%%{[agent.version]}-*"
     "setup.ilm.enabled" : false
-    "logging.level" : "debug"
+    "logging.level" : "warn"
     "output.elasticsearch" : {
       hosts : [var.destination_url]
       protocol : "https"
