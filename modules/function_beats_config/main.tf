@@ -52,7 +52,7 @@ locals {
         name : local.kinesis_name,
         concurrency: 100,
         enabled : true,
-        type : "kinesis",
+        type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_arn,
         virtual_private_cloud : {
