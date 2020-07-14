@@ -13,9 +13,6 @@ variable "security_group_ids" {
 variable "subnet_ids" {
   type = set(string)
 }
-variable "public_subnet_ids" {
-  type = set(string)
-}
 variable "destination_url" {
   type = string
 }
