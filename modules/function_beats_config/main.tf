@@ -74,7 +74,7 @@ locals {
     "setup.template.name" : "functionbeat"
     "setup.template.pattern" : "functionbeat-%%{[agent.version]}-*"
     "setup.ilm.enabled" : false
-    "logging.level" : "warn"
+    "logging.level" : "warning"
     "output.elasticsearch" : {
       hosts : [var.destination_url]
       protocol : "https"
