@@ -4,10 +4,11 @@ import (
 	"testing"
 	"fmt"
 	"errors"
+	"time"
 	"github.com/stretchr/testify/assert"
 )
 
-func WaitFor(noOfRetries int, function func()bool) error {
+func WaitFor(noOfRetries int, sleepDelay time.Duration, function func()bool) error {
 	isSuccess := false
 
 	for i := 1; i <= noOfRetries; i++ {
@@ -15,6 +16,8 @@ func WaitFor(noOfRetries int, function func()bool) error {
 			return nil
 		} 
 		isSuccess = function()
+		time.Sleep(sleepDelay)
+
 	}
 	return errors.New(fmt.Sprintf("function failed to return true after %d retries", noOfRetries))
 }
@@ -22,7 +25,7 @@ func WaitFor(noOfRetries int, function func()bool) error {
 func TestWaitForFailsWhenFalseReturned(t *testing.T) {
 	functionRan := false
 	
-	err := WaitFor(1, func()bool {
+	err := WaitFor(1, 1, func()bool {
 		functionRan = true
 		return false
 	})
@@ -34,7 +37,7 @@ func TestWaitForFailsWhenFalseReturned(t *testing.T) {
 func TestWaitForRetries(t *testing.T) {
 	count := 0
 	
-	WaitFor(3,func()bool {
+	WaitFor(3, 1, func()bool {
 		count++
 		return false
 	})

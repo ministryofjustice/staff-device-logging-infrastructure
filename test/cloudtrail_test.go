@@ -65,26 +65,25 @@ func VerifyThatAMessageAppearedInACloudWatchLogGroup(thisTest testInfo) {
 	svc := cloudwatchlogs.New(sess)
 
 	messagesReceived := false
-	for i := 0; i <= cloudTrailTestMaxRetries; i++ {
 
+	WaitFor(cloudTrailTestMaxRetries, cloudTrailTestRetryDelay, func()bool{
 		resp, err := svc.GetLogEvents(&cloudwatchlogs.GetLogEventsInput{
-			Limit:         aws.Int64(100),
-			LogGroupName:  aws.String(logGroup),
-			LogStreamName: aws.String(logStream),
-		})
+		Limit:         aws.Int64(100),
+		LogGroupName:  aws.String(logGroup),
+		LogStreamName: aws.String(logStream),
+	})
 
-		assert.NoError(thisTest.instance, err)
+	assert.NoError(thisTest.instance, err)
 
-		eventsLength := len(resp.Events)
+	eventsLength := len(resp.Events)
 
-		if eventsLength > 0 {
-			fmt.Printf("Received %v CloudWatch events from Cloudtrail\n", eventsLength)
-			messagesReceived = true
-			break
-		}
-
-		time.Sleep(cloudTrailTestRetryDelay)
+	if eventsLength > 0 {
+		fmt.Printf("Received %v CloudWatch events from Cloudtrail\n", eventsLength)
+		messagesReceived = true
+		return true
 	}
+
+	return false})
 
 	assert.True(thisTest.instance, messagesReceived, "***Received no CloudWatch log messages from CloudTrail***")
 }
