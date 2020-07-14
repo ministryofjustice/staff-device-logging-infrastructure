@@ -91,7 +91,7 @@ resource "aws_iam_role_policy" "beats-lambda-policy" {
 }
 
 resource "aws_iam_role" "beats-lambda-role" {
-  name = "${var.prefix}-beats-lambda-role"
+  name = "${var.prefix}-beats-lambda-execution-role"
 
   assume_role_policy = <<EOF
 {
