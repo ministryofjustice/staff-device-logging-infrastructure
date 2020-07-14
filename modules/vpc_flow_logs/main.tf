@@ -42,26 +42,12 @@ resource "aws_iam_role" "flow_logs_role" {
   tags = var.tags
 }
 
-// TODO: get this looking the same way it does for our CloudTrail policies
-resource "aws_iam_role_policy" "flow_logs_role_policy" {
-  name = "${var.prefix}-vpc-flow-logs-role-policy"
-  role = aws_iam_role.flow_logs_role.id
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:CreateLogStream",
-        "logs:PutLogEvents",
-        "logs:DescribeLogGroups",
-        "logs:DescribeLogStreams"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
+data "template_file" "vpc_flow_logs_role_policies" {
+  template = file("${path.module}/policies/vpcFlowLogsCloudwatchPolicies.json")
 }
-EOF
+
+resource "aws_iam_role_policy" "flow_logs_role_policy" {
+  name   = "${var.prefix}-vpc-flow-logs-role-policy"
+  role   = aws_iam_role.flow_logs_role.id
+  policy = data.template_file.vpc_flow_logs_role_policies.rendered
 }
