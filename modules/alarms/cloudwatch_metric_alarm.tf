@@ -115,7 +115,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${var.custom_log_api_gateway_name}" 
+    ApiName = "${var.custom_log_api_gateway_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -136,7 +136,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${var.custom_log_api_gateway_name}"   
+    ApiName = "${var.custom_log_api_gateway_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -157,7 +157,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
   period              = "60"
 
   dimensions = {
-   ApiName = "${var.custom_log_api_gateway_name}" 
+   ApiName = "${var.custom_log_api_gateway_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -178,7 +178,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${var.custom_log_api_gateway_name}" 
+    ApiName = "${var.custom_log_api_gateway_name}"
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -188,6 +188,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatch" {
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-invocations-cloudwatch"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -208,6 +209,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-invocations-sqs"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -228,6 +230,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-errors-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -248,6 +251,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-errors-sqs"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -268,6 +272,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-throttle-count-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -288,6 +293,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-throttle-count-sqs"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -308,6 +314,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-spillover-count-sqs"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -328,6 +335,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatch" {
+  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-spillover-count-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
