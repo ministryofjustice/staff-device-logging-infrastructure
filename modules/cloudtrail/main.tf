@@ -43,6 +43,7 @@ resource "aws_cloudtrail" "pttp_cloudtrail" {
   cloud_watch_logs_role_arn     = element(aws_iam_role.cloudtrail_role.*.arn, 0)
   include_global_service_events = true
   is_multi_region_trail         = true
+  kms_key_id                    = element(aws_kms_key.cloudtrail_kms_key.*.arn, 0)
 
   tags = var.tags
 }
