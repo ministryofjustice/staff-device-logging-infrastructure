@@ -19,8 +19,6 @@ resource "aws_s3_bucket" "functionbeat-deploy" {
 
 data "aws_iam_policy_document" "beats-lambda-policy" {
   statement {
-    actions = [ "*" ]
-    resources = [
     actions = [
       "ec2:DescribeNetworkInterfaces",
       "ec2:CreateNetworkInterface",
@@ -75,6 +73,7 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "kms:GenerateDataKey*",
       "kms:DescribeKey"
     ]
+    resources = ["*"]
   }
 }
 
