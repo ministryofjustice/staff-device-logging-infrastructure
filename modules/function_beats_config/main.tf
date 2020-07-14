@@ -57,7 +57,7 @@ locals {
         role : var.deploy_role_arn,
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
-          subnet_ids : var.public_subnet_ids
+          subnet_ids : var.subnet_ids
         },
         dead_letter_config : {
           target_arn : var.beats_dead_letter_queue_arn
