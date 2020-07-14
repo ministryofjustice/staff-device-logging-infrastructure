@@ -190,10 +190,11 @@ module "firewall_roles" {
 }
 
 module "shared_services_log_destination" {
-  source                      = "./modules/shared_services_log_destination_stream"
-  prefix                      = module.label.id
-  region                      = data.aws_region.current_region.id
-  shared_services_account_arn = data.aws_caller_identity.shared_services_account.account_id
+  source                                 = "./modules/shared_services_log_destination_stream"
+  prefix                                 = module.label.id
+  region                                 = data.aws_region.current_region.id
+  shared_services_account_arn            = data.aws_caller_identity.shared_services_account.account_id
+  enable_shared_services_log_destination = var.enable_shared_services_log_destination
 
   providers = {
     aws = aws.env

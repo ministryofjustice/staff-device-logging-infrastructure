@@ -1,4 +1,9 @@
+locals {
+  shared_service_log_destination_count = var.enable_shared_services_log_destination ? 1 : 0
+}
+
 resource "aws_kinesis_stream" "shared_services_destination_stream" {
+  count            = local.shared_service_log_destination_count
   name             = "${var.prefix}-shared-services-log-destinion-stream"
   shard_count      = 1
   encryption_type  = "KMS"
@@ -52,17 +57,20 @@ resource "aws_iam_policy" "cloudwatch-to-kinesis-policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "codebuild-attachment" {
+  count      = local.shared_service_log_destination_count
   role       = aws_iam_role.cloudwatch-to-kinesis-role.name
   policy_arn = aws_iam_policy.cloudwatch-to-kinesis-policy.arn
 }
 
 resource "aws_cloudwatch_log_destination" "log-forward-to-kinesis" {
+  count      = local.shared_service_log_destination_count
   name       = "${var.prefix}-log-forward-to-kinesis"
   role_arn   = aws_iam_role.cloudwatch-to-kinesis-role.arn
-  target_arn = aws_kinesis_stream.shared_services_destination_stream.arn
+  target_arn = element(aws_kinesis_stream.shared_services_destination_stream.*.arn, 0)
 }
 
 data "aws_iam_policy_document" "log-forward-to-kinesis" {
+  count = local.shared_service_log_destination_count
   statement {
     effect = "Allow"
 
@@ -79,12 +87,13 @@ data "aws_iam_policy_document" "log-forward-to-kinesis" {
     ]
 
     resources = [
-      "${aws_cloudwatch_log_destination.log-forward-to-kinesis.arn}"
+      element(aws_cloudwatch_log_destination.log-forward-to-kinesis.*.arn, 0)
     ]
   }
 }
 
 resource "aws_cloudwatch_log_destination_policy" "cross_account_destination_policy" {
-  destination_name = "${aws_cloudwatch_log_destination.log-forward-to-kinesis.name}"
-  access_policy    = "${data.aws_iam_policy_document.log-forward-to-kinesis.json}"
+  count      = local.shared_service_log_destination_count
+  destination_name = element(aws_cloudwatch_log_destination.log-forward-to-kinesis.*.name, 0)
+  access_policy    = element(data.aws_iam_policy_document.log-forward-to-kinesis.*.json, 0)
 }

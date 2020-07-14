@@ -15,3 +15,4 @@ ost_password = "fakepassword"
 ost_url      = "justice.gov.uk"
 
 owner_email = "<MYEMAIL>"
+enable_shared_services_log_destination = false

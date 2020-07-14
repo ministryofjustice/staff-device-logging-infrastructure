@@ -1,14 +1,14 @@
 variable "topic-name" {
-  type = "string"
+  type = string
 }
 
 variable "emails" {
-  type    = "list"
+  type    = list
   default = []
 }
 
 variable "prefix" {
-  type = "string"
+  type = string
 }
 
 variable "enable_critical_notifications" {
