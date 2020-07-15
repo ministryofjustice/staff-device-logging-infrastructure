@@ -5,6 +5,9 @@
 <!-- These maps to different accounts -->
 <!-- Do we even need this section? -->
 
+![architecture](diagrams/architecture.png)
+[Source](diagrams/architecture.drawio)
+
 The current environments are:
 
 - Development
