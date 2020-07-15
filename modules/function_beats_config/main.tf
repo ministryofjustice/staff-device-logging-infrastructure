@@ -20,8 +20,8 @@ locals {
         enabled : true,
         type : "cloudwatch_logs",
         description : "lambda function for cloudwatch logs",
-        dead_letter_config : { 
-          target_arn : var.beats_dead_letter_queue_arn 
+        dead_letter_config : {
+          target_arn : var.beats_dead_letter_queue_arn
         },
         role : var.deploy_role_arn,
         virtual_private_cloud : {
@@ -41,8 +41,8 @@ locals {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
         },
-        dead_letter_config : { 
-          target_arn : var.beats_dead_letter_queue_arn 
+        dead_letter_config : {
+          target_arn : var.beats_dead_letter_queue_arn
         },
         triggers : [
           { event_source_arn : var.sqs_log_queue }
@@ -55,7 +55,6 @@ locals {
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_arn,
-        timeout: "10s",
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
