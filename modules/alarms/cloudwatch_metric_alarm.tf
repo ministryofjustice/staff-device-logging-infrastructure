@@ -208,6 +208,28 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
   treat_missing_data = "breaching"
 }
 
+resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-kinesis" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-lambda-invocations-kinesis"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  threshold           = "1"
+  evaluation_periods  = "1"
+  metric_name         = "Invocations"
+  namespace           = "AWS/Lambda"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    FunctionName = "${var.kinesis_function_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the the number of Lambda invocations for the Kinesis stream"
+  treat_missing_data = "breaching"
+}
+
+
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
   count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-invocations-sqs"
@@ -250,6 +272,28 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
   treat_missing_data = "breaching"
 }
 
+resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-kinesis" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-lambda-errors-kinesis"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "1"
+  evaluation_periods  = "1"
+  metric_name         = "Errors"
+  namespace           = "AWS/Lambda"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    FunctionName = "${var.kinesis_function_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the the number of Lambda Errors for the Shared Services Kinesis stream"
+  treat_missing_data = "breaching"
+}
+
+
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
   count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-errors-sqs"
@@ -289,6 +333,27 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
   alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the the number of Lambda throttles for CloudWatch data source"
+  treat_missing_data = "breaching"
+}
+
+resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-kinesis" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-lambda-throttle-count-kinesis"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "1"
+  evaluation_periods  = "2"
+  metric_name         = "Throttles"
+  namespace           = "AWS/Lambda"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    FunctionName = "${var.kinesis_function_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the the number of Lambda throttles for the Kinesis stream"
   treat_missing_data = "breaching"
 }
 
@@ -334,6 +399,27 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
   treat_missing_data = "notBreaching"
 }
 
+resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-kinesis" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-lambda-spillover-count-kinesis"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "1"
+  evaluation_periods  = "2"
+  metric_name         = "ProvisionedConcurrencySpilloverInvocations"
+  namespace           = "AWS/Lambda"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    FunctionName = "${var.kinesis_function_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillovers for the Kinesis stream"
+  treat_missing_data = "notBreaching"
+}
+
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatch" {
   count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-spillover-count-cloudwatch"
@@ -354,3 +440,5 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatc
   alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillovers for CloudWatch data source"
   treat_missing_data = "notBreaching"
 }
+
+# Kinesis

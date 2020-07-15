@@ -36,7 +36,7 @@ resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
 }
 
 resource "aws_iam_policy" "cloudwatch_to_kinesis_policy" {
-  count      = local.shared_service_log_destination_count
+  count = local.shared_service_log_destination_count
   name = "${var.prefix}-cloudwatch-to-kinesis-policy"
   path = "/"
 

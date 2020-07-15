@@ -114,6 +114,8 @@ module "alarms" {
   beats_dead_letter_queue_name  = module.customLoggingApi.dlq_custom_log_queue_name
   cloudwatch_function_name      = module.functionbeat_config.cloudwatch_name
   sqs_function_name             = module.functionbeat_config.sqs_name
+  kinesis_function_name         = module.functionbeat_config.kinesis_name
+  kinesis_stream_name           = module.functionbeat_config.kinesis_name
 
   providers = {
     aws = aws.env

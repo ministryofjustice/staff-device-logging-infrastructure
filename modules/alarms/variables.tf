@@ -34,3 +34,11 @@ variable "cloudwatch_function_name" {
 variable "sqs_function_name" {
   type = string
 }
+
+variable "kinesis_function_name" {
+  type = string
+}
+
+variable "kinesis_stream_name" {
+  type = string
+}
