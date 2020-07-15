@@ -5,8 +5,13 @@
 <!-- These maps to different accounts -->
 <!-- Do we even need this section? -->
 
+This project is a log-shipping platform for the Ministry of Justice.
+
+## Architecture
+
 ![architecture](diagrams/architecture.png)
 [Source](diagrams/architecture.drawio)
+
 
 The current environments are:
 
@@ -20,16 +25,15 @@ The Terraform in this repository serves 2 purposes:
 
 <!-- is this really correct? -->
 
-- Bootstrapping of Development, Pre-production and Production environments on AWS.
+- (TODO: Flesh this out) Bootstrapping of Development, Pre-production and Production environments on AWS.
 
-<!-- Can we flesh this out a bit? -->
+- Creating the infrastructure for log-shipping platform.
 
-- Creating the infrastructure for various services/solutions such as Logging and DNS / DHCP.
-
-The Terraform in this repository can be run in 2 different contexts:
+The Terraform in this repository can be run in 3 different contexts:
 
 - Your own machine for bootstrapping AWS, or
-- By releasing features through the CodePipeline in the shared Services Account.
+- By releasing features through the CodePipeline in the Shared Services Account.
+- Your own Terraform Workspace in the AWS Dev account.
 
 ## Pre-requisites
 
@@ -46,10 +50,11 @@ The Terraform in this repository can be run in 2 different contexts:
 ## Setup MFA
 
 - Navigate to the AWS console for a given account
-- Click on IAM
-- Find your users within the users dropdown
-- Select the security credentials tab and then assign an MFA device (follow the on-screen instructions for this next step)
-- Edit you local `~/.aws/config` with the key value pair of `mfa_serial=<iam_role_from_mfa_device>`. Ensure you remove (virtual) from the key value pair
+- Click on IAM under Services in the AWS console
+- Click on 'Users' in the IAM menu
+- Find your username within the list and click on it
+- Select the security credentials tab and then assign an MFA device and select 'Virtual MFA device' (follow the on-screen instructions for this step)
+- Edit your local `~/.aws/config` with the key value pair of `mfa_serial=<iam_role_from_mfa_device>`. This is in your User under Assigned MFA device. Ensure you remove '(Virtual)' from the key value pair
 
 ## Getting started
 
