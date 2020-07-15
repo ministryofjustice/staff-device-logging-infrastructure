@@ -58,6 +58,9 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "logs:DescribeLogGroups",
       "logs:PutSubscriptionFilter",
       "logs:PutLogEvents",
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
       "s3:CreateBucket",
       "s3:DeleteObject",
       "s3:ListBucket",
