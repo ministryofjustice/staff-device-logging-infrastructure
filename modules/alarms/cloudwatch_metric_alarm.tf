@@ -78,7 +78,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-dead-letter-queue-size" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description  = "This alarm monitors the the number of messages in the dead letter queue"
+  alarm_description  = "This alarm monitors the number of messages in the dead letter queue"
   treat_missing_data = "breaching"
 }
 
@@ -141,7 +141,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description  = "This alarm monitors the the number of expected minimum requests to the API Gateway"
+  alarm_description  = "This alarm monitors the number of expected minimum requests to the API Gateway"
   treat_missing_data = "breaching"
 }
 
@@ -204,14 +204,14 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda invocations for CloudWatch data source"
+  alarm_description = "This alarm monitors the number of Lambda invocations for CloudWatch data source"
   treat_missing_data = "breaching"
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-kinesis" {
   count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-invocations-kinesis"
-  comparison_operator = "LessThanOrEqualToThreshold"
+  comparison_operator = "LessThanThreshold"
   threshold           = "1"
   evaluation_periods  = "1"
   metric_name         = "Invocations"
@@ -225,7 +225,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-kinesis" 
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda invocations for the Kinesis stream"
+  alarm_description = "This alarm monitors the number of Lambda invocations for the Kinesis stream"
   treat_missing_data = "breaching"
 }
 
@@ -247,7 +247,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda invocations for SQS data source"
+  alarm_description = "This alarm monitors the number of Lambda invocations for SQS data source"
   treat_missing_data = "breaching"
 }
 
@@ -268,7 +268,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda Errors for CloudWatch data source"
+  alarm_description = "This alarm monitors the number of Lambda Errors for CloudWatch data source"
   treat_missing_data = "breaching"
 }
 
@@ -289,7 +289,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-kinesis" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda Errors for the Shared Services Kinesis stream"
+  alarm_description = "This alarm monitors the number of Lambda Errors for the Shared Services Kinesis stream"
   treat_missing_data = "breaching"
 }
 
@@ -311,7 +311,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda Errors for SQS data source"
+  alarm_description = "This alarm monitors the number of Lambda Errors for SQS data source"
   treat_missing_data = "breaching"
 }
 
@@ -332,7 +332,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda throttles for CloudWatch data source"
+  alarm_description = "This alarm monitors the number of Lambda throttles for CloudWatch data source"
   treat_missing_data = "breaching"
 }
 
@@ -353,7 +353,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-kinesis" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda throttles for the Kinesis stream"
+  alarm_description = "This alarm monitors the number of Lambda throttles for the Kinesis stream"
   treat_missing_data = "breaching"
 }
 
@@ -374,7 +374,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda throttles for SQS data source"
+  alarm_description = "This alarm monitors the number of Lambda throttles for SQS data source"
   treat_missing_data = "breaching"
 }
 
@@ -395,7 +395,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillovers for SQS data source"
+  alarm_description = "This alarm monitors the number of Lambda provisioned concurrency spillovers for SQS data source"
   treat_missing_data = "notBreaching"
 }
 
@@ -416,7 +416,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-kinesis" 
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillovers for the Kinesis stream"
+  alarm_description = "This alarm monitors the number of Lambda provisioned concurrency spillovers for the Kinesis stream"
   treat_missing_data = "notBreaching"
 }
 
@@ -437,8 +437,134 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatc
 
   alarm_actions = [aws_sns_topic.this.arn]
 
-  alarm_description = "This alarm monitors the the number of Lambda provisioned concurrency spillovers for CloudWatch data source"
+  alarm_description = "This alarm monitors the number of Lambda provisioned concurrency spillovers for CloudWatch data source"
   treat_missing_data = "notBreaching"
 }
 
 # Kinesis
+
+resource "aws_cloudwatch_metric_alarm" "kinesis-oldest-message" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-kinesis-oldest-message"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "72000000" # miliseconds 1000 * 60 * 60 * 2 = 2 hours
+  evaluation_periods  = "2"
+  metric_name         = "GetRecords.IteratorAgeMilliseconds"
+  namespace           = "AWS/Kinesis"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    StreamName = "${var.kinesis_stream_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the age of the oldest record"
+  treat_missing_data = "breaching"
+}
+
+resource "aws_cloudwatch_metric_alarm" "kinesis-minimum-expected-records" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-kinesis-minimum-expected-records"
+  comparison_operator = "LessThanThreshold"
+  threshold           = "1"
+  evaluation_periods  = "10"
+  metric_name         = "IncomingRecords"
+  namespace           = "AWS/Kinesis"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    StreamName = "${var.kinesis_stream_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the minimum number of incoming records on the Kinesis stream"
+  treat_missing_data = "breaching"
+}
+
+resource "aws_cloudwatch_metric_alarm" "kinesis-write-throughput-exceeded" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-kinesis-write-throughput-exceeded"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "1"
+  evaluation_periods  = "2"
+  metric_name         = "WriteProvisionedThroughputExceeded"
+  namespace           = "AWS/Kinesis"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    StreamName = "${var.kinesis_stream_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the write throughput exceeded"
+  treat_missing_data = "breaching"
+}
+
+resource "aws_cloudwatch_metric_alarm" "kinesis-read-throughput-exceeded" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-kinesis-read-throughput-exceeded"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "1"
+  evaluation_periods  = "1"
+  metric_name         = "ReadProvisionedThroughputExceeded"
+  namespace           = "AWS/Kinesis"
+  statistic           = "Sum"
+  period              = "60"
+
+  dimensions = {
+    StreamName = "${var.kinesis_stream_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the read throughput exceeded"
+  treat_missing_data = "breaching"
+}
+
+resource "aws_cloudwatch_metric_alarm" "kinesis-put-records-latency" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-kinesis-put-records-latency"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "1000"
+  evaluation_periods  = "5"
+  metric_name         = "PutRecords.Latency"
+  namespace           = "AWS/Kinesis"
+  statistic           = "Average"
+  period              = "60"
+
+  dimensions = {
+    StreamName = "${var.kinesis_stream_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the put record latency"
+  treat_missing_data = "breaching"
+}
+
+resource "aws_cloudwatch_metric_alarm" "kinesis-get-records-latency" {
+  count               = local.critical_notifications_count
+  alarm_name          = "${var.prefix}-kinesis-get-records-latency"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = "1000"
+  evaluation_periods  = "5"
+  metric_name         = "GetRecords.Latency"
+  namespace           = "AWS/Kinesis"
+  statistic           = "Average"
+  period              = "60"
+
+  dimensions = {
+    StreamName = "${var.kinesis_stream_name}"
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the get records latency"
+  treat_missing_data = "breaching"
+}
