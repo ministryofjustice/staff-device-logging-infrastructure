@@ -4,11 +4,6 @@
 
 This project contains the Terraform code to build the Ministry of Justice's log-shipping platform.
 
-## Architecture
-
-![architecture](diagrams/architecture.png)
-[Image Source](diagrams/architecture.drawio)
-
 The Terraform in this repository serves 2 purposes:
 
 - (TODO: Flesh this out) Bootstrapping of the Development, Pre-production and Production environments on AWS.
@@ -19,6 +14,11 @@ The Terraform in this repository can be run in 3 different contexts:
 - Your own machine for bootstrapping AWS.
 - By releasing features through the CodePipeline in the Shared Services Account (by pushing your changes to the `master` branch).
 - Your own Terraform Workspace in the AWS Dev account for testing changes in an isolated workspace (further instructions below).
+
+## Architecture
+
+![architecture](diagrams/architecture.png)
+[Image Source](diagrams/architecture.drawio)
 
 ## Getting started
 
