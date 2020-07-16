@@ -39,7 +39,8 @@ locals {
             }
           }, {
             decode_json_fields : {
-              fields : ["message"]
+              when.regexp.message: "^{",
+              fields : ["message"],
               process_array : true,
               add_error_key : true,
               max_depth : 10
@@ -106,6 +107,7 @@ locals {
             }
           }, {
             decode_json_fields : {
+              when.regexp.message: "^{",
               fields : ["message"],
               process_array : true,
               add_error_key : true,
@@ -132,7 +134,7 @@ locals {
     "output.elasticsearch.ssl.certificate_authorities" : ["elk-ca.crt"]
     "output.elasticsearch.ssl.certificate" : "moj.crt"
     "output.elasticsearch.ssl.key" : "moj.key"
-    "logging.level" : "debug"
+    "logging.level" : "error"
 
     processors : [
       {
