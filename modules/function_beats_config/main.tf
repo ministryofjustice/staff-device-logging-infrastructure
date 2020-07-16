@@ -99,13 +99,6 @@ locals {
           target : "environment"
         }
       },
-      {
-        decode_json_fields : {
-          fields : ["message"],
-          add_error_key : true,
-          process_array : true
-        }
-      },
       { add_host_metadata : { } },
       { add_cloud_metadata : { "providers" : ["aws"] } }
     ]
