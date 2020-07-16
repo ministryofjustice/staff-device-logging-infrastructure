@@ -43,6 +43,7 @@ locals {
               fields : ["message"],
               process_array : true,
               add_error_key : true,
+              overwrite_keys : true,
               max_depth : 10
             }
           }
@@ -111,6 +112,7 @@ locals {
               "when.regexp.message" : "^{",
               process_array : true,
               add_error_key : true,
+              overwrite_keys : true,
               max_depth : 10
             }
           }
