@@ -39,7 +39,9 @@ locals {
           }, {
             decode_json_fields : {
               fields : ["message"]
-              process_array : true
+              process_array : true,
+              add_error_key : true,
+              max_depth : 10
             }
           }
         ]
@@ -102,7 +104,9 @@ locals {
           }, {
             decode_json_fields : {
               fields : ["message"],
-              process_array : true
+              process_array : true,
+              add_error_key : true,
+              max_depth : 10
             }
           }
         ]
