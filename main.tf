@@ -115,7 +115,7 @@ module "alarms" {
   cloudwatch_function_name      = module.functionbeat_config.cloudwatch_name
   sqs_function_name             = module.functionbeat_config.sqs_name
   kinesis_function_name         = module.functionbeat_config.kinesis_name
-  kinesis_stream_name           = module.functionbeat_config.kinesis_name
+  kinesis_stream_name           = module.shared_services_log_destination.kinesis_stream_name
 
   providers = {
     aws = aws.env
