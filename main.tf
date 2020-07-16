@@ -212,9 +212,9 @@ module "api_gateway_load_test" {
   api_url = module.customLoggingApi.base_api_url
 
   // The maximum rate we can achieve on ec2 t2-micros is 67 per second for 60 seconds
-  // 500 instances gives us 30k requests per second for a minute
-  arrival_rate = 60
-  instance_count = 500
+  // 100 instances gives us 4k requests per second for a minute
+  arrival_rate = 40
+  instance_count = 100
   duration = 60
 
   prefix  = module.label.id
