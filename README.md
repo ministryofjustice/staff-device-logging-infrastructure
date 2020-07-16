@@ -91,15 +91,17 @@ There are various Terraform modules in this project that are called from the roo
 
 ### Alarms
 
-To do
+Sets up CloudWatch alarms for automatic monitoring and alerting of various metrics.
+
+Alerting is done using SNS topics and subscriptions.
 
 ### Bootstrap
 
 To do
 
-### Cloudtrail
+### CloudTrail
 
-To do
+Set up CloudTrail log forwarding to CloudWatch, so that CloudTrail logs are forwarded to the OST monitoring platform.
 
 ### Custom Logging API
 
@@ -137,17 +139,12 @@ To do
 
 ### VPC
 
-To do
+Sets up the main VPC that the loggin infrastructure resides in.
 
 ### VPC Flow Logs
 
-To do
+Forwards VPC Flow logs to CloudWatch, so that VPC Flow Logs are forwarded to the OST monitoring platform.
 
 ### VPC Peering
 
-To do
-
-## Alarms
-
-A number of alarms are configured to monitor the health of the log forwarding platform.
-Alerting is done with SNS topics and subscriptions.
+Sets up VPC peering to enable log forwarding to the OST monitoring platform.
