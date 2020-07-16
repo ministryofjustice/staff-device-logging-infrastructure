@@ -527,27 +527,6 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-read-throughput-exceeded" {
   treat_missing_data = "breaching"
 }
 
-resource "aws_cloudwatch_metric_alarm" "kinesis-put-records-latency" {
-  count               = local.critical_notifications_count
-  alarm_name          = "${var.prefix}-kinesis-put-records-latency"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  threshold           = "1000"
-  evaluation_periods  = "5"
-  metric_name         = "PutRecords.Latency"
-  namespace           = "AWS/Kinesis"
-  statistic           = "Average"
-  period              = "60"
-
-  dimensions = {
-    StreamName = "${var.kinesis_stream_name}"
-  }
-
-  alarm_actions = [aws_sns_topic.this.arn]
-
-  alarm_description = "This alarm monitors the put record latency"
-  treat_missing_data = "breaching"
-}
-
 resource "aws_cloudwatch_metric_alarm" "kinesis-get-records-latency" {
   count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-kinesis-get-records-latency"
