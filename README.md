@@ -46,7 +46,7 @@ The steps to set this up are as follows:
 - Click on "Users" in the IAM menu.
 - Find your username within the list and click on it.
 - Select the security credentials tab, then assign an MFA device using the "Virtual MFA device" option (follow the on-screen instructions for this step).
-- Edit your local `~/.aws/config` file with the key value pair of `mfa_serial=<iam_role_from_mfa_device>` for each of your accounts. The value for `<iam_role_from_mfa_device>` can be found in the AWS console on your IAM user details page, under "Assigned MFA device". Ensure you remove the text "(Virtual)" from the end of key value pair's value when you edit this file.
+- Edit your local `~/.aws/config` file with the key value pair of `mfa_serial=<iam_role_from_mfa_device>` for each of your accounts. The value for `<iam_role_from_mfa_device>` can be found in the AWS console on your IAM user details page, under "Assigned MFA device". Ensure that you remove the text "(Virtual)" from the end of key value pair's value when you edit this file.
 
 ### Running the code
 
@@ -56,7 +56,7 @@ Run the following commands to get the code running on your machine:
 - Run `aws-vault exec moj-pttp-shared-services -- terraform workspace new <myname>` (replace `<myname>` with your own name).
 - Run `aws-vault exec moj-pttp-shared-services -- terraform workspace list` and make sure that your new workspace with your name is selected.
 - If you don't see your new workspace selected, run `aws-vault exec moj-pttp-shared-services -- terraform workspace select <myname>`.
-- Create a `terraform.tfvars` in the root of the project and populate it with the default developer Terraform settings. You can find a completed example of this in 1password7, in a vault named "PTTP". Update the filed `owner_email` to your own email address.
+- Create a `terraform.tfvars` in the root of the project and populate it with the default developer Terraform settings. You can find a completed example of this in 1password7, in a vault named "PTTP". Update the field `owner_email` to your own email address.
 - Edit your aws config (usually found in `~/.aws/config`) to include the key value pair of `region=eu-west-2` for both the `profile moj-pttp-dev` and the `profile moj-pttp-shared-services` workspaces.
 - Run `aws-vault exec moj-pttp-shared-services -- terraform plan` and check that for an output. If it appears as correct terraform output, run `aws-vault exec moj-pttp-shared-services -- terraform apply`.
 
@@ -82,8 +82,8 @@ To run a single unit test (in this case, one name "TestCloudTrailEventsAppearInC
 ### Useful commands
 
 - To log in to the browser-based AWS console using `aws-vault`, run either of the following commands:
-  - `aws-vault login moj-pttp-dev` to log in to the dev account.
-  - `aws-vault login moj-pttp-shared-services` to log in to the shared services account.
+  - `aws-vault login moj-pttp-dev` to log in to the Dev account.
+  - `aws-vault login moj-pttp-shared-services` to log in to the Shared Services account.
 
 ## Modules
 
