@@ -33,8 +33,8 @@ locals {
         processors : [
           {
             add_tags : {
-              tags: [var.prefix],
-              target : "cloudwatch_logs"
+              tags: ["cloudwatch_logs"],
+              target : "log_source"
             }
           }
         ]
@@ -62,8 +62,8 @@ locals {
         processors : [
           {
             add_tags : {
-              tags: [var.prefix],
-              target : "sqs"
+              tags: ["sqs"],
+              target : "log_source"
             }
           }
         ]
@@ -91,8 +91,13 @@ locals {
         processors : [
           {
             add_tags : {
-              tags: [var.prefix],
-              target : "kinesis"
+              tags: ["kinesis"],
+              target : "log_source"
+            }
+          }, {
+            decode_json_fields : {
+              fields : ["message"],
+              process_array: true
             }
           }
         ]
