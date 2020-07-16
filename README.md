@@ -35,7 +35,7 @@ Once aws-vault is installed, run the following two commands to create profiles f
 - `aws-vault add moj-pttp-dev` (this will prompt you for the values of your AWS Dev account's IAM user).
 - `aws-vault add moj-pttp-shared-services` (this will prompt you for the values of your AWS Shared Services account's IAM user).
 
-### Setup MFA on your AWS account
+### Set up MFA on your AWS account
 
 Multi-Factor Authentication (MFA) is required on AWS accounts in this project. You will need to do this for both your Dev and Shared Services AWS accounts.
 
