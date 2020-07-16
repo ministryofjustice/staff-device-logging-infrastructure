@@ -87,6 +87,13 @@ locals {
 
     processors : [
       {
+        decode_json_fields: {
+          fields: ["message"],
+          add_error_key: true,
+          process_array: true
+        }
+      },
+      {
         add_host_metadata : {
           environment: var.prefix
         }
