@@ -18,6 +18,7 @@ locals {
         enabled : true,
         type : "cloudwatch_logs",
         description : "lambda function for cloudwatch logs",
+        timeout: "8s",
         dead_letter_config : {
           target_arn : var.beats_dead_letter_queue_arn
         },
@@ -51,6 +52,7 @@ locals {
         concurrency: 100,
         enabled : true,
         type : "sqs",
+        timeout: "8s",
         description : "lambda function for SQS events",
         role : var.deploy_role_arn,
         tags: {
@@ -79,6 +81,7 @@ locals {
         name : local.kinesis_name,
         concurrency: 100,
         enabled : true,
+        timeout: "8s",
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_arn,
