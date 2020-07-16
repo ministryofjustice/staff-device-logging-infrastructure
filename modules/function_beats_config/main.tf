@@ -11,8 +11,6 @@ locals {
   config = yamlencode({
     "functionbeat.provider.aws.endpoint" : "s3.amazonaws.com"
     "functionbeat.provider.aws.deploy_bucket" : var.deploy_bucket
-
-
     "functionbeat.provider.aws.functions" : [
       {
         name : local.cloudwatch_name,
@@ -24,6 +22,9 @@ locals {
           target_arn : var.beats_dead_letter_queue_arn
         },
         role : var.deploy_role_arn,
+        tags: {
+          data_source: "cloudwatch"
+        },
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
@@ -37,6 +38,9 @@ locals {
         type : "sqs",
         description : "lambda function for SQS events",
         role : var.deploy_role_arn,
+        tags: {
+          data_source: "firewalls"
+        },
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
@@ -55,6 +59,9 @@ locals {
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_arn,
+        tags: {
+          data_source: "shared_services"
+        },
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
@@ -87,17 +94,19 @@ locals {
 
     processors : [
       {
-        decode_json_fields: {
-          fields: ["message"],
-          add_error_key: true,
-          process_array: true
+        add_tags : {
+          tags: [var.prefix],
+          target : "environment"
         }
       },
       {
-        add_host_metadata : {
-          environment: var.prefix
+        decode_json_fields : {
+          fields : ["message"],
+          add_error_key : true,
+          process_array : true
         }
       },
+      { add_host_metadata : { } },
       { add_cloud_metadata : { "providers" : ["aws"] } }
     ]
   })
