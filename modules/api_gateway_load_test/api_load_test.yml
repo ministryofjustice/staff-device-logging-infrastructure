@@ -1,0 +1,14 @@
+config:
+  target: "${api_url}"
+  phases:
+    - duration: ${duration}
+      arrivalRate: ${arrival_rate}
+  defaults:
+    headers:
+      x-api-key: "${api_key}"
+scenarios:
+  - flow:
+    - post:
+        url: "/logs"
+        json:
+          hello: "world"

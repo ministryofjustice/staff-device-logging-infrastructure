@@ -54,8 +54,13 @@ variable "critical_notification_recipients" {
 
 variable "enable_cloudtrail_log_shipping_to_cloudwatch" {
   type = bool
+  default = false
 }
 
 variable "enable_shared_services_log_destination" {
+  type = bool
+}
+
+variable "enable_load_testing" {
   type = bool
 }

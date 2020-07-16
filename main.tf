@@ -202,3 +202,24 @@ module "shared_services_log_destination" {
     aws = aws.env
   }
 }
+
+module "api_gateway_load_test" {
+  source = "./modules/api_gateway_load_test"
+
+  enable_load_testing = var.enable_load_testing
+
+  api_key = module.customLoggingApi.custom_logging_api_key
+  api_url = module.customLoggingApi.base_api_url
+
+  // The maximum rate we can achieve on ec2 t2-micros is 67 per second for 60 seconds
+  // 500 instances gives us 30k requests per second for a minute
+  arrival_rate = 60
+  instance_count = 500
+  duration = 60
+
+  prefix  = module.label.id
+
+  providers = {
+    aws = aws.env
+  }
+}
