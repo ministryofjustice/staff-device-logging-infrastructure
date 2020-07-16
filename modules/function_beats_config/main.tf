@@ -37,17 +37,16 @@ locals {
               tags : ["cloudwatch_logs"],
               target : "log_source"
             }
+          }, {
+            decode_json_fields : {
+              fields : ["message"],
+              target : "",
+              process_array : true,
+              add_error_key : true,
+              overwrite_keys : true,
+              max_depth : 10
+            }
           }
-          # {
-          #   decode_json_fields : {
-          #     "when.regexp.message" : "^{",
-          #     fields : ["message"],
-          #     process_array : true,
-          #     add_error_key : true,
-          #     overwrite_keys : true,
-          #     max_depth : 10
-          #   }
-          # }
         ]
       },
       {
@@ -107,17 +106,16 @@ locals {
               tags : ["kinesis"],
               target : "log_source"
             }
+          }, {
+            decode_json_fields : {
+              fields : ["message"],
+              process_array : true,
+              target : "",
+              add_error_key : true,
+              overwrite_keys : true,
+              max_depth : 10
+            }
           }
-          # {
-          #   decode_json_fields : {
-          #     fields : ["message"],
-          #     "when.regexp.message" : "^{",
-          #     process_array : true,
-          #     add_error_key : true,
-          #     overwrite_keys : true,
-          #     max_depth : 10
-          #   }
-          # }
         ]
       }
     ],
@@ -138,7 +136,7 @@ locals {
     "output.elasticsearch.ssl.certificate_authorities" : ["elk-ca.crt"]
     "output.elasticsearch.ssl.certificate" : "moj.crt"
     "output.elasticsearch.ssl.key" : "moj.key"
-    "logging.level" : "info"
+    "logging.level" : "debug"
 
     processors : [
       {
