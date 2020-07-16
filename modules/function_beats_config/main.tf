@@ -39,7 +39,7 @@ locals {
             }
           }, {
             decode_json_fields : {
-              when.regexp.message: "^{",
+              "when.regexp.message" : "^{",
               fields : ["message"],
               process_array : true,
               add_error_key : true,
@@ -107,8 +107,8 @@ locals {
             }
           }, {
             decode_json_fields : {
-              when.regexp.message: "^{",
               fields : ["message"],
+              "when.regexp.message" : "^{",
               process_array : true,
               add_error_key : true,
               max_depth : 10
