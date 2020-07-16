@@ -35,6 +35,12 @@ locals {
             add_tags : {
               tags: ["cloudwatch_logs"],
               target : "log_source"
+            },
+            {
+              decode_json_fields : {
+                fields : ["message"],
+                process_array: true
+              }
             }
           }
         ]
