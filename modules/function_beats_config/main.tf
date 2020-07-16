@@ -138,7 +138,7 @@ locals {
     "output.elasticsearch.ssl.certificate_authorities" : ["elk-ca.crt"]
     "output.elasticsearch.ssl.certificate" : "moj.crt"
     "output.elasticsearch.ssl.key" : "moj.key"
-    "logging.level" : "debug"
+    "logging.level" : "info"
 
     processors : [
       {
