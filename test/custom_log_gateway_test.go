@@ -16,6 +16,7 @@ import (
 )
 
 const retryDelay = time.Second * 5
+const retryCount = 20
 const testRegion = "eu-west-2"
 
 func TestLogCanBeReadFromQueue(t *testing.T) {
@@ -133,7 +134,7 @@ func WriteAMessageToTheApiAndExpect(code int, apiKey string, thisTest testInfo) 
 		requestBody,
 		map[string]string{"Content-Type": "application/json", "X-API-KEY": apiKey},
 		code,
-		10,
+		retryCount,
 		retryDelay,
 		nil,
 	)

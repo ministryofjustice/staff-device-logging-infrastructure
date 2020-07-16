@@ -63,4 +63,5 @@ variable "enable_shared_services_log_destination" {
 
 variable "enable_load_testing" {
   type = bool
+  default = false
 }
