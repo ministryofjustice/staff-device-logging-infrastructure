@@ -29,7 +29,15 @@ locals {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
         },
-        triggers : local.log_group_map_array
+        triggers : local.log_group_map_array,
+        processors : [
+          {
+            add_tags : {
+              tags: [var.prefix],
+              target : "cloudwatch_logs"
+            }
+          }
+        ]
       },
       {
         name : local.sqs_name,
@@ -50,6 +58,14 @@ locals {
         },
         triggers : [
           { event_source_arn : var.sqs_log_queue }
+        ],
+        processors : [
+          {
+            add_tags : {
+              tags: [var.prefix],
+              target : "sqs"
+            }
+          }
         ]
       },
       {
@@ -71,6 +87,14 @@ locals {
         },
         triggers : [
           { event_source_arn : var.kinesis_stream_arn }
+        ],
+        processors : [
+          {
+            add_tags : {
+              tags: [var.prefix],
+              target : "kinesis"
+            }
+          }
         ]
       }
     ],
