@@ -33,14 +33,13 @@ locals {
         processors : [
           {
             add_tags : {
-              tags: ["cloudwatch_logs"],
+              tags : ["cloudwatch_logs"],
               target : "log_source"
-            },
-            {
-              decode_json_fields : {
-                fields : ["message"],
-                process_array: true
-              }
+            }
+          }, {
+            decode_json_fields : {
+              fields : ["message"]
+              process_array : true
             }
           }
         ]
@@ -68,7 +67,7 @@ locals {
         processors : [
           {
             add_tags : {
-              tags: ["sqs"],
+              tags: ["sqs"]
               target : "log_source"
             }
           }
@@ -97,13 +96,13 @@ locals {
         processors : [
           {
             add_tags : {
-              tags: ["kinesis"],
+              tags : ["kinesis"],
               target : "log_source"
             }
           }, {
             decode_json_fields : {
               fields : ["message"],
-              process_array: true
+              process_array : true
             }
           }
         ]
