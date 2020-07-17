@@ -56,7 +56,7 @@ locals {
         type : "sqs",
         timeout: "8s",
         description : "lambda function for SQS events",
-        role : var.deploy_role_sqs_arn,
+        role : var.deploy_role_arn,
         tags: {
           data_source: "firewalls"
         },
@@ -86,7 +86,7 @@ locals {
         timeout: "8s",
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
-        role : var.deploy_role_kinesis_arn,
+        role : var.deploy_role_arn,
         tags: {
           data_source: "shared_services"
         },

@@ -17,31 +17,6 @@ resource "aws_s3_bucket" "functionbeat-deploy" {
   }
 }
 
-data "aws_iam_policy_document" "beats-lambda-policy-sqs" {
-  statement {
-    actions = [
-      "sqs:ReceiveMessage",
-      "sqs:DeleteMessage",
-      "sqs:GetQueueAttributes",
-      "sqs:SendMessage"
-    ]
-    resources = ["*"]
-  }
-}
-
-data "aws_iam_policy_document" "beats-lambda-policy-kinesis" {
-  statement {
-    actions = [
-      "kinesis:DescribeStream",
-      "kinesis:ListStreams",
-      "kinesis:GetRecords",
-      "kinesis:PutMetricData",
-      "kinesis:GetShardIterator"
-    ]
-    resources = ["*"]
-  }
-}
-
 data "aws_iam_policy_document" "beats-lambda-policy" {
   statement {
     actions = [
@@ -91,11 +66,20 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "s3:ListBucket",
       "s3:PutObject",
       "s3:GetObject",
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:SendMessage",
       "kms:Encrypt",
       "kms:Decrypt",
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
-      "kms:DescribeKey"
+      "kms:DescribeKey",
+      "kinesis:DescribeStream",
+      "kinesis:ListStreams",
+      "kinesis:GetRecords",
+      "kinesis:PutMetricData",
+      "kinesis:GetShardIterator"
     ]
     resources = ["*"]
   }
@@ -108,74 +92,8 @@ resource "aws_iam_role_policy" "beats-lambda-policy" {
   policy = data.aws_iam_policy_document.beats-lambda-policy.json
 }
 
-resource "aws_iam_role_policy" "beats-lambda-policy-sqs" {
-  name = "${var.prefix}-beats-lambda-policy-sqs"
-  role = aws_iam_role.beats-lambda-role.id
-
-  policy = data.aws_iam_policy_document.beats-lambda-policy-sqs.json
-}
-
-resource "aws_iam_role_policy" "beats-lambda-policy-kinesis" {
-  name = "${var.prefix}-beats-lambda-policy-kinesis"
-  role = aws_iam_role.beats-lambda-role.id
-
-  policy = data.aws_iam_policy_document.beats-lambda-policy-kinesis.json
-}
-
-resource "aws_iam_role_policy" "beats-lambda-policy-sqs-deploy" {
-  name = "${var.prefix}-beats-lambda-policy-sqs-deploy"
-  role = aws_iam_role.beats-lambda-role.id
-
-  policy = data.aws_iam_policy_document.beats-lambda-policy.json
-}
-
-resource "aws_iam_role_policy" "beats-lambda-policy-kinesis-deploy" {
-  name = "${var.prefix}-beats-lambda-policy-kinesis-deploy"
-  role = aws_iam_role.beats-lambda-role.id
-
-  policy = data.aws_iam_policy_document.beats-lambda-policy.json
-}
-
 resource "aws_iam_role" "beats-lambda-role" {
   name = "${var.prefix}-beats-lambda-execution-role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-}
-resource "aws_iam_role" "beats-lambda-role-sqs" {
-  name = "${var.prefix}-beats-lambda-execution-role-sqs"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-}
-resource "aws_iam_role" "beats-lambda-role-kinesis" {
-  name = "${var.prefix}-beats-lambda-execution-role-kinesis"
 
   assume_role_policy = <<EOF
 {
