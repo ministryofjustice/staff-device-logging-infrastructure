@@ -124,14 +124,14 @@ resource "aws_iam_role_policy" "beats-lambda-policy-kinesis" {
 
 resource "aws_iam_role_policy" "beats-lambda-policy-sqs-deploy" {
   name = "${var.prefix}-beats-lambda-policy-sqs-deploy"
-  role = aws_iam_role.beats-lambda-role-sqs.id
+  role = aws_iam_role.beats-lambda-role.id
 
   policy = data.aws_iam_policy_document.beats-lambda-policy.json
 }
 
 resource "aws_iam_role_policy" "beats-lambda-policy-kinesis-deploy" {
   name = "${var.prefix}-beats-lambda-policy-kinesis-deploy"
-  role = aws_iam_role.beats-lambda-role-kinesis.id
+  role = aws_iam_role.beats-lambda-role.id
 
   policy = data.aws_iam_policy_document.beats-lambda-policy.json
 }
