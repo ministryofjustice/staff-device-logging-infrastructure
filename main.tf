@@ -161,11 +161,13 @@ module "vpc_flow_logs" {
 module "functionbeat_config" {
   source = "./modules/function_beats_config"
 
-  prefix             = module.label.id
-  deploy_bucket      = module.logging.beats_deploy_bucket
-  deploy_role_arn    = module.logging.beats_role_arn
-  security_group_ids = [module.logging.beats_security_group_id]
-  subnet_ids         = module.logging_vpc.private_subnets
+  prefix                  = module.label.id
+  deploy_bucket           = module.logging.beats_deploy_bucket
+  deploy_role_arn         = module.logging.beats_role_arn
+  deploy_role_sqs_arn     = module.logging.beats_role_sqs_arn
+  deploy_role_kinesis_arn = module.logging.beats_role_kinesis_arn
+  security_group_ids      = [module.logging.beats_security_group_id]
+  subnet_ids              = module.logging_vpc.private_subnets
 
   sqs_log_queue               = module.customLoggingApi.custom_log_queue_arn
   beats_dead_letter_queue_arn = module.customLoggingApi.dlq_custom_log_queue_arn
@@ -213,11 +215,11 @@ module "api_gateway_load_test" {
 
   // The maximum rate we can achieve on ec2 t2-micros is 67 per second for 60 seconds
   // 100 instances gives us 4k requests per second for a minute
-  arrival_rate = 40
+  arrival_rate   = 40
   instance_count = 200
-  duration = 60
+  duration       = 60
 
-  prefix  = module.label.id
+  prefix = module.label.id
 
   providers = {
     aws = aws.env
