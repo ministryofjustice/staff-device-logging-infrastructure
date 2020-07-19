@@ -6,15 +6,15 @@ data "template_file" "foo" {
   template = "${file("${path.module}/api_load_test.yml")}"
 
   vars = {
-    api_url = var.api_url
-    api_key = var.api_key
+    api_url      = var.api_url
+    api_key      = var.api_key
     arrival_rate = var.arrival_rate
-    duration = var.duration
+    duration     = var.duration
   }
 }
 
 resource "aws_default_vpc" "default" {
-  count                  = local.enabled
+  count = local.enabled
 
   tags = {
     Name = "Default VPC"
@@ -46,7 +46,7 @@ EOF
 resource "aws_security_group" "example" {
   name = "${var.prefix}-load-test-security-group"
 
-  count                  = local.enabled
+  count = local.enabled
 
   egress {
     from_port   = 0
@@ -65,5 +65,5 @@ resource "aws_security_group" "example" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  vpc_id = "${aws_default_vpc.default[0].id}"
+  vpc_id = aws_default_vpc.default[0].id
 }
