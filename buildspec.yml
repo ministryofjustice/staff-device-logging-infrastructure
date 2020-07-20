@@ -86,3 +86,6 @@ phases:
           --stack-name pttp-$ENV-infra-kinesis \
           --template-file ./cf-$ENV-kinesis.json \
           --no-fail-on-empty-changeset
+
+      # ensure log retention period is set for all CloudWatch logs
+      - ./scripts/ensure_cloudwatch_log_retention_policies.sh
