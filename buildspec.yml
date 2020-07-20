@@ -88,4 +88,6 @@ phases:
           --no-fail-on-empty-changeset
 
       # ensure log retention period is set for all CloudWatch logs
+      - pwd
+      - ls -al
       - ./scripts/ensure_cloudwatch_log_retention_policies.sh
