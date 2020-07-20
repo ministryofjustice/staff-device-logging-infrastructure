@@ -85,7 +85,7 @@ We have written a module called `api_gateway_load_test` which is able to simulat
 the custom logging API. By default, it is disabled, but it can be enabled by setting a `TF_VAR_enable_load_testing`
 environment to true. This will cause a large number of EC2 instances to be spun up, each of which will hammer the
 gateway with requests for a short period of time. The parameters for the load test are set in the main terraform file
-where the `api_gateway_load_test` is used. A report of our initial load tests can be found [here](https://docs.google.com/document/d/1LAiAjlvVBi61sj0umE0vwibMGaXRj8RcV97txi5a7bQ/)
+where the `api_gateway_load_test` is used. A report of our initial load tests can be found [here](documentation/load_test_report_16th_july_2020/Logging_API_load_test.md)
 
 
 ### Useful commands
