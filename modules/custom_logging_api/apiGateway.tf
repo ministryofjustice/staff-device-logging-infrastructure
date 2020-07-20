@@ -94,6 +94,7 @@ resource "aws_api_gateway_usage_plan_key" "main" {
 }
 
 resource "aws_api_gateway_account" "account_wide_settings" {
+  count               = var.enable_api_gateway_logs ? 1 : 0
   cloudwatch_role_arn = "${aws_iam_role.custom-logging-api-gateway-role.arn}"
 }
 
