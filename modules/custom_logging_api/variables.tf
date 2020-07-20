@@ -10,8 +10,3 @@ variable "enable_api_gateway_logs" {
   type    = bool
   default = false
 }
-
-variable "env" {
-  type = string
-  default = "development"
-}
