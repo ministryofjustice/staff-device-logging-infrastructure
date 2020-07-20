@@ -128,6 +128,7 @@ module "logging" {
   subnet_ids = module.logging_vpc.private_subnets
   prefix     = module.label.id
   tags       = module.label.tags
+  enable_api_gateway_logs = var.enable_api_gateway_logs
 
   providers = {
     aws = aws.env

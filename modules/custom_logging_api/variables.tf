@@ -8,5 +8,4 @@ variable "region" {
 
 variable "enable_api_gateway_logs" {
   type    = bool
-  default = false
 }
