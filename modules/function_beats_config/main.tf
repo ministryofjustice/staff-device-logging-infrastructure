@@ -86,7 +86,7 @@ locals {
         timeout: "8s",
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
-        role : var.deploy_role_arn,
+        role : var.deploy_role_kinesis_arn,
         tags: {
           data_source: "shared_services"
         },

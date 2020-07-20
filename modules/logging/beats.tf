@@ -74,7 +74,15 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "kms:Decrypt",
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
-      "kms:DescribeKey",
+      "kms:DescribeKey"
+    ]
+    resources = ["*"]
+  }
+}
+
+data "aws_iam_policy_document" "beats-lambda-policy-kinesis" {
+  statement {
+    actions = [
       "kinesis:DescribeStream",
       "kinesis:ListStreams",
       "kinesis:GetRecords",
@@ -91,8 +99,42 @@ resource "aws_iam_role_policy" "beats-lambda-policy" {
   policy = data.aws_iam_policy_document.beats-lambda-policy.json
 }
 
+resource "aws_iam_role_policy" "beats-lambda-policy-kinesis" {
+  name = "${var.prefix}-beats-lambda-policy-kinesis"
+  role = aws_iam_role.beats-lambda-role-kinesis.id
+
+  policy = data.aws_iam_policy_document.beats-lambda-policy-kinesis.json
+}
+
+resource "aws_iam_role_policy" "beats-lambda-policy-kinesis-deploy" {
+  name = "${var.prefix}-beats-lambda-policy-kinesis-deploy"
+  role = aws_iam_role.beats-lambda-role-kinesis.id
+
+  policy = data.aws_iam_policy_document.beats-lambda-policy.json
+}
+
 resource "aws_iam_role" "beats-lambda-role" {
   name = "${var.prefix}-beats-lambda-execution-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role" "beats-lambda-role-kinesis" {
+  name = "${var.prefix}-beats-lambda-execution-role-kinesis"
 
   assume_role_policy = <<EOF
 {

@@ -7,6 +7,9 @@ variable "deploy_bucket" {
 variable "deploy_role_arn" {
   type = string
 }
+variable "deploy_role_kinesis_arn" {
+  type = string
+}
 variable "security_group_ids" {
   type = set(string)
 }
