@@ -61,7 +61,7 @@ resource "aws_api_gateway_deployment" "custom_log_api_deployment" {
 resource "aws_api_gateway_stage" "custom_log_api_stage" {
   deployment_id = aws_api_gateway_deployment.custom_log_api_deployment.id
   rest_api_id   = aws_api_gateway_rest_api.logging_gateway.id
-  stage_name    = "main"
+  stage_name    = var.stage_name
   depends_on    = [aws_cloudwatch_log_group.custom_log_group]
 
   access_log_settings {
@@ -113,6 +113,6 @@ resource "aws_api_gateway_method_settings" "api_settings" {
 }
 
 resource "aws_cloudwatch_log_group" "custom_log_group" {
-  name              = "${var.prefix}_api_gateway_custom_log_group"
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.logging_gateway.id}/${var.stage_name}"
   retention_in_days = 7
 }
