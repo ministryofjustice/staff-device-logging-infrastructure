@@ -2,7 +2,9 @@
 
 ## Introduction
 
-This project contains the Terraform code to build the Ministry of Justice's log-shipping platform.
+This project contains the Terraform code to build the Ministry of Justice's log-shipping platform. This platform is used to ship logs from various sources (e.g. Palo Alto firewalls and the DNS/DHCP service) to the OST (Operational Security Team) Elasticsearch endpoint.
+
+The types of logs shipped by each log source are not restricted by this platform - it acts as a pass-through and will ship any log sent to it from any allowed log source.
 
 The Terraform in this repository serves 2 purposes:
 
@@ -15,6 +17,10 @@ The Terraform in this repository can be run in 3 different contexts:
 - By releasing features through the CodePipeline in the Shared Services Account (by pushing your changes to the `master` branch).
 - Your own Terraform Workspace in the AWS Dev account for testing changes in an isolated workspace (further instructions below).
 
+The majority of the Teraform in this repository is used to create the AWS infrastructure needed to support log shipping. The application-level logic used to perform the actual log shipping to OST happens via lambdas running FunctionBeats, which is also included in this repository. This shown in the architecture diagram below.
+
+If you would like to understand how the pipeline that runs the Terraform in this repository works, you can find the code used to build the pipeline [here](https://github.com/ministryofjustice/pttp-shared-services-infrastructure).
+
 ## Architecture
 
 ![architecture](diagrams/architecture.png)
@@ -25,7 +31,7 @@ The Terraform in this repository can be run in 3 different contexts:
 ### Prerequisites
 
 - [aws-vault](https://github.com/99designs/aws-vault) should be installed. This is used to easily manage and switch between AWS account profiles on the command line.
-- [Terraform](https://www.terraform.io/) should be installed. We recommend using a Terraform version manager such as [tfenv](https://github.com/tfutils/tfenv).
+- [Terraform](https://www.terraform.io/) should be installed. We recommend using a Terraform version manager such as [tfenv](https://github.com/tfutils/tfenv). Please make sure that the version of Terraform which you use on your local machine is the same as the one referenced in the file `buildspec.yml`.
 - You should have AWS account access to at least the Dev and Shared Services AWS accounts (ask in the channel `#moj-pttp` in Slack if you don't have this).
 
 ### Set up aws-vault
