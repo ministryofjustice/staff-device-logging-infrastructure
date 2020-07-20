@@ -65,3 +65,13 @@ variable "enable_load_testing" {
   type = bool
   default = false
 }
+
+variable "enable_api_gateway_custom_domain" {
+  type = bool
+  default = false
+}
+
+variable "env" {
+  type = string
+  default = "development"
+}

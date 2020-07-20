@@ -8,6 +8,7 @@ env:
     TF_VAR_enable_critical_notifications: true
     TF_VAR_enable_cloudtrail_log_shipping_to_cloudwatch: true
     TF_VAR_enable_shared_services_log_destination: true
+    TF_VAR_enable_api_gateway_custom_domain: true
   parameter-store:
     TF_VAR_enable_peering:                   "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/enable_peering"
     TF_VAR_assume_role:                      "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/assume_role"

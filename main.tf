@@ -192,6 +192,18 @@ module "firewall_roles" {
   }
 }
 
+module "route_53" {
+  source                           = "./modules/route_53"
+  prefix                           = module.label.id
+  env                              = var.env
+  enable_api_gateway_custom_domain = var.enable_api_gateway_custom_domain
+  api_gateway_dns                  = module.customLoggingApi.base_api_url
+
+  providers = {
+    aws = aws.env
+  }
+}
+
 module "shared_services_log_destination" {
   source                                 = "./modules/shared_services_log_destination_stream"
   prefix                                 = module.label.id
