@@ -25,6 +25,14 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "ec2:DeleteNetworkInterface",
       "ec2:DescribeInstances",
       "ec2:AttachNetworkInterface",
+      "cloudformation:CreateStack", //TODO: To possibly remove cloudFormation:*
+      "cloudformation:DeleteStack",
+      "cloudformation:DescribeStacks",
+      "cloudformation:DescribeStackEvents",
+      "cloudformation:DescribeStackResources",
+      "cloudformation:GetTemplate",
+      "cloudformation:UpdateStack",
+      "cloudformation:ValidateTemplate",
       "iam:CreateRole",
       "iam:DeleteRole",
       "iam:DeleteRolePolicy",
@@ -53,6 +61,7 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
+      "s3:CreateBucket", //TODO: To remove
       "s3:DeleteObject",
       "s3:ListBucket",
       "s3:PutObject",
