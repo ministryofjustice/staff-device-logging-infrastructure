@@ -4,7 +4,11 @@
     {
       "Effect": "Allow",
       "Action": [
-        "sqs:*"
+        "sqs:GetQueueUrl",
+        "sqs:ChangeMessageVisibility",
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:ChangeMessageVisibilityBatch"
       ],
       "Resource": "${sqs_arn}"
     },
