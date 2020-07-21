@@ -37,3 +37,7 @@ output "dlq_custom_log_queue_name" {
 output "custom_log_api_gateway_name" {
   value = aws_api_gateway_rest_api.logging_gateway.name
 }
+
+output "log_group_name" {
+  value = aws_cloudwatch_log_group.custom_log_group.name
+}

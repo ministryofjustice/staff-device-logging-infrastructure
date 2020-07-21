@@ -53,7 +53,7 @@ variable "critical_notification_recipients" {
 }
 
 variable "enable_cloudtrail_log_shipping_to_cloudwatch" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -62,21 +62,21 @@ variable "enable_shared_services_log_destination" {
 }
 
 variable "enable_load_testing" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "enable_api_gateway_custom_domain" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "enable_api_gateway_logs" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "env" {
-  type = string
+  type    = string
   default = "development"
 }
