@@ -62,6 +62,12 @@ func SpinUpTheModuleFor(test testInfo) {
 }
 
 func CleaningUpUntilTheEndOf(test testInfo) {
+	/*
+		Due to the delay between cloudwatch propgating the stream and the group being deleted, a race condition can exist
+		whereby the log group is delete, then recreated to deal with the incoming late stream. This sleep is to allow that delayed
+		stream to be inserted into the log, then deleted with the rest of the testing resources.
+	*/
+	time.Sleep(30 * time.Second)
 	terraform.Destroy(test.instance, test.config)
 }
 
