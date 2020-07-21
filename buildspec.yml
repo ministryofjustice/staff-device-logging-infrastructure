@@ -44,7 +44,7 @@ phases:
       - terraform init -no-color --backend-config="key=terraform.$ENV.state"
       - terraform workspace new $ENV || true
       - terraform workspace select $ENV
-      - terraform import aws_cloudwatch_log_group.custom_log_group API-Gateway-Execution-Logs_u77kwmfiqf/main
+      - terraform import -config=resources aws_cloudwatch_log_group.custom_log_group API-Gateway-Execution-Logs_u77kwmfiqf/main
       - terraform apply --auto-approve -no-color
       # create temporay role
       - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
