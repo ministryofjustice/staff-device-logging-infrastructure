@@ -21,7 +21,6 @@ env:
     TF_VAR_ost_password:                     "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_password"
     TF_VAR_ost_url:                          "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/ost_url"
     TF_VAR_critical_notification_recipients: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/critical_notification_recipients"
-    LOG_GROUP:                               "/tmp/$ENV/api_log_group"
     # function beats related config
     ROLE_ARN:                                "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/assume_role"
     OST_KEY:                                 "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/moj.key"
@@ -45,9 +44,6 @@ phases:
       - terraform init -no-color --backend-config="key=terraform.$ENV.state"
       - terraform workspace new $ENV || true
       - terraform workspace select $ENV
-      - echo $LOG_GROUP
-      - terraform state rm module.customLoggingApi.aws_cloudwatch_log_group.custom_log_group
-      - terraform import module.customLoggingApi.aws_cloudwatch_log_group.custom_log_group $LOG_GROUP
       - terraform apply --auto-approve -no-color
       # create temporay role
       - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
