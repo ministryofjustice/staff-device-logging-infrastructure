@@ -67,21 +67,24 @@ Run the following commands to get the code running on your machine:
 - Edit your aws config (usually found in `~/.aws/config`) to include the key value pair of `region=eu-west-2` for both the `profile moj-pttp-dev` and the `profile moj-pttp-shared-services` workspaces.
 - Run `aws-vault exec moj-pttp-shared-services -- terraform plan` and check that for an output. If it appears as correct terraform output, run `aws-vault exec moj-pttp-shared-services -- terraform apply`.
 
-### Once you are done working for the day
+### Tearing down infrastructure
 
-Run `aws-vault exec moj-pttp-shared-services -- terraform destroy`. This will tear down the infrastructure in your workspace.
+To minimise costs and keep the environment clean, regularly run teardown in your workspace. E.g:  
+`aws-vault exec moj-pttp-shared-services -- terraform destroy`
 
 ### Testing
 
-There is a testing suite called Terratest that tests modules in this codebase.
-To run this codebase you will need to [install golang](https://formulae.brew.sh/formula/go).
+Modules are tested with [Terratest](https://terratest.gruntwork.io/). Terratest requires that [golang](https://golang.org) is installed.
 
-To run the unit test, run:
+- [macOS Homebrew](https://formulae.brew.sh/formula/go)
+- ubuntu: `sudo apt install -y golang`
+
+To run the tests:
 
 - `cd test`
-- `aws-vault exec pttp-development -- go test -v -timeout 30m`
+- `aws-vault exec moj-pttp-dev -- go test -v -timeout 30m`
 
-To run a single unit test (in this case, one name "TestCloudTrailEventsAppearInCloudWatch"), run:
+To run a single test (in this case, one named "TestCloudTrailEventsAppearInCloudWatch"):
 
 - `cd test`
 - `aws-vault exec moj-pttp-shared-services -- go test -v -run TestCloudTrailEventsAppearInCloudWatch`
