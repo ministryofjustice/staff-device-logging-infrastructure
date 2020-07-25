@@ -1,0 +1,23 @@
+assume_role = "arn:aws:iam::<CURRENT_DEV_IAM_ACCOUNT>:role/pttp-development-infra-shared-services-admin"
+
+logging_cidr_block = "10.0.0.0/16"
+
+# Build cloudwatch alarms ('true' can be noisy to others)
+enable_critical_notifications = false
+critical_notification_recipients = ["foo@bar.com"]
+# If true you may hit the cloudtrail limit of 100 trails
+enable_cloudtrail_log_shipping_to_cloudwatch = false
+
+owner_email = "<MYEMAIL>"
+enable_shared_services_log_destination = false
+shared_services_account_arn = "arn:aws:iam::<SHARED_SERVICES_IAM_ACCOUNT_NUMBER>:root"
+
+# Attempt to peer with OST
+enable_peering     = false
+ost_vpc_id         = ""
+ost_aws_account_id = ""
+ost_vpc_cidr_block = ""
+
+ost_username = "fakeusername"
+ost_password = "fakepassword"
+ost_url      = "justice.gov.uk"
