@@ -30,6 +30,7 @@ If you would like to understand how the pipeline that runs the Terraform in this
 
 ### Prerequisites
 
+- The [AWS CLI](https://aws.amazon.com/cli/) should be installed.
 - [aws-vault](https://github.com/99designs/aws-vault) should be installed. This is used to easily manage and switch between AWS account profiles on the command line.
 - [Terraform](https://www.terraform.io/) should be installed. We recommend using a Terraform version manager such as [tfenv](https://github.com/tfutils/tfenv). Please make sure that the version of Terraform which you use on your local machine is the same as the one referenced in the file `buildspec.yml`.
 - You should have AWS account access to at least the Dev and Shared Services AWS accounts (ask in the channel `#moj-pttp` in Slack if you don't have this).
