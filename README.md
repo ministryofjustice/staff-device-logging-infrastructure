@@ -17,7 +17,7 @@ The Terraform in this repository can be run in 3 different contexts:
 - By releasing features through the CodePipeline in the Shared Services Account (by pushing your changes to the `master` branch).
 - Your own Terraform Workspace in the AWS Dev account for testing changes in an isolated workspace (further instructions below).
 
-The majority of the Teraform in this repository is used to create the AWS infrastructure needed to support log shipping. The application-level logic used to perform the actual log shipping to OST happens via lambdas running FunctionBeats, which is also included in this repository. This shown in the architecture diagram below.
+The majority of the Terraform in this repository is used to create the AWS infrastructure needed to support log shipping. The application-level logic used to perform the actual log shipping to OST happens via lambdas running FunctionBeats, which is also included in this repository. This shown in the architecture diagram below.
 
 If you would like to understand how the pipeline that runs the Terraform in this repository works, you can find the code used to build the pipeline [here](https://github.com/ministryofjustice/pttp-shared-services-infrastructure).
 
