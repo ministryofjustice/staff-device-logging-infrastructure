@@ -4,7 +4,7 @@
 
 This project contains the Terraform code to build the Ministry of Justice's log-shipping platform. This platform is used to ship logs from various sources (e.g. Palo Alto firewalls and the DNS/DHCP service) to the OST (Operational Security Team) Elasticsearch endpoint.
 
-The types of logs shipped by each log source are not restricted by this platform - it acts as a pass-through and will ship any log sent to it from any allowed log source.
+The _types_ of logs shipped by each log source are not restricted by this platform - it acts as a pass-through and will ship any log sent to it from any allowed log source. That being said, it will not ship every log group in an AWS account. You need to specify the exact log groups you wish to ship in the root `main.tf` file.
 
 The Terraform in this repository serves 2 purposes:
 
@@ -92,7 +92,6 @@ the custom logging API. By default, it is disabled, but it can be enabled by set
 environment to true. This will cause a large number of EC2 instances to be spun up, each of which will hammer the
 gateway with requests for a short period of time. The parameters for the load test are set in the main terraform file
 where the `api_gateway_load_test` is used. A report of our initial load tests can be found [here](documentation/load_test_report_16th_july_2020/Logging_API_load_test.md)
-
 
 ### Useful commands
 
