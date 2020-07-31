@@ -31,9 +31,9 @@ phases:
 
 reports:
   terratestReports:
-    files:
-      - unit-tests.xml
-    base-directory: test
+    # files:
+    #   - unit-tests.xml
+    # base-directory: test
 
 cache:
   paths:
