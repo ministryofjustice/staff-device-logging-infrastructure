@@ -27,7 +27,7 @@ phases:
     commands:
       - cd test
       - go mod download
-      - gotestsum --format testname --junitfile unit-tests.xml -- -timeout 30m
+      #- gotestsum --format testname --junitfile unit-tests.xml -- -timeout 30m
 
 reports:
   terratestReports:
