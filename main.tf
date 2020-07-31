@@ -177,7 +177,7 @@ module "functionbeat_config" {
     "PaloAltoNetworksFirewalls",
     "${module.label.id}-cloudtrail-log-group",
     "${module.label.id}-vpc-flow-logs-log-group",
-    # "staff-device-${var.env}-dhcp-server-log-group",
+    "staff-device-${var.env}-dhcp-server-log-group",
     "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
     module.customLoggingApi.log_group_name
   ]

@@ -61,6 +61,7 @@ phases:
       - ./functionbeat -e -c ../functionbeat-config.yml package
       - zip -u package-aws.zip moj.crt moj.key elk-ca.crt
       # build templates
+      - cat ../functionbeat-config.yml
       - ./functionbeat -e -c ../functionbeat-config.yml export function pttp-$ENV-infra-cloudwatch > cf-$ENV-cloudwatch.json
       - ./functionbeat -e -c ../functionbeat-config.yml export function pttp-$ENV-infra-sqs        > cf-$ENV-sqs.json
       - ./functionbeat -e -c ../functionbeat-config.yml export function pttp-$ENV-infra-kinesis    > cf-$ENV-kinesis.json
