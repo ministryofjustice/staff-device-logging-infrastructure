@@ -18,7 +18,7 @@ locals {
         enabled : true,
         type : "cloudwatch_logs",
         description : "lambda function for cloudwatch logs",
-        timeout: "8s",
+        timeout: "20s",
         dead_letter_config : {
           target_arn : var.beats_dead_letter_queue_arn
         },
