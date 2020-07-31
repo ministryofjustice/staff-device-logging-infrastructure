@@ -177,9 +177,7 @@ module "functionbeat_config" {
     "PaloAltoNetworksFirewalls",
     "${module.label.id}-cloudtrail-log-group",
     "${module.label.id}-vpc-flow-logs-log-group",
-    module.customLoggingApi.log_group_name,
-    "staff-device-${var.env}-dhcp-server-log-group",
-    "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit"
+    module.customLoggingApi.log_group_name
   ]
 
   destination_url      = var.ost_url
