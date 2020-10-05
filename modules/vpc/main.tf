@@ -1,10 +1,13 @@
 module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "2.50.0"
-  name    = var.prefix
-
-  cidr               = var.cidr_block
-  enable_nat_gateway = false
+  source                               = "terraform-aws-modules/vpc/aws"
+  version                              = "2.50.0"
+  name                                 = var.prefix
+  propagate_private_route_tables_vgw   = var.propagate_private_route_tables_vgw
+  cidr                                 = var.cidr_block
+  enable_nat_gateway                   = false
+  create_flow_log_cloudwatch_iam_role  = true
+  create_flow_log_cloudwatch_log_group = true
+  enable_flow_log                      = true
 
   azs = [
     "${var.region}a",

@@ -75,6 +75,18 @@ module "logging_vpc" {
   }
 }
 
+module "syslog_receiver_vpc" {
+  source                             = "./modules/vpc"
+  prefix                             = module.label.id
+  region                             = data.aws_region.current_region.id
+  cidr_block                         = var.logging_cidr_block
+  propagate_private_route_tables_vgw = true
+
+  providers = {
+    aws = aws.env
+  }
+}
+
 module "ost_vpc_peering" {
   source  = "./modules/vpc_peering"
   enabled = var.enable_peering

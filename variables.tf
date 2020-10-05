@@ -80,3 +80,7 @@ variable "env" {
   type    = string
   default = "development"
 }
+
+variable "syslog_receiver_cidr_block" {
+  type = string
+}
