@@ -1,5 +1,5 @@
 output "log_group_name" {
-  value = element(aws_cloudwatch_log_group.cloudtrail_log_group.*.name, 0)
+  value = aws_cloudwatch_log_group.cloudtrail_log_group.name
 }
 
 output "aws_account_number" {
