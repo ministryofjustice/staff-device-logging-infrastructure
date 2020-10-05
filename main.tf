@@ -106,7 +106,7 @@ module "ost_vpc_peering" {
 }
 
 module "syslog_receiver" {
-  source = "./modules/syslog_receiver"
+  source = "./modules/syslog_endpoint"
   prefix = module.label.id
 
   providers = {
