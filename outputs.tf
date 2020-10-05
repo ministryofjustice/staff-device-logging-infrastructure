@@ -22,3 +22,11 @@ output "logging_api_key" {
   value     = module.customLoggingApi.custom_logging_api_key
   sensitive = true
 }
+
+output "logging_terraform_outputs" {
+  value = {
+    syslog = {
+      ecr = module.syslog_endpoint.ecr
+    }
+  }
+}

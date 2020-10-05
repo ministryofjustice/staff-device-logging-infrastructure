@@ -48,6 +48,7 @@ phases:
       - terraform workspace select $ENV
       - terraform init -no-color --backend-config="key=terraform.$ENV.state"
       - terraform apply --auto-approve -no-color
+      - ./scripts/publish_terraform_outputs
       # create temporay role
       - TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
       - echo $TEMP_ROLE
