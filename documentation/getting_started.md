@@ -59,13 +59,13 @@ tfenv is used to manage the versions of Terraform locally.
 The current version of Terraform can be found in the `main.tf` file, install that version.
 
 ```sh
-tfenv install 0.12.29
+tfenv install 0.13.4
 ```
 
 Use the newly installed version:
 
 ```sh
-tfenv use 0.12.29
+tfenv use 0.13.4
 ```
 
 ### terraform.tfvars
