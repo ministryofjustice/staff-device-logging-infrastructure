@@ -105,6 +105,15 @@ module "ost_vpc_peering" {
   }
 }
 
+module "syslog_receiver" {
+  source = "./modules/syslog_receiver"
+  prefix = module.label.id
+
+  providers = {
+    aws = aws.env
+  }
+}
+
 module "customLoggingApi" {
   source = "./modules/custom_logging_api"
   prefix = module.label.id
