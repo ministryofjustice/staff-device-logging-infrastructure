@@ -10,7 +10,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
   threshold           = "1000"
 
   dimensions = {
-    QueueName = "${var.custom_log_queue_name}"
+    QueueName = var.custom_log_queue_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -31,7 +31,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
   period              = "600"
 
   dimensions = {
-    QueueName = "${var.custom_log_queue_name}"
+    QueueName = var.custom_log_queue_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -52,7 +52,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
   period              = "60"
 
   dimensions = {
-    QueueName = "${var.custom_log_queue_name}"
+    QueueName = var.custom_log_queue_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -73,7 +73,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-dead-letter-queue-size" {
   period              = "60"
 
   dimensions = {
-    QueueName = "${var.beats_dead_letter_queue_name}"
+    QueueName = var.beats_dead_letter_queue_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -94,7 +94,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${var.custom_log_api_gateway_name}"
+    ApiName = var.custom_log_api_gateway_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -115,7 +115,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${var.custom_log_api_gateway_name}"
+    ApiName = var.custom_log_api_gateway_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -136,7 +136,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${var.custom_log_api_gateway_name}"
+    ApiName = var.custom_log_api_gateway_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -157,7 +157,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
   period              = "60"
 
   dimensions = {
-   ApiName = "${var.custom_log_api_gateway_name}"
+    ApiName = var.custom_log_api_gateway_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -178,7 +178,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
   period              = "60"
 
   dimensions = {
-    ApiName = "${var.custom_log_api_gateway_name}"
+    ApiName = var.custom_log_api_gateway_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -199,7 +199,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.cloudwatch_function_name}"
+    FunctionName = var.cloudwatch_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -220,7 +220,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-kinesis" 
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.kinesis_function_name}"
+    FunctionName = var.kinesis_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -242,7 +242,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.sqs_function_name}"
+    FunctionName = var.sqs_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -263,7 +263,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.cloudwatch_function_name}"
+    FunctionName = var.cloudwatch_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -284,7 +284,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-kinesis" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.kinesis_function_name}"
+    FunctionName = var.kinesis_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -306,7 +306,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.sqs_function_name}"
+    FunctionName = var.sqs_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -327,7 +327,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.cloudwatch_function_name}"
+    FunctionName = var.cloudwatch_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -348,7 +348,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-kinesis" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.kinesis_function_name}"
+    FunctionName = var.kinesis_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -369,7 +369,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.sqs_function_name}"
+    FunctionName = var.sqs_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -390,7 +390,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.sqs_function_name}"
+    FunctionName = var.sqs_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -411,7 +411,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-kinesis" 
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.kinesis_function_name}"
+    FunctionName = var.kinesis_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -432,7 +432,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatc
   period              = "60"
 
   dimensions = {
-    FunctionName = "${var.cloudwatch_function_name}"
+    FunctionName = var.cloudwatch_function_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -455,7 +455,7 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-oldest-message" {
   period              = "60"
 
   dimensions = {
-    StreamName = "${var.kinesis_stream_name}"
+    StreamName = var.kinesis_stream_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -476,7 +476,7 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-minimum-expected-records" {
   period              = "60"
 
   dimensions = {
-    StreamName = "${var.kinesis_stream_name}"
+    StreamName = var.kinesis_stream_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -497,7 +497,7 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-write-throughput-exceeded" {
   period              = "60"
 
   dimensions = {
-    StreamName = "${var.kinesis_stream_name}"
+    StreamName = var.kinesis_stream_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -518,7 +518,7 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-read-throughput-exceeded" {
   period              = "60"
 
   dimensions = {
-    StreamName = "${var.kinesis_stream_name}"
+    StreamName = var.kinesis_stream_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
@@ -539,7 +539,7 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-get-records-latency" {
   period              = "60"
 
   dimensions = {
-    StreamName = "${var.kinesis_stream_name}"
+    StreamName = var.kinesis_stream_name
   }
 
   alarm_actions = [aws_sns_topic.this.arn]
