@@ -136,11 +136,11 @@ module "logging" {
 }
 
 module "cloudtrail" {
-  source                                       = "./modules/cloudtrail"
-  enable_cloudtrail_log_shipping_to_cloudwatch = var.enable_cloudtrail_log_shipping_to_cloudwatch
-  prefix                                       = module.label.id
-  region                                       = data.aws_region.current_region.id
-  tags                                         = module.label.tags
+  source = "./modules/cloudtrail"
+  count  = var.enable_cloudtrail_log_shipping_to_cloudwatch ? 1 : 0
+  prefix = module.label.id
+  region = data.aws_region.current_region.id
+  tags   = module.label.tags
 
   providers = {
     aws = aws.env
