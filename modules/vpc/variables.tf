@@ -19,3 +19,8 @@ variable "cidr_block_new_bits" {
   type    = number
   default = 8
 }
+
+variable "enable_nat_gateway" {
+  type = bool
+  default = false
+}

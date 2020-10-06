@@ -4,7 +4,7 @@ module "vpc" {
   name                                 = var.prefix
   propagate_private_route_tables_vgw   = var.propagate_private_route_tables_vgw
   cidr                                 = var.cidr_block
-  enable_nat_gateway                   = false
+  enable_nat_gateway                   = var.enable_nat_gateway
   create_flow_log_cloudwatch_iam_role  = true
   create_flow_log_cloudwatch_log_group = true
   enable_flow_log                      = true
@@ -19,5 +19,9 @@ module "vpc" {
     cidrsubnet(var.cidr_block, var.cidr_block_new_bits, 1),
     cidrsubnet(var.cidr_block, var.cidr_block_new_bits, 2),
     cidrsubnet(var.cidr_block, var.cidr_block_new_bits, 3)
+  ]
+
+  public_subnets = [
+    cidrsubnet(var.cidr_block, 8, 4)
   ]
 }
