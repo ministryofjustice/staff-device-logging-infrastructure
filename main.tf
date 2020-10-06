@@ -77,7 +77,7 @@ module "logging_vpc" {
 
 module "syslog_receiver_vpc" {
   source                             = "./modules/vpc"
-  prefix                             = module.label.id
+  prefix                             = "${module.label.id}-syslog"
   region                             = data.aws_region.current_region.id
   cidr_block                         = var.logging_cidr_block
   propagate_private_route_tables_vgw = true
