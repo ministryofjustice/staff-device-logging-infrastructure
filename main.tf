@@ -82,7 +82,6 @@ module "syslog_receiver_vpc" {
   cidr_block                         = var.syslog_receiver_cidr_block
   propagate_private_route_tables_vgw = true
   cidr_block_new_bits                = 2
-  enable_nat_gateway                 = true
 
   providers = {
     aws = aws.env
