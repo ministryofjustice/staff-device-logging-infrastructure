@@ -84,3 +84,16 @@ variable "env" {
 variable "syslog_receiver_cidr_block" {
   type = string
 }
+
+variable "syslog_load_balancer_private_ip_eu_west_2a" {
+  type = string
+}
+
+variable "syslog_load_balancer_private_ip_eu_west_2b" {
+  type = string
+}
+
+variable "syslog_load_balancer_private_ip_eu_west_2c" {
+  type = string
+}
+

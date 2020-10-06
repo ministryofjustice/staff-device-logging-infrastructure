@@ -28,6 +28,9 @@ env:
     OST_KEY:                                 "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/moj.key"
     OST_CRT:                                 "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/moj.crt"
     OST_CA_CRT:                              "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/elk-ca.crt"
+    TF_VAR_syslog_load_balancer_private_ip_eu_west_2a: "/staff-device/syslog/$ENV/load_balancer_private_ip_eu_west_2a"
+    TF_VAR_syslog_load_balancer_private_ip_eu_west_2b: "/staff-device/syslog/$ENV/load_balancer_private_ip_eu_west_2b"
+    TF_VAR_syslog_load_balancer_private_ip_eu_west_2c: "/staff-device/syslog/$ENV/load_balancer_private_ip_eu_west_2c"
 
 phases:
   install:

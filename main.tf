@@ -81,7 +81,7 @@ module "syslog_receiver_vpc" {
   region                             = data.aws_region.current_region.id
   cidr_block                         = var.syslog_receiver_cidr_block
   propagate_private_route_tables_vgw = true
-  cidr_block_new_bits = 2
+  cidr_block_new_bits                = 2
 
   providers = {
     aws = aws.env
@@ -107,8 +107,16 @@ module "ost_vpc_peering" {
 }
 
 module "syslog_endpoint" {
-  source = "./modules/syslog_endpoint"
-  prefix = module.label.id
+  source                              = "./modules/syslog_endpoint"
+  prefix                              = "${module.label.id}-syslog"
+  subnets                             = module.syslog_receiver_vpc.private_subnets
+  tags                                = module.label.tags
+  vpc_id                              = module.syslog_receiver_vpc.vpc_id
+  vpc_cidr                            = var.syslog_receiver_cidr_block
+  critical_notifications_arn          = module.alarms.topic-arn
+  load_balancer_private_ip_eu_west_2a = var.syslog_load_balancer_private_ip_eu_west_2a
+  load_balancer_private_ip_eu_west_2b = var.syslog_load_balancer_private_ip_eu_west_2b
+  load_balancer_private_ip_eu_west_2c = var.syslog_load_balancer_private_ip_eu_west_2c
 
   providers = {
     aws = aws.env
@@ -116,9 +124,9 @@ module "syslog_endpoint" {
 }
 
 module "customLoggingApi" {
-  source = "./modules/custom_logging_api"
-  prefix = module.label.id
-  region = data.aws_region.current_region.id
+  source                  = "./modules/custom_logging_api"
+  prefix                  = module.label.id
+  region                  = data.aws_region.current_region.id
   enable_api_gateway_logs = var.enable_api_gateway_logs
 
   providers = {

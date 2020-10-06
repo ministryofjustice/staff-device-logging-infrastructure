@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "beats-lambda-policy" {
       "ec2:DeleteNetworkInterface",
       "ec2:DescribeInstances",
       "ec2:AttachNetworkInterface",
-      "cloudformation:CreateStack", //TODO: To possibly remove cloudFormation:*
+      "cloudformation:CreateStack",
       "cloudformation:DeleteStack",
       "cloudformation:DescribeStacks",
       "cloudformation:DescribeStackEvents",
