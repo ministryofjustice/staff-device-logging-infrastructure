@@ -35,8 +35,7 @@ resource "aws_ecs_task_definition" "server_task" {
       }
     },
     "expanded": true
-    }, 
-    {
+    }, {
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -54,7 +53,6 @@ resource "aws_ecs_task_definition" "server_task" {
     ],
     "image": "${aws_ecr_repository.health_check_docker_repository.repository_url}",
     "name": "NGINX"
-    }
   }
 ]
 EOF
