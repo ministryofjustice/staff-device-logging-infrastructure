@@ -51,7 +51,7 @@ resource "aws_ecs_task_definition" "server_task" {
         "containerPort": 80
       }
     ],
-    "image": "nginx",
+    "image": "${aws_ecr_repository.health_check_docker_repository.repository_url}",
     "name": "NGINX"
   }
 ]
