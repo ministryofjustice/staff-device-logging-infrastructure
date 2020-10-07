@@ -35,24 +35,6 @@ resource "aws_ecs_task_definition" "server_task" {
       }
     },
     "expanded": true
-  }, {
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${aws_cloudwatch_log_group.server_log_group.name}",
-        "awslogs-region": "eu-west-2",
-        "awslogs-stream-prefix": "eu-west-2-docker-logs"
-      }
-    },
-    "portMappings": [
-      {
-        "hostPort": 80,
-        "protocol": "tcp",
-        "containerPort": 80
-      }
-    ],
-    "image": "${aws_ecr_repository.health_check_docker_repository.repository_url}",
-    "name": "NGINX"
   }
 ]
 EOF
