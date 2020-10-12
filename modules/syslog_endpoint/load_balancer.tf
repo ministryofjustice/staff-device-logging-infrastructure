@@ -30,6 +30,14 @@ resource "aws_lb_target_group" "target_group" {
   port                 = var.container_port
   target_type          = "ip"
   deregistration_delay = 10
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    port                = 80
+    protocol            = "HTTP"
+    path = "/"
+  }
 }
 
 resource "aws_lb_listener" "udp" {
