@@ -26,24 +26,8 @@ resource "aws_ecs_task_definition" "server_task" {
       }
     ],
     "image": "${aws_ecr_repository.docker_repository.repository_url}",
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${aws_cloudwatch_log_group.server_log_group.name}",
-        "awslogs-region": "eu-west-2",
-        "awslogs-stream-prefix": "eu-west-2-docker-logs"
-      }
-    },
     "expanded": true
-    }, {
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${aws_cloudwatch_log_group.server_log_group.name}",
-        "awslogs-region": "eu-west-2",
-        "awslogs-stream-prefix": "eu-west-2-docker-logs"
-      }
-    },
+  }, {
     "portMappings": [
       {
         "hostPort": 80,
@@ -51,7 +35,7 @@ resource "aws_ecs_task_definition" "server_task" {
         "containerPort": 80
       }
     ],
-    "image": "${aws_ecr_repository.health_check_docker_repository.repository_url}",
+    "image": "${aws_ecr_repository.docker_repository.repository_url}:health_check",
     "name": "NGINX"
   }
 ]
