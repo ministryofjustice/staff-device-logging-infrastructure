@@ -15,11 +15,6 @@ variable "propagate_private_route_tables_vgw" {
   default = false
 }
 
-variable "cidr_block_new_bits" {
-  type    = number
-  default = 8
-}
-
 variable "ecr_api_endpoint_private_dns_enabled" {
   type = bool
   default = false

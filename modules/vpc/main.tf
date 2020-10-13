@@ -4,22 +4,14 @@ module "vpc" {
   name                                 = var.prefix
   propagate_private_route_tables_vgw   = var.propagate_private_route_tables_vgw
   cidr                                 = var.cidr_block
+  single_nat_gateway                   = true
+  enable_nat_gateway                   = true
+
+
   create_flow_log_cloudwatch_iam_role  = true
   create_flow_log_cloudwatch_log_group = true
   enable_flow_log                      = true
-
-  enable_ecr_api_endpoint = var.enable_ecr_api_endpoint
-  enable_ecr_dkr_endpoint = var.enable_ecr_dkr_endpoint
-  enable_dns_hostnames = var.enable_dns_hostnames
-  enable_dns_support = var.enable_dns_support
-  enable_s3_endpoint = var.enable_s3_endpoint
-  enable_logs_endpoint = var.enable_logs_endpoint
-  ecr_api_endpoint_private_dns_enabled = var.ecr_api_endpoint_private_dns_enabled
-  ecr_dkr_endpoint_private_dns_enabled = var.ecr_dkr_endpoint_private_dns_enabled
-
-  logs_endpoint_security_group_ids = [aws_security_group.ecr.id]
-  ecr_api_endpoint_security_group_ids  = [aws_security_group.ecr.id]
-  ecr_dkr_endpoint_security_group_ids = [aws_security_group.ecr.id]
+  create_igw = true
 
   azs = [
     "${var.region}a",
@@ -28,27 +20,12 @@ module "vpc" {
   ]
 
   private_subnets = [
-    cidrsubnet(var.cidr_block, var.cidr_block_new_bits, 1),
-    cidrsubnet(var.cidr_block, var.cidr_block_new_bits, 2),
-    cidrsubnet(var.cidr_block, var.cidr_block_new_bits, 3)
+    cidrsubnet(var.cidr_block, 8, 1),
+    cidrsubnet(var.cidr_block, 8, 2),
+    cidrsubnet(var.cidr_block, 8, 3)
   ]
-}
 
-resource "aws_security_group" "ecr" {
-  name   = "${var.prefix}-ecr"
-  vpc_id = module.vpc.vpc_id
-
-  ingress {
-    protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
-    cidr_blocks = [var.cidr_block]
-  }
-
-  egress {
-    protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
-    cidr_blocks = [var.cidr_block]
-  }
+  public_subnets = [
+    cidrsubnet(var.cidr_block, 8, 4)
+  ]
 }

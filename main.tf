@@ -81,15 +81,6 @@ module "syslog_receiver_vpc" {
   region                               = data.aws_region.current_region.id
   cidr_block                           = var.syslog_receiver_cidr_block
   propagate_private_route_tables_vgw   = true
-  cidr_block_new_bits                  = 2
-  enable_logs_endpoint                 = true
-  enable_s3_endpoint                   = true
-  enable_dns_hostnames                 = true
-  enable_dns_support                   = true
-  enable_ecr_dkr_endpoint              = true
-  enable_ecr_api_endpoint              = true
-  ecr_dkr_endpoint_private_dns_enabled = true
-  ecr_api_endpoint_private_dns_enabled = true
 
   providers = {
     aws = aws.env
