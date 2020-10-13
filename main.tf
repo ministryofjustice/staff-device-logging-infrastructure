@@ -82,6 +82,10 @@ module "transit_gateway_attachment" {
   vpc_id                         = module.syslog_receiver_vpc.vpc_id
   transit_gateway_id             = var.transit_gateway_id
   transit_gateway_route_table_id = var.transit_gateway_route_table_id
+
+  providers = {
+    aws = aws.env
+  }
 }
 
 module "syslog_receiver_vpc" {
