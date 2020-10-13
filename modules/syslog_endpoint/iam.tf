@@ -24,7 +24,11 @@ resource "aws_iam_role_policy" "ecs_task_policy" {
     {
       "Effect": "Allow",
       "Action": [
-        "logs:DescribeLogGroups"
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents",
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream"
       ],
       "Resource": ["*"]
     }
