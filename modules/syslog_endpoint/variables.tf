@@ -35,11 +35,11 @@ variable "load_balancer_private_ip_eu_west_2c" {
 }
 
 variable "container_name" {
-  type = string
+  type    = string
   default = "syslog-server"
 }
 
 variable "container_port" {
-  type = string
+  type    = string
   default = "514"
 }

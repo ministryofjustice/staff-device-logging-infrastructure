@@ -97,3 +97,15 @@ variable "syslog_load_balancer_private_ip_eu_west_2c" {
   type = string
 }
 
+variable "enable_transit_gateway_attachment" {
+  type = bool
+  default = false
+}
+
+variable "transit_gateway_id" {
+  type = string
+}
+
+variable "transit_gateway_route_table_id" {
+  type = string
+}

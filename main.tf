@@ -75,13 +75,22 @@ module "logging_vpc" {
   }
 }
 
+module "transit_gateway_attachment" {
+  source                         = "./modules/transit_gateway_attachment"
+  count                          = var.enable_transit_gateway_attachment ? 1 : 0
+  subnets                        = module.syslog_receiver_vpc.private_subnets
+  vpc_id                         = module.syslog_receiver_vpc.vpc_id
+  transit_gateway_id             = var.transit_gateway_id
+  transit_gateway_route_table_id = var.transit_gateway_route_table_id
+}
+
 module "syslog_receiver_vpc" {
-  source                               = "./modules/vpc"
-  prefix                               = "${module.label.id}-syslog"
-  region                               = data.aws_region.current_region.id
-  cidr_block                           = var.syslog_receiver_cidr_block
-  propagate_private_route_tables_vgw   = true
-  new_bits                             = 2
+  source                             = "./modules/vpc"
+  prefix                             = "${module.label.id}-syslog"
+  region                             = data.aws_region.current_region.id
+  cidr_block                         = var.syslog_receiver_cidr_block
+  propagate_private_route_tables_vgw = true
+  new_bits                           = 2
 
   providers = {
     aws = aws.env
