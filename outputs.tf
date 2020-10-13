@@ -27,7 +27,7 @@ output "logging_terraform_outputs" {
   value = {
     syslog = {
       ecr     = module.syslog_endpoint.ecr
-      logging = module.syslog_endpoint.server_log_group
+      logging = module.syslog_endpoint.logging
     }
   }
 }
