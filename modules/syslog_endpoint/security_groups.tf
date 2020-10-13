@@ -26,6 +26,16 @@ resource "aws_security_group_rule" "syslog_container_udp_in" {
   cidr_blocks       = [var.vpc_cidr]
 }
 
+resource "aws_security_group_rule" "syslog_container_udp_out" {
+  description       = "Allow outbound traffic to the BIND server"
+  type              = "egress"
+  from_port         = 514
+  to_port           = 514
+  protocol          = "udp"
+  security_group_id = aws_security_group.syslog_server.id
+  cidr_blocks       = [var.vpc_cidr]
+}
+
 resource "aws_security_group_rule" "syslog_container_healthcheck_in" {
   description       = "Allow health checks from the Load Balancer"
   type              = "ingress"
