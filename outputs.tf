@@ -26,7 +26,8 @@ output "logging_api_key" {
 output "logging_terraform_outputs" {
   value = {
     syslog = {
-      ecr = module.syslog_endpoint.ecr
+      ecr     = module.syslog_endpoint.ecr
+      logging = module.syslog_endpoint.server_log_group
     }
   }
 }
