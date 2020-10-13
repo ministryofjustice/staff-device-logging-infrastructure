@@ -81,6 +81,7 @@ module "syslog_receiver_vpc" {
   region                               = data.aws_region.current_region.id
   cidr_block                           = var.syslog_receiver_cidr_block
   propagate_private_route_tables_vgw   = true
+  new_bits                             = 3
 
   providers = {
     aws = aws.env

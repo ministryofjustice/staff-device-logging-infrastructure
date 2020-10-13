@@ -20,6 +20,11 @@ variable "ecr_api_endpoint_private_dns_enabled" {
   default = false
 }
 
+variable "new_bits" {
+  type = number
+  default = 8
+}
+
 variable "ecr_dkr_endpoint_private_dns_enabled" {
   type = bool
   default = false
