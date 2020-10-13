@@ -1,6 +1,6 @@
 resource "aws_ecs_task_definition" "server_task" {
   family                   = "${var.prefix}-server-task"
-  task_role_arn            = aws_iam_role.ecs_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_task_role.arn
   execution_role_arn       = aws_iam_role.ecs_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   cpu                      = "512"
