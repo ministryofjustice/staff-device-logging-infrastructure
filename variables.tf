@@ -117,3 +117,8 @@ variable "vpn_hosted_zone_id" {
 variable "api_gateway_custom_domain" {
   type = string
 }
+
+variable "enable_dlq" {
+  type = bool
+  default = false
+}

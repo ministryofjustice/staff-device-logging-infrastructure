@@ -43,3 +43,7 @@ variable beats_dead_letter_queue_arn {
 variable kinesis_stream_arn {
   type = string
 }
+
+variable "enable_dlq" {
+  type = bool
+}
