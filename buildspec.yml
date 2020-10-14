@@ -76,7 +76,7 @@ phases:
       - ./functionbeat -e -c ../functionbeat-config.yml export function staff-device-$ENV-infra-cloudwatch  > cf-$ENV-cloudwatch.json
       - ./functionbeat -e -c ../functionbeat-config.yml export function staff-device-$ENV-infra-sqs         > cf-$ENV-sqs.json
       - ./functionbeat -e -c ../functionbeat-config.yml export function staff-device-$ENV-infra-kinesis     > cf-$ENV-kinesis.json
-      - ./functionbeat -e -c ../functionbeat-config.yml export function staff-device-$ENV-infra-dead-letter > cf-$ENV-dlq.json
+      - ./functionbeat -e -c ../functionbeat-config.yml export function staff-device-$ENV-infra-dlq > cf-$ENV-dlq.json
 
       # upload lambdas
       - export CW_SYSLOG_S3_KEY=`cat cf-$ENV-cloudwatch-syslog.json | jq -r '.. |."S3Key"? | select(. != null)'`
