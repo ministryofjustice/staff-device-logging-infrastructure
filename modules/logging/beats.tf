@@ -134,7 +134,7 @@ EOF
 }
 
 resource "aws_iam_role" "beats-lambda-role-kinesis" {
-  name = "${var.prefix}-beats-lambda-execution-role-kinesis"
+  name = "${var.prefix}-beats-kinesis-execution"
 
   assume_role_policy = <<EOF
 {

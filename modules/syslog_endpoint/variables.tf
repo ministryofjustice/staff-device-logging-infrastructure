@@ -2,6 +2,10 @@ variable "prefix" {
   type = string
 }
 
+variable "short_prefix" {
+  type = string
+}
+
 variable "subnets" {
   type = list(string)
 }

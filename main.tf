@@ -122,6 +122,7 @@ module "ost_vpc_peering" {
 module "syslog_endpoint" {
   source                              = "./modules/syslog_endpoint"
   prefix                              = "${module.label.id}-syslog"
+  short_prefix                        = terraform.workspace
   subnets                             = module.syslog_receiver_vpc.private_subnets
   tags                                = module.label.tags
   vpc_id                              = module.syslog_receiver_vpc.vpc_id
