@@ -15,17 +15,11 @@ deploy_functionbeat() {
     --no-fail-on-empty-changeset
 }
 
-# create temporay role
-TEMP_ROLE=`aws sts assume-role --role-arn $ROLE_ARN --role-session-name ci-build-$CODEBUILD_BUILD_NUMBER`
-export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
-export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
-export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
-
-# build lambdas
 cd functionbeat
 echo $OST_KEY    | base64 -d > moj.key
 echo $OST_CRT    | base64 -d > moj.crt
 echo $OST_CA_CRT | base64 -d > elk-ca.crt
+
 ./functionbeat -e -c ../functionbeat-config.yml test config
 ./functionbeat -e -c ../functionbeat-config.yml package
 zip -u package-aws.zip moj.crt moj.key elk-ca.crt
