@@ -166,7 +166,7 @@ locals {
       {
         name : local.dead_letter_queue_shipper_name,
         concurrency: 10,
-        enabled : false,
+        enabled : true,
         type : "sqs",
         timeout: "8s",
         description : "lambda function to process the dead letter queue, this function should only be enabled as a onceoff to process failed messages",
