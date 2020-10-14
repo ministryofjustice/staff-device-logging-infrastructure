@@ -1,6 +1,6 @@
 data "aws_caller_identity" "current" {}
 
-resource "aws_flow_log" "pttp_flow_logs" {
+resource "aws_flow_log" "logging_vpc" {
   iam_role_arn             = aws_iam_role.flow_logs_role.arn
   log_destination          = aws_cloudwatch_log_group.vpc_flow_logs_log_group.arn
   traffic_type             = "ALL"

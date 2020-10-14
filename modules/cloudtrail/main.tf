@@ -26,7 +26,7 @@ resource "aws_cloudwatch_log_group" "cloudtrail_log_group" {
   tags = var.tags
 }
 
-resource "aws_cloudtrail" "pttp_cloudtrail" {
+resource "aws_cloudtrail" "logging_cloudtrail" {
   name                          = "${var.prefix}-cloudtrail"
   s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.id
   s3_key_prefix                 = local.s3_bucket_log_prefix
