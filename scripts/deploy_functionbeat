@@ -29,6 +29,6 @@ deploy_functionbeat "cloudwatch"
 deploy_functionbeat "sqs"
 deploy_functionbeat "kinesis"
 
-if $TFVAR_enable_dlq; then
+if [[ -z $TFVAR_enable_dlq ]] then
   deploy_functionbeat "dlq"
 fi
