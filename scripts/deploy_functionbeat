@@ -28,7 +28,4 @@ deploy_functionbeat "cloudwatch-syslog"
 deploy_functionbeat "cloudwatch"
 deploy_functionbeat "sqs"
 deploy_functionbeat "kinesis"
-
-if [[ ! -z $TFVAR_enable_dlq ]]; then
-  deploy_functionbeat "dlq"
-fi
+deploy_functionbeat "dlq"
