@@ -109,3 +109,11 @@ variable "transit_gateway_id" {
 variable "transit_gateway_route_table_id" {
   type = string
 }
+
+variable "vpn_hosted_zone_id" {
+  type = string
+}
+
+variable "api_gateway_custom_domain" {
+  type = string
+}

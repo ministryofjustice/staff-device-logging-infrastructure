@@ -1,3 +1,13 @@
+resource "aws_api_gateway_domain_name" "custom_logging_api" {
+  domain_name = var.api_gateway_custom_domain
+
+  regional_certificate_arn = aws_acm_certificate.api_gateway_logging.arn
+
+  endpoint_configuration {
+    types = [ "REGIONAL" ]
+  }
+}
+
 resource "aws_api_gateway_rest_api" "logging_gateway" {
   name = "${var.prefix}-CustomLogGateway"
 

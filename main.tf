@@ -142,6 +142,9 @@ module "customLoggingApi" {
   prefix                  = module.label.id
   region                  = data.aws_region.current_region.id
   enable_api_gateway_logs = var.enable_api_gateway_logs
+  vpn_hosted_zone_id      = var.vpn_hosted_zone_id
+  api_gateway_custom_domain = var.api_gateway_custom_domain
+  tags                      = module.label.tags
 
   providers = {
     aws = aws.env
