@@ -36,7 +36,7 @@ module "label" {
   source  = "cloudposse/label/null"
   version = "0.19.2"
 
-  namespace = "pttp"
+  namespace = "staff-device"
   stage     = terraform.workspace
   name      = "infra"
   delimiter = "-"
