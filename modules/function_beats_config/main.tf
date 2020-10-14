@@ -10,10 +10,11 @@ locals {
     }
   ]
 
-  cloudwatch_syslog_name = "${var.prefix}-cloudwatch-syslog"
-  cloudwatch_name        = "${var.prefix}-cloudwatch"
-  sqs_name               = "${var.prefix}-sqs"
-  kinesis_name           = "${var.prefix}-kinesis"
+  cloudwatch_syslog_name         = "${var.prefix}-cloudwatch-syslog"
+  cloudwatch_name                = "${var.prefix}-cloudwatch"
+  sqs_name                       = "${var.prefix}-sqs"
+  kinesis_name                   = "${var.prefix}-kinesis"
+  dead_letter_queue_shipper_name = "${var.prefix}-dlq"
 
   config = yamlencode({
     "functionbeat.provider.aws.endpoint" : "s3.amazonaws.com"
@@ -158,6 +159,33 @@ locals {
               add_error_key : true,
               overwrite_keys : true,
               max_depth : 10
+            }
+          }
+        ]
+      },
+      {
+        name : local.dead_letter_queue_shipper_name,
+        concurrency: 10,
+        enabled : false,
+        type : "sqs",
+        timeout: "8s",
+        description : "lambda function to process the dead letter queue, this function should only be enabled as a onceoff to process failed messages",
+        role : var.deploy_role_arn,
+        tags: {
+          data_source: "dead_letter_queue"
+        },
+        virtual_private_cloud : {
+          security_group_ids : var.security_group_ids
+          subnet_ids : var.subnet_ids
+        },
+        triggers : [
+          { event_source_arn : var.beats_dead_letter_queue_arn }
+        ],
+        processors : [
+          {
+            add_tags : {
+              tags: ["sqs"]
+              target : "log_source"
             }
           }
         ]
