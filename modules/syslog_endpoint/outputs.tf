@@ -10,6 +10,7 @@ output "ecr" {
 output "logging" {
   value = {
     log_group_name = aws_cloudwatch_log_group.server_log_group.name
+    syslog_log_group_name = aws_cloudwatch_log_group.syslog_log_group.name
   }
 }
 

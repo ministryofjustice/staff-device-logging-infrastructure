@@ -70,18 +70,26 @@ phases:
       - ./functionbeat -e -c ../functionbeat-config.yml package
       - zip -u package-aws.zip moj.crt moj.key elk-ca.crt
       # build templates
+      - ./functionbeat -e -c ../functionbeat-config.yml export function pttp-$ENV-infra-cloudwatch-syslog > cf-$ENV-cloudwatch-syslog.json
       - ./functionbeat -e -c ../functionbeat-config.yml export function pttp-$ENV-infra-cloudwatch > cf-$ENV-cloudwatch.json
       - ./functionbeat -e -c ../functionbeat-config.yml export function pttp-$ENV-infra-sqs        > cf-$ENV-sqs.json
       - ./functionbeat -e -c ../functionbeat-config.yml export function pttp-$ENV-infra-kinesis    > cf-$ENV-kinesis.json
 
       # upload lambdas
+      - export CW_SYSLOG_S3_KEY=`cat cf-$ENV-cloudwatch-syslog.json | jq -r '.. |."S3Key"? | select(. != null)'`
       - export CW_S3_KEY=`cat cf-$ENV-cloudwatch.json | jq -r '.. |."S3Key"? | select(. != null)'`
       - export SQS_S3_KEY=`cat cf-$ENV-sqs.json       | jq -r '.. |."S3Key"? | select(. != null)'`
       - export KINESIS_S3_KEY=`cat cf-$ENV-kinesis.json | jq -r '.. |."S3Key"? | select(. != null)'`
+      - aws s3 cp --no-progress ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$CW_SYSLOG_S3_KEY
       - aws s3 cp --no-progress ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$CW_S3_KEY
       - aws s3 cp --no-progress ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$SQS_S3_KEY
       - aws s3 cp --no-progress ./package-aws.zip s3://pttp-$ENV-infra-functionbeat-artifacts/$KINESIS_S3_KEY
       # upload templates
+      - |
+        aws cloudformation deploy \
+          --stack-name pttp-$ENV-infra-cloudwatch-syslog \
+          --template-file ./cf-$ENV-cloudwatch-syslog.json \
+          --no-fail-on-empty-changeset
       - |
         aws cloudformation deploy \
           --stack-name pttp-$ENV-infra-cloudwatch \

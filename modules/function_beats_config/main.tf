@@ -4,14 +4,58 @@ locals {
       log_group_name : group
     }
   ]
-  cloudwatch_name = "${var.prefix}-cloudwatch"
-  sqs_name        = "${var.prefix}-sqs"
-  kinesis_name    = "${var.prefix}-kinesis"
+  syslog_log_group_map_array = [
+    for group in var.syslog_log_groups : {
+      log_group_name : group
+    }
+  ]
+
+  cloudwatch_syslog_name = "${var.prefix}-cloudwatch-syslog"
+  cloudwatch_name        = "${var.prefix}-cloudwatch"
+  sqs_name               = "${var.prefix}-sqs"
+  kinesis_name           = "${var.prefix}-kinesis"
 
   config = yamlencode({
     "functionbeat.provider.aws.endpoint" : "s3.amazonaws.com"
     "functionbeat.provider.aws.deploy_bucket" : var.deploy_bucket
     "functionbeat.provider.aws.functions" : [
+      {
+        name : local.cloudwatch_syslog_name,
+        concurrency: 100,
+        enabled : true,
+        type : "cloudwatch_logs",
+        description : "lambda function for cloudwatch SYSLOG logs",
+        timeout: "20s",
+        dead_letter_config : {
+          target_arn : var.beats_dead_letter_queue_arn
+        },
+        role : var.deploy_role_arn,
+        tags: {
+          data_source: "cloudwatch"
+        },
+        virtual_private_cloud : {
+          security_group_ids : var.security_group_ids
+          subnet_ids : var.subnet_ids
+        },
+        triggers : local.syslog_log_group_map_array,
+        processors : [
+          {
+            add_tags : {
+              tags : ["cloudwatch_logs_syslog"],
+              target : "log_source"
+            }
+          }, {
+            decode_json_fields : {
+              fields : ["message"],
+              target : "",
+              process_array : true,
+              add_error_key : true,
+              overwrite_keys : true,
+              max_depth : 10
+            }
+          }
+        ]
+      },
       {
         name : local.cloudwatch_name,
         concurrency: 100,

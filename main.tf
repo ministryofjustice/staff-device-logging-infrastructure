@@ -225,6 +225,10 @@ module "functionbeat_config" {
     module.customLoggingApi.log_group_name
   ]
 
+  syslog_log_groups = [
+    module.syslog_endpoint.logging.syslog_log_group_name
+  ]
+
   destination_url      = var.ost_url
   destination_username = var.ost_username
   destination_password = var.ost_password

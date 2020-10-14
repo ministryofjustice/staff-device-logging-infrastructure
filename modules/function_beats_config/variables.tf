@@ -28,6 +28,11 @@ variable "destination_password" {
 variable "log_groups" {
   type = set(string)
 }
+
+variable "syslog_log_groups" {
+  type = set(string)
+}
+
 variable sqs_log_queue {
   type = string
 }
