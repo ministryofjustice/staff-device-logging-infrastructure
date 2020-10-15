@@ -30,6 +30,7 @@ resource "aws_route53_record" "custom_logging_api" {
   name    = aws_api_gateway_domain_name.custom_logging_api.domain_name
   type    = "A"
   zone_id = var.vpn_hosted_zone_id
+  ttl     = "3600"
 
   alias {
     evaluate_target_health = true
