@@ -111,7 +111,6 @@ module "ost_vpc_peering" {
   target_aws_account_id = var.ost_aws_account_id
   target_vpc_cidr_block = var.ost_vpc_cidr_block
   target_vpc_id         = var.ost_vpc_id
-  internet_gateway_id   = module.vpc.internet_gateway_id
 
   tags = module.label.tags
 
