@@ -10,7 +10,7 @@ resource "aws_api_gateway_domain_name" "custom_logging_api" {
 
 resource "aws_api_gateway_base_path_mapping" "custom_logging_api" {
   api_id      = aws_api_gateway_rest_api.logging_gateway.id
-  stage_name  = aws_api_gateway_deployment.custom_log_api_deployment.stage_name
+  stage_name  = var.stage_name
   domain_name = aws_api_gateway_domain_name.custom_logging_api.domain_name
 }
 
