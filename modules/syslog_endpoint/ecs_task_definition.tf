@@ -23,14 +23,36 @@ resource "aws_ecs_task_definition" "server_task" {
         "hostPort": 514,
         "containerPort": 514,
         "protocol": "udp"
-      }, {
+      }
+    ],
+    "essential": true,
+    "name": "syslog-server-udp",
+    "environment": [
+      {
+        "name": "CRITICAL_NOTIFICATIONS_ARN",
+        "value": "${var.critical_notifications_arn}"
+      }
+    ],
+    "image": "${aws_ecr_repository.docker_repository.repository_url}",
+    "expanded": true
+  }, {
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${aws_cloudwatch_log_group.server_log_group.name}",
+        "awslogs-region": "eu-west-2",
+        "awslogs-stream-prefix": "eu-west-2-docker-logs"
+      }
+    },
+    "portMappings": [
+      {
         "hostPort": 514,
-        "containerPort": 5140,
+        "containerPort": 514,
         "protocol": "tcp"
       }
     ],
     "essential": true,
-    "name": "syslog-server",
+    "name": "syslog-server-tcp",
     "environment": [
       {
         "name": "CRITICAL_NOTIFICATIONS_ARN",
