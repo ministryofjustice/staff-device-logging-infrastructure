@@ -50,3 +50,14 @@ resource "aws_lb_listener" "udp" {
     target_group_arn = aws_lb_target_group.target_group.arn
   }
 }
+
+resource "aws_lb_listener" "tcp" {
+  load_balancer_arn = aws_lb.load_balancer.arn
+  port              = var.container_port
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group.arn
+  }
+}
