@@ -16,6 +16,9 @@ apply-pre-production:
 apply-production:
 	./scripts/apply_environment production
 
+process-dead-letter-queue:
+	./scripts/process_dead_letter_queue
+
 init:
 	terraform init --backend-config="key=terraform.development.state" -reconfigure -upgrade
 
