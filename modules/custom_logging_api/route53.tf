@@ -25,3 +25,15 @@ resource "aws_route53_record" "api_gateway_logging" {
   type    = each.value.type
   zone_id = var.vpn_hosted_zone_id
 }
+
+resource "aws_route53_record" "custom_logging_api" {
+  name    = aws_api_gateway_domain_name.custom_logging_api.domain_name
+  type    = "A"
+  zone_id = var.vpn_hosted_zone_id
+
+  alias {
+    evaluate_target_health = true
+    name                   = aws_api_gateway_domain_name.custom_logging_api.regional_domain_name
+    zone_id                = aws_api_gateway_domain_name.custom_logging_api.regional_zone_id
+  }
+}
