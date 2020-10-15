@@ -23,6 +23,11 @@ resource "aws_ecs_task_definition" "server_task" {
         "hostPort": 514,
         "containerPort": 514,
         "protocol": "udp"
+      },
+      {
+        "hostPort": 514,
+        "containerPort": 514,
+        "protocol": "tcp"
       }
     ],
     "essential": true,
