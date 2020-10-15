@@ -20,3 +20,7 @@ variable "target_vpc_cidr_block" {
 variable "tags" {
   type = map(string)
 }
+
+variable "internet_gateway_id" {
+  type = string
+}

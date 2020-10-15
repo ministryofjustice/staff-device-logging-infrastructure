@@ -17,3 +17,8 @@ resource "aws_route" "peering_route" {
   vpc_peering_connection_id = aws_vpc_peering_connection.this[0].id
   depends_on                = [aws_vpc_peering_connection.this]
 }
+
+resource "aws_route_table_association" "this" {
+  gateway_id     = var.internet_gateway_id
+  route_table_id = var.source_route_table_ids[0]
+}
