@@ -6,8 +6,11 @@ deploy_functionbeat() {
   name=$1
 
   ./functionbeat -e -c ../functionbeat-config.yml export function staff-device-$ENV-infra-${name} > cf-$ENV-${name}.json
+
   key=`cat cf-$ENV-${name}.json | jq -r '.. |."S3Key"? | select(. != null)'`
   aws s3 cp --no-progress ./package-aws.zip s3://staff-device-$ENV-infra-functionbeat-artifacts/${key}
+
+  ./functionbeat setup
 
   aws cloudformation deploy \
     --stack-name staff-device-$ENV-infra-${name} \
