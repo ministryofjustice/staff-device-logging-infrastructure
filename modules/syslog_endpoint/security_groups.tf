@@ -31,7 +31,7 @@ resource "aws_security_group_rule" "syslog_container_tcp_in" {
   type              = "ingress"
   from_port         = 514
   to_port           = 514
-  protocol          = "udp"
+  protocol          = "tcp"
   security_group_id = aws_security_group.syslog_server.id
   cidr_blocks       = ["0.0.0.0/0"]
 }
