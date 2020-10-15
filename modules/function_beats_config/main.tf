@@ -176,7 +176,7 @@ locals {
       protocol : "https"
       username : var.destination_username
       password : var.destination_password
-      index : "functionbeat-%%{[agent.version]}-%%{+yyyy.MM.dd}"
+      index : "functionbeat-%%{[agent.version]}"
     }
     "output.elasticsearch.ssl.certificate_authorities" : ["elk-ca.crt"]
     "output.elasticsearch.ssl.certificate" : "moj.crt"
