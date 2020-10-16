@@ -161,6 +161,7 @@ module "alarms" {
   beats_dead_letter_queue_name  = module.customLoggingApi.dlq_custom_log_queue_name
   syslog_service_name           = module.syslog_endpoint.ecr.service_name
   kinesis_stream_name           = module.shared_services_log_destination.kinesis_stream_name
+  target_group_name             = module.syslog_endpoint.logging.syslog_target_group_name
 
   lambda_function_names = [
     module.functionbeat_config.cloudwatch_name,

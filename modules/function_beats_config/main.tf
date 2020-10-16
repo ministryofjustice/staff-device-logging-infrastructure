@@ -14,7 +14,6 @@ locals {
   cloudwatch_name                = "${var.prefix}-cloudwatch"
   sqs_name                       = "${var.prefix}-sqs"
   kinesis_name                   = "${var.prefix}-kinesis"
-  dead_letter_queue_shipper_name = "${var.prefix}-dlq"
 
   config = yamlencode({
     "functionbeat.provider.aws.endpoint" : "s3.amazonaws.com"
