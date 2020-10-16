@@ -25,7 +25,7 @@ echo $OST_CA_CRT | base64 -d > elk-ca.crt
 ./functionbeat -e -c ../functionbeat-config.yml package
 zip -u package-aws.zip moj.crt moj.key elk-ca.crt
 
-# deploy_functionbeat "cloudwatch-syslog"
-# deploy_functionbeat "cloudwatch"
-# deploy_functionbeat "sqs"
-# deploy_functionbeat "kinesis"
+deploy_functionbeat "cloudwatch-syslog"
+deploy_functionbeat "cloudwatch"
+deploy_functionbeat "sqs"
+deploy_functionbeat "kinesis"
