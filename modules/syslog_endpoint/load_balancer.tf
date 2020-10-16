@@ -24,7 +24,7 @@ resource "aws_lb" "load_balancer" {
 }
 
 resource "aws_lb_target_group" "target_group_udp" {
-  name                 = "${var.short_prefix}-logging-syslog-udp"
+  name                 = "${var.short_prefix}-syslog-udp"
   protocol             = "UDP"
   vpc_id               = var.vpc_id
   port                 = "514"
@@ -41,7 +41,7 @@ resource "aws_lb_target_group" "target_group_udp" {
 }
 
 resource "aws_lb_target_group" "target_group_tcp" {
-  name                 = "${var.short_prefix}-logging-syslog-tcp"
+  name                 = "${var.short_prefix}-syslog-tcp"
   protocol             = "TCP"
   vpc_id               = var.vpc_id
   port                 = "5140"
