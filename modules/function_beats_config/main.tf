@@ -39,6 +39,7 @@ locals {
           subnet_ids : var.subnet_ids
         },
         triggers : local.syslog_log_group_map_array,
+        filter_pattern : "^(?!.*\"severity\": \"debug\").*$"
         processors : [
           {
             add_tags : {
