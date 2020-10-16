@@ -227,6 +227,7 @@ module "functionbeat_config" {
     "${module.label.id}-vpc-flow-logs-log-group",
     "staff-device-${var.env}-dhcp-server-log-group",
     "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
+    "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit"
     module.customLoggingApi.log_group_name,
     module.syslog_endpoint.logging.log_group_name,
     "/aws/vpc-flow-log/*",
