@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e -u -o pipefail
+
+echo "You are about to move messages from the dead letter queue to a active Functionbeat queue for re-processing."
+echo
+echo "Please enter AWS_SECRET_ACCESS_KEY"
+read
+secret_access_key=${REPLY}
+
+echo "Please enter AWS_ACCESS_KEY"
+read
+access_key=${REPLY}
+
+echo "Please enter Dead Letter SQS queue URL"
+read
+dlq_url=${REPLY}
+
+echo "Please enter destination SQS queue URL"
+read
+sqs_url=${REPLY}
+
+docker build -t dlq ./scripts/disaster_recovery
+
+docker run \
+  --env AWS_ACCESS_KEY_ID="${access_key}" \
+  --env AWS_SECRET_ACCESS_KEY="${secret_access_key}" \
+  --env DLQ_SQS_URL="${dlq_url}" \
+  --env AWS_DEFAULT_REGION="eu-west-2" \
+  --env SQS_DESTINATION_URL="${sqs_url}" -t dlq
