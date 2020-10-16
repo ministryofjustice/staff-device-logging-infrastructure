@@ -1,5 +1,4 @@
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-sqs-messages-visible-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
@@ -20,7 +19,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-sqs-messages-sent"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -41,7 +39,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-count" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-sqs-number-of-messages-received"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -62,7 +59,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-sqs-number-messages-received-cou
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-dead-letter-queue-size" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-dead-letter-queue-size"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -83,7 +79,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-dead-letter-queue-size" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-api-gateway-number-of-400-error-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -104,7 +99,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-api-gateway-number-of-500-error-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -125,7 +119,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-api-gateway-request-count"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -146,7 +139,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-request-count" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-api-gateway-integration-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1000"
@@ -167,7 +159,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-integration-latency"
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-api-gateway-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1000"
@@ -188,7 +179,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-latency" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatch" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-invocations-cloudwatch"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -209,7 +199,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-cloudwatc
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-kinesis" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-invocations-kinesis"
   comparison_operator = "LessThanThreshold"
   threshold           = "1"
@@ -231,7 +220,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-kinesis" 
 
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-invocations-sqs"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
@@ -252,7 +240,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-invocations-sqs" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-errors-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -273,7 +260,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-cloudwatch" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-kinesis" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-errors-kinesis"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -295,7 +281,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-kinesis" {
 
 
 resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-errors-sqs"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -316,7 +301,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-lambda-errors-sqs" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-throttle-count-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -337,7 +321,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-cloudwatch" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-kinesis" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-throttle-count-kinesis"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -358,7 +341,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-kinesis" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-throttle-count-sqs"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -379,7 +361,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-throttles-sqs" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-spillover-count-sqs"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -400,7 +381,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-sqs" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-kinesis" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-spillover-count-kinesis"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -421,7 +401,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-kinesis" 
 }
 
 resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatch" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-lambda-spillover-count-cloudwatch"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -444,7 +423,6 @@ resource "aws_cloudwatch_metric_alarm" "logging-lambda-spillover-count-cloudwatc
 # Kinesis
 
 resource "aws_cloudwatch_metric_alarm" "kinesis-oldest-message" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-kinesis-oldest-message"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "72000000" # miliseconds 1000 * 60 * 60 * 2 = 2 hours
@@ -465,7 +443,6 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-oldest-message" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "kinesis-minimum-expected-records" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-kinesis-minimum-expected-records"
   comparison_operator = "LessThanThreshold"
   threshold           = "1"
@@ -486,7 +463,6 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-minimum-expected-records" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "kinesis-write-throughput-exceeded" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-kinesis-write-throughput-exceeded"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -507,7 +483,6 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-write-throughput-exceeded" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "kinesis-read-throughput-exceeded" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-kinesis-read-throughput-exceeded"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
@@ -528,7 +503,6 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-read-throughput-exceeded" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "kinesis-get-records-latency" {
-  count               = local.critical_notifications_count
   alarm_name          = "${var.prefix}-kinesis-get-records-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1000"
@@ -545,5 +519,27 @@ resource "aws_cloudwatch_metric_alarm" "kinesis-get-records-latency" {
   alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "This alarm monitors the get records latency"
+  treat_missing_data = "breaching"
+}
+
+# ECS
+
+resource "aws_cloudwatch_metric_alarm" "syslog-ecs-networkrxbytes" {
+  alarm_name          = "${var.prefix}-syslog-ecs-networkrxbytes"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  threshold           = "1000"
+  evaluation_periods  = "5"
+  metric_name         = "NetworkRxBytes"
+  namespace           = "ECS/ContainerInsights"
+  statistic           = "Average"
+  period              = "60"
+
+  dimensions = {
+    ServiceName = var.syslog_service_name
+  }
+
+  alarm_actions = [aws_sns_topic.this.arn]
+
+  alarm_description = "This alarm monitors the received bytes of traffic for the Syslog service"
   treat_missing_data = "breaching"
 }

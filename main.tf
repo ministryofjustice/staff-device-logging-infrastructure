@@ -127,7 +127,6 @@ module "syslog_endpoint" {
   tags                                = module.label.tags
   vpc_id                              = module.syslog_receiver_vpc.vpc_id
   vpc_cidr                            = var.syslog_receiver_cidr_block
-  critical_notifications_arn          = module.alarms.topic-arn
   load_balancer_private_ip_eu_west_2a = var.syslog_load_balancer_private_ip_eu_west_2a
   load_balancer_private_ip_eu_west_2b = var.syslog_load_balancer_private_ip_eu_west_2b
   load_balancer_private_ip_eu_west_2c = var.syslog_load_balancer_private_ip_eu_west_2c
@@ -152,8 +151,8 @@ module "customLoggingApi" {
 }
 
 module "alarms" {
+  count                         = var.enable_critical_notifications ? 1 : 0
   source                        = "./modules/alarms"
-  enable_critical_notifications = var.enable_critical_notifications
   emails                        = var.critical_notification_recipients
   topic-name                    = "critical-notifications"
   prefix                        = module.label.id
@@ -164,6 +163,7 @@ module "alarms" {
   sqs_function_name             = module.functionbeat_config.sqs_name
   kinesis_function_name         = module.functionbeat_config.kinesis_name
   kinesis_stream_name           = module.shared_services_log_destination.kinesis_stream_name
+  syslog_service_name           = module.syslog_endpoint.ecr.service_name
 
   providers = {
     aws = aws.env

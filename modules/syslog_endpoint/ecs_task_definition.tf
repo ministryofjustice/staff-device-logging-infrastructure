@@ -27,12 +27,7 @@ resource "aws_ecs_task_definition" "server_task" {
     ],
     "essential": true,
     "name": "syslog-server",
-    "environment": [
-      {
-        "name": "CRITICAL_NOTIFICATIONS_ARN",
-        "value": "${var.critical_notifications_arn}"
-      }
-    ],
+    "environment": [],
     "image": "${aws_ecr_repository.docker_repository.repository_url}",
     "expanded": true
   }, {

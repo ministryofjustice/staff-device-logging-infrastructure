@@ -11,10 +11,6 @@ variable "prefix" {
   type = string
 }
 
-variable "enable_critical_notifications" {
-  type = bool
-}
-
 variable "custom_log_queue_name" {
   type = string
 }
@@ -40,5 +36,9 @@ variable "kinesis_function_name" {
 }
 
 variable "kinesis_stream_name" {
+  type = string
+}
+
+variable "syslog_service_name" {
   type = string
 }
