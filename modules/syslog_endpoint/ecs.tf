@@ -20,12 +20,6 @@ resource "aws_ecs_service" "service" {
     container_port   = "514"
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.target_group_tcp.arn
-    container_name   = var.container_name
-    container_port   = "5140"
-  }
-
   network_configuration {
     subnets = var.subnets
 

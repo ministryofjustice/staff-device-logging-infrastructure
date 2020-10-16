@@ -40,24 +40,6 @@ resource "aws_lb_target_group" "target_group_udp" {
   }
 }
 
-resource "aws_lb_target_group" "target_group_tcp" {
-  name                 = "${var.short_prefix}-syslog-tcp"
-  protocol             = "TCP"
-  vpc_id               = var.vpc_id
-  port                 = "5140"
-  target_type          = "ip"
-  deregistration_delay = 10
-
-  health_check {
-    healthy_threshold   = 3
-    unhealthy_threshold = 3
-    port                = 80
-    protocol            = "HTTP"
-    path = "/"
-  }
-}
-
-
 resource "aws_lb_listener" "udp" {
   load_balancer_arn = aws_lb.load_balancer.arn
   port              = "514"
@@ -66,16 +48,5 @@ resource "aws_lb_listener" "udp" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group_udp.arn
-  }
-}
-
-resource "aws_lb_listener" "tcp" {
-  load_balancer_arn = aws_lb.load_balancer.arn
-  port              = "5140"
-  protocol          = "TCP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group_tcp.arn
   }
 }
