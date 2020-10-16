@@ -230,7 +230,8 @@ module "functionbeat_config" {
     "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit",
     module.customLoggingApi.log_group_name,
     module.syslog_endpoint.logging.log_group_name,
-    "/aws/vpc-flow-log/*",
+    "/aws/vpc-flow-log/${module.logging_vpc.vpc_id}",
+    "/aws/vpc-flow-log/${module.syslog_receiver_vpc.vpc_id}",
     "${module.label.id}-dhcp-admin-log-group",
     "${module.label.id}-dns-server-log-group"
   ]
