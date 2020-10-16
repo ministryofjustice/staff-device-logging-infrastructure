@@ -29,8 +29,8 @@ resource "aws_security_group_rule" "syslog_container_udp_in" {
 resource "aws_security_group_rule" "syslog_container_tcp_in" {
   description       = "Allow inbound traffic to the Syslog server"
   type              = "ingress"
-  from_port         = 514
-  to_port           = 514
+  from_port         = 5140
+  to_port           = 5140
   protocol          = "tcp"
   security_group_id = aws_security_group.syslog_server.id
   cidr_blocks       = ["0.0.0.0/0"]
@@ -39,8 +39,8 @@ resource "aws_security_group_rule" "syslog_container_tcp_in" {
 resource "aws_security_group_rule" "syslog_container_tcp_out" {
   description       = "Allow outbound traffic to the Syslog server"
   type              = "egress"
-  from_port         = 514
-  to_port           = 514
+  from_port         = 5140
+  to_port           = 5140
   protocol          = "tcp"
   security_group_id = aws_security_group.syslog_server.id
   cidr_blocks       = ["0.0.0.0/0"]
