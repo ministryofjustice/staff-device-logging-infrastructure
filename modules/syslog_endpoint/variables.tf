@@ -42,8 +42,3 @@ variable "container_name" {
   type    = string
   default = "syslog-server"
 }
-
-variable "container_port" {
-  type    = string
-  default = "514"
-}

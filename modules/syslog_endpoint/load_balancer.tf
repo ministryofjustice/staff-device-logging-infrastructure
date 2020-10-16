@@ -23,11 +23,11 @@ resource "aws_lb" "load_balancer" {
   tags = var.tags
 }
 
-resource "aws_lb_target_group" "target_group" {
-  name                 = "${var.short_prefix}-logging-syslog"
-  protocol             = "TCP_UDP"
+resource "aws_lb_target_group" "target_group_udp" {
+  name                 = "${var.short_prefix}-logging-syslog-udp"
+  protocol             = "UDP"
   vpc_id               = var.vpc_id
-  port                 = var.container_port
+  port                 = "514"
   target_type          = "ip"
   deregistration_delay = 10
 
@@ -40,24 +40,42 @@ resource "aws_lb_target_group" "target_group" {
   }
 }
 
+resource "aws_lb_target_group" "target_group_tcp" {
+  name                 = "${var.short_prefix}-logging-syslog-tcp"
+  protocol             = "TCP"
+  vpc_id               = var.vpc_id
+  port                 = "5140"
+  target_type          = "ip"
+  deregistration_delay = 10
+
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    port                = 80
+    protocol            = "HTTP"
+    path = "/"
+  }
+}
+
+
 resource "aws_lb_listener" "udp" {
   load_balancer_arn = aws_lb.load_balancer.arn
-  port              = var.container_port
+  port              = "514"
   protocol          = "UDP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.target_group_udp.arn
   }
 }
 
 resource "aws_lb_listener" "tcp" {
   load_balancer_arn = aws_lb.load_balancer.arn
-  port              = var.container_port
+  port              = "5140"
   protocol          = "TCP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.target_group_tcp.arn
   }
 }

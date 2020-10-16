@@ -15,9 +15,15 @@ resource "aws_ecs_service" "service" {
   launch_type     = "FARGATE"
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.target_group_udp.arn
     container_name   = var.container_name
-    container_port   = var.container_port
+    container_port   = "514"
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.target_group_tcp.arn
+    container_name   = var.container_name
+    container_port   = "5140"
   }
 
   network_configuration {
