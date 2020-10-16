@@ -159,11 +159,15 @@ module "alarms" {
   custom_log_queue_name         = module.customLoggingApi.custom_log_queue_name
   custom_log_api_gateway_name   = module.customLoggingApi.custom_log_api_gateway_name
   beats_dead_letter_queue_name  = module.customLoggingApi.dlq_custom_log_queue_name
-  cloudwatch_function_name      = module.functionbeat_config.cloudwatch_name
-  sqs_function_name             = module.functionbeat_config.sqs_name
-  kinesis_function_name         = module.functionbeat_config.kinesis_name
-  kinesis_stream_name           = module.shared_services_log_destination.kinesis_stream_name
   syslog_service_name           = module.syslog_endpoint.ecr.service_name
+  kinesis_stream_name           = module.shared_services_log_destination.kinesis_stream_name
+
+  lambda_function_names = [
+    module.functionbeat_config.cloudwatch_name,
+    module.functionbeat_config.sqs_name,
+    module.functionbeat_config.kinesis_name,
+    module.functionbeat_config.cloudwatch_syslog_name
+  ]
 
   providers = {
     aws = aws.env

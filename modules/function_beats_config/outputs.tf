@@ -9,3 +9,7 @@ output "cloudwatch_name" {
 output "kinesis_name" {
   value = local.kinesis_name
 }
+
+output "cloudwatch_syslog_name" {
+  value = local.cloudwatch_syslog_name
+}
