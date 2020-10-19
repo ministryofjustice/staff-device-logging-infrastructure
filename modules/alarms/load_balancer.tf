@@ -1,5 +1,5 @@
-resource "aws_cloudwatch_metric_alarm" "network-load-balancer-healthy-host-count" {
-  alarm_name          = "${var.prefix}-nlb-healthy-host-count"
+resource "aws_cloudwatch_metric_alarm" "network-load-balancer-unhealthy-host-count" {
+  alarm_name          = "${var.prefix}-nlb-unhealthy-host-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
   evaluation_periods  = "2"
@@ -15,5 +15,5 @@ resource "aws_cloudwatch_metric_alarm" "network-load-balancer-healthy-host-count
   alarm_actions = [aws_sns_topic.this.arn]
 
   alarm_description = "Number of unhealthy hosts in target group"
-  treat_missing_data = "breaching"
+  treat_missing_data = "notBreaching"
 }
