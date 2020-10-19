@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_metric_alarm" "invocations" {
   count               = length(var.lambda_function_names)
   alarm_name          = "${element(var.lambda_function_names, count.index)}-lambda"
-  comparison_operator = "EqualToThreshold"
+  comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "0"
   evaluation_periods  = "1"
   metric_name         = "Invocations"
