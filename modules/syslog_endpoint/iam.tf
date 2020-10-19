@@ -13,6 +13,26 @@ resource "aws_iam_role" "ecs_execution_role" {
   tags = var.tags
 }
 
+resource "aws_iam_role_policy" "ecs_task_execution_policy" {
+  name = "${var.prefix}-ecs-task-execution-policy"
+  role = aws_iam_role.ecs_execution_role.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sns:Publish"
+      ],
+      "Resource": ["*"]
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy" "ecs_task_policy" {
   name = "${var.prefix}-ecs-task-policy"
   role = aws_iam_role.ecs_task_role.id
