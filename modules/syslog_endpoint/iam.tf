@@ -31,6 +31,13 @@ resource "aws_iam_role_policy" "ecs_task_policy" {
         "logs:CreateLogStream"
       ],
       "Resource": ["*"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sns:Publish"
+      ],
+      "Resource": ["*"]
     }
   ]
 }
