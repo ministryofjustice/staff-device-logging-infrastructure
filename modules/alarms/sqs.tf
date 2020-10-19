@@ -1,23 +1,3 @@
-resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-visible-count" {
-  alarm_name          = "${var.prefix}-sqs-messages-visible-count"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "1"
-  metric_name         = "ApproximateNumberOfMessagesVisible"
-  namespace           = "AWS/SQS"
-  period              = "60"
-  statistic           = "Sum"
-  threshold           = "1000"
-
-  dimensions = {
-    QueueName = var.custom_log_queue_name
-  }
-
-  alarm_actions = [aws_sns_topic.this.arn]
-
-  alarm_description  = "This alarm monitors the number of visible messages"
-  treat_missing_data = "breaching"
-}
-
 resource "aws_cloudwatch_metric_alarm" "logging-sqs-messages-sent" {
   alarm_name          = "${var.prefix}-sqs-messages-sent"
   comparison_operator = "LessThanOrEqualToThreshold"
