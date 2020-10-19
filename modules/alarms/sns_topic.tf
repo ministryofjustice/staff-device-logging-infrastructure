@@ -5,9 +5,9 @@ resource "aws_sns_topic" "this" {
 data "template_file" "email_subscription" {
   count = length(var.emails)
   vars = {
-    email     = "${element(var.emails, count.index)}"
-    index     = "${count.index}"
-    topic_arn = "${aws_sns_topic.this.arn}"
+    email     = element(var.emails, count.index)
+    index     = count.index
+    topic_arn = aws_sns_topic.this.arn
 
     # Name must be alphanumeric, unique, but also consistent based on the email address.
     # It also needs to stay under 255 characters.
