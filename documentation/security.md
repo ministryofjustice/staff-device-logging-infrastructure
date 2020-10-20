@@ -1,6 +1,24 @@
 # Security
 
-## Built in security by design
+There are 4 entry points into this service, and one exit point to foward logs to the remote MoJ Operational Security Team platform.
+
+### CloudWatch logs from cross account subscriptions
+
+Shared Services -> Kinesis -> FunctionBeat -> Remote ElasticSearch
+
+### Firewall Logs
+
+API Gateway -> SQS -> FunctionBeat -> Remote ElasticSearch
+
+### Syslogs
+
+Transit Gateway -> ECS -> CloudWatch -> FunctionBeat -> Remote ElasticSearch
+
+### CloudWatch logs from the current account
+
+CloudWatch -> FunctionBeat -> Remote ElasticSearch
+
+## Security by design
 
 With security being one of the primary concerns of this service, it was designed to benefit from the following security measures:
 

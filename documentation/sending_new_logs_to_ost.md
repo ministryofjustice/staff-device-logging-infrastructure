@@ -35,3 +35,22 @@ This endpoint should only be used if it is not possible to write logs into Cloud
 3. Log into the production AWS console and get the API key from the API Gateway service.
 
 4. Share the endpoint and API key with the new client
+
+### 3. Syslog
+
+To receive new syslogs, configure the new clients to point to the Network Load Balancer IPs of the Syslog service.
+
+**Requirements:**
+
+Protocol (UDP)
+
+Port - (514)
+
+This service is only available on the private MoJ network and all traffic will have to come via the Transit Gateway.
+
+The load balancer is in 3 availability zones, so there are 3 IPs available to configure syslog clients with.
+It is beneficial to have clients configured with more than one IP as they inherit the AZ failover provided by AWS.
+
+The IPs of the load balancers can be found in SSM Parameter Store in the Shared Services account.
+
+Once the service receives traffic, it will create a new log stream in CloudWatch. The name of the log stream will be the name of the host sending the data.

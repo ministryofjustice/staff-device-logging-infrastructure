@@ -21,7 +21,7 @@ The CloudFormation stack creation had to be reproduced in the buildspec.yml file
 
 ### Concurrency limits
 
-There is an account limit of 1000 concurrent Lambda executions. We have 3 Lambdas with the concurrency limit set to 100, taking 300 of the allowed 1000 concurrent executions. The service is not currently utilising all 300 concurrent executions. If this threshold was crossed, CloudWatch alarms would go off. This account limit can be [increased](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html) if need be.
+There is an account limit of 1000 concurrent Lambda executions. We have 4 Lambdas with the concurrency limit set to 100, taking 400 of the allowed 1000 concurrent executions. The service is not currently utilising all 400 concurrent executions. If this threshold was crossed, CloudWatch alarms would go off. This account limit can be [increased](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html) if need be.
 
 ### Timeouts
 
