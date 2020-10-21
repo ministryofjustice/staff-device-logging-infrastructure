@@ -43,6 +43,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket        = local.cloud_trail_bucket_name
   force_destroy = true
   policy        = data.template_file.s3_bucket_policies.rendered
+  acl           = "private"
 
   server_side_encryption_configuration {
     rule {
