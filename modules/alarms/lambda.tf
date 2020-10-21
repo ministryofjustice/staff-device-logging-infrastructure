@@ -1,9 +1,9 @@
 resource "aws_cloudwatch_metric_alarm" "invocations" {
   count               = length(var.lambda_function_names)
-  alarm_name          = "${element(var.lambda_function_names, count.index)}-lambda"
+  alarm_name          = "${element(var.lambda_function_names, count.index)}-lambda-invocations"
   comparison_operator = "LessThanOrEqualToThreshold"
   threshold           = "1"
-  evaluation_periods  = "1"
+  evaluation_periods  = "2"
   metric_name         = "Invocations"
   namespace           = "AWS/Lambda"
   statistic           = "Sum"
@@ -21,7 +21,7 @@ resource "aws_cloudwatch_metric_alarm" "invocations" {
 
 resource "aws_cloudwatch_metric_alarm" "errors" {
   count               = length(var.lambda_function_names)
-  alarm_name          = "${element(var.lambda_function_names, count.index)}-lambda"
+  alarm_name          = "${element(var.lambda_function_names, count.index)}-lambda-invocations"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   threshold           = "1"
   evaluation_periods  = "1"
