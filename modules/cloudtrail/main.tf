@@ -36,6 +36,7 @@ resource "aws_cloudtrail" "logging_cloudtrail" {
   include_global_service_events = true
   is_multi_region_trail         = true
   kms_key_id                    = aws_kms_key.cloudtrail_kms_key.arn
+  enable_log_file_validation    = true
 
   tags = var.tags
 }
