@@ -1,6 +1,7 @@
 resource "aws_kms_key" "functionbeat" {
   description             = "${var.prefix}-functionbeat"
   deletion_window_in_days = 10
+  enable_key_rotation     = true
 }
 
 resource "aws_s3_bucket" "functionbeat-deploy" {

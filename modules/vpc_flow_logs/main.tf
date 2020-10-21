@@ -14,6 +14,7 @@ resource "aws_kms_key" "vpc_flow_logs_kms_key" {
   description             = "${var.prefix}-vpc-flow-logs-kms-key"
   deletion_window_in_days = 10
   policy                  = data.template_file.vpc_flow_logs_kms_key_policies.rendered
+  enable_key_rotation     = true
 
   tags = var.tags
 }

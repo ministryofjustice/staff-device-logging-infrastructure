@@ -19,6 +19,7 @@ resource "aws_kinesis_stream" "shared_services_destination_stream" {
 resource "aws_kms_key" "kinesis_stream_key" {
   description             = "${var.prefix}_shared_services_kinesis_stream_key"
   deletion_window_in_days = 10
+  enable_key_rotation     = true
 }
 
 resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
