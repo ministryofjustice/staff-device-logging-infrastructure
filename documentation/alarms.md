@@ -8,6 +8,9 @@ These alarms are triggered when certain thresholds are crossed on the following 
 - [Simple Queueing Service (SQS)](https://aws.amazon.com/sqs/)
 - [Kinesis](https://aws.amazon.com/kinesis/)
 - [API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
+- [Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-cloudwatch-metrics.html)
+
+The notifications are sent to a SNS topic.
 
 [SNS subscription](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html) recipients are managed in [AWS SSM Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), and can be found under the name:
 
@@ -101,6 +104,14 @@ The number of messages returned by calls to the ReceiveMessage action.
 *< 1 over a time period of 1 minute*
 
 --- 
+
+### Network Load Balancer
+
+Please see NLB metrics [here](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-cloudwatch-metrics.html).
+
+**UnHealthyHostCount**
+
+The number of targets that are considered unhealthy. This is caused by either a failed health check or essential container process exit.
 
 ### Simple Queueing Service (Dead Letter Queue)
 
