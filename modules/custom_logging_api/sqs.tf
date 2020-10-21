@@ -20,4 +20,5 @@ resource "aws_sqs_queue" "dlq_custom_log_queue"{
 resource "aws_kms_key" "sqs_kms_master_key" {
   description             = "${var.prefix} SQS KMS master key"
   deletion_window_in_days = 7
+  enable_key_rotation     = true
 }

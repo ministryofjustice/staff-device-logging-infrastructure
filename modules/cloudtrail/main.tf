@@ -9,6 +9,7 @@ resource "aws_kms_key" "cloudtrail_kms_key" {
   description             = "${var.prefix}-cloudtrail-kms-key"
   deletion_window_in_days = 10
   policy                  = data.template_file.cloud_trail_kms_key_policies.rendered
+  enable_key_rotation     = true
 
   tags = var.tags
 }
