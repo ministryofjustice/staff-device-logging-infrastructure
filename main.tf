@@ -137,11 +137,11 @@ module "syslog_endpoint" {
 }
 
 module "customLoggingApi" {
-  source                  = "./modules/custom_logging_api"
-  prefix                  = module.label.id
-  region                  = data.aws_region.current_region.id
-  enable_api_gateway_logs = var.enable_api_gateway_logs
-  vpn_hosted_zone_id      = var.vpn_hosted_zone_id
+  source                    = "./modules/custom_logging_api"
+  prefix                    = module.label.id
+  region                    = data.aws_region.current_region.id
+  enable_api_gateway_logs   = var.enable_api_gateway_logs
+  vpn_hosted_zone_id        = var.vpn_hosted_zone_id
   api_gateway_custom_domain = var.api_gateway_custom_domain
   tags                      = module.label.tags
 
@@ -151,17 +151,17 @@ module "customLoggingApi" {
 }
 
 module "alarms" {
-  count                         = var.enable_critical_notifications ? 1 : 0
-  source                        = "./modules/alarms"
-  emails                        = var.critical_notification_recipients
-  topic-name                    = "critical-notifications"
-  prefix                        = module.label.id
-  custom_log_queue_name         = module.customLoggingApi.custom_log_queue_name
-  custom_log_api_gateway_name   = module.customLoggingApi.custom_log_api_gateway_name
-  beats_dead_letter_queue_name  = module.customLoggingApi.dlq_custom_log_queue_name
-  syslog_service_name           = module.syslog_endpoint.ecr.service_name
-  kinesis_stream_name           = module.shared_services_log_destination.kinesis_stream_name
-  target_group_name             = module.syslog_endpoint.logging.syslog_target_group_name
+  count                        = var.enable_critical_notifications ? 1 : 0
+  source                       = "./modules/alarms"
+  emails                       = var.critical_notification_recipients
+  topic-name                   = "critical-notifications"
+  prefix                       = module.label.id
+  custom_log_queue_name        = module.customLoggingApi.custom_log_queue_name
+  custom_log_api_gateway_name  = module.customLoggingApi.custom_log_api_gateway_name
+  beats_dead_letter_queue_name = module.customLoggingApi.dlq_custom_log_queue_name
+  syslog_service_name          = module.syslog_endpoint.ecr.service_name
+  kinesis_stream_name          = module.shared_services_log_destination.kinesis_stream_name
+  target_group_name            = module.syslog_endpoint.logging.syslog_target_group_name
 
   lambda_function_names = [
     module.functionbeat_config.cloudwatch_name,
@@ -281,6 +281,23 @@ module "api_gateway_load_test" {
   arrival_rate   = 40
   instance_count = 200
   duration       = 60
+
+  prefix = module.label.id
+
+  providers = {
+    aws = aws.env
+  }
+}
+
+module "syslog_load_test" {
+  source              = "./modules/syslog_client"
+  count               = var.enable_syslog_endpoint_load_test ? 1 : 0
+  instance_count      = 1
+  syslog_endpoint_vpc = module.syslog_receiver_vpc.vpc_id
+  subnet              = module.syslog_receiver_vpc.public_subnets[0]
+  load_balancer_ip    = var.syslog_load_balancer_private_ip_eu_west_2a
+  tags                = module.label.tags
+  vpc_cidr_block      = var.syslog_receiver_cidr_block
 
   prefix = module.label.id
 
