@@ -37,6 +37,7 @@ locals {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
         },
+        filter_pattern : "^(?!.*\"severity\": \"debug\").*$"
         triggers : local.syslog_log_group_map_array,
         processors : [
           {
@@ -180,7 +181,7 @@ locals {
     "output.elasticsearch.ssl.certificate_authorities" : ["elk-ca.crt"]
     "output.elasticsearch.ssl.certificate" : "moj.crt"
     "output.elasticsearch.ssl.key" : "moj.key"
-    "logging.level" : "debug"
+    "logging.level" : "info"
 
     processors : [
       {
