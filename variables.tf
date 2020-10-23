@@ -98,7 +98,7 @@ variable "syslog_load_balancer_private_ip_eu_west_2c" {
 }
 
 variable "enable_transit_gateway_attachment" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -119,6 +119,11 @@ variable "api_gateway_custom_domain" {
 }
 
 variable "enable_dlq" {
-  type = bool
+  type    = bool
+  default = false
+}
+
+variable "enable_syslog_endpoint_load_test" {
+  type    = bool
   default = false
 }
