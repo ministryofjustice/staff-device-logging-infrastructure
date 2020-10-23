@@ -289,7 +289,8 @@ module "api_gateway_load_test" {
   }
 }
 
-module "syslog_load_test" {
+module "syslog_heartbeat" {
+  count               = terraform.workspace == "development" || terraform.workspace == "pre-production" ? 1 : 0
   source              = "./modules/syslog_client"
   count               = var.enable_syslog_endpoint_load_test ? 1 : 0
   instance_count      = 1
