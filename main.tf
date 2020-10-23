@@ -309,7 +309,6 @@ module "syslog_load_test" {
 module "syslog_heartbeat" {
   count               = terraform.workspace == "development" || terraform.workspace == "pre-production" ? 1 : 0
   source              = "./modules/syslog_client"
-  count               = var.enable_syslog_endpoint_load_test ? 1 : 0
   instance_count      = 1
   syslog_endpoint_vpc = module.syslog_receiver_vpc.vpc_id
   subnet              = module.syslog_receiver_vpc.public_subnets[0]
