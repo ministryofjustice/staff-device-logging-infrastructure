@@ -293,7 +293,6 @@ module "api_gateway_load_test" {
 }
 
 module "syslog_heartbeat" {
-  count               = terraform.workspace == "development" || terraform.workspace == "pre-production" ? 1 : 0
   source              = "./modules/syslog_client"
   instance_count      = 1
   syslog_endpoint_vpc = module.syslog_receiver_vpc.vpc_id
