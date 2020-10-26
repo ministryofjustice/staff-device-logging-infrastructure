@@ -29,7 +29,7 @@ resource "aws_lb_target_group" "target_group_udp" {
   vpc_id               = var.vpc_id
   port                 = "514"
   target_type          = "ip"
-  deregistration_delay = 10
+  deregistration_delay = 600
 
   health_check {
     healthy_threshold   = 3
