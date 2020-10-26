@@ -43,7 +43,7 @@ echo '${data.template_file.syslog_client.rendered}' >> ~/syslog_client/syslog_cl
 cd ~/syslog_client
 
 while true; do
-  python -c "import syslog_client; s = syslog_client.Syslog(); s.send({\"host\": \"Staff-Device-Syslog-Host\", \"ident\": \"1\", \"message\": \"Hello Syslog\", \"pri\": \"134\"}, syslog_client.Level.WARNING);"
+  python -c "import syslog_client; s = syslog_client.Syslog(); s.send({\"host\": \"Staff-Device-Syslog-Host\", \"ident\": \"1\", \"message\": \"Hello Syslogs\", \"pri\": \"134\"}, syslog_client.Level.WARNING);"
   python -c "import syslog_client; s = syslog_client.Syslog(); s.send(\"test unparsed string\", syslog_client.Level.WARNING);"
   sleep 1
   echo "hi"
