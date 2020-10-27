@@ -132,7 +132,7 @@ locals {
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_kinesis_arn,
-        batch_size : 1000,
+        batch_size : 100,
         parallelization_factor : 10,
         memory_size : "256 MiB",
         tags: {
