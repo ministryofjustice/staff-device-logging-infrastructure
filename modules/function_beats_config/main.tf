@@ -133,6 +133,7 @@ locals {
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_kinesis_arn,
         batch_size : 1000,
+        parallelization_factor : 10,
         memory_size : "256 MiB",
         tags: {
           data_source: "shared_services"
