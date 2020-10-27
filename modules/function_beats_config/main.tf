@@ -132,6 +132,7 @@ locals {
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_kinesis_arn,
+        memory_size : 256,
         tags: {
           data_source: "shared_services"
         },
@@ -186,7 +187,7 @@ locals {
     processors : [
       {
         add_tags : {
-          tags: [var.prefix],
+          tags: ["${var.prefix}"],
           target : "environment"
         }
       },
