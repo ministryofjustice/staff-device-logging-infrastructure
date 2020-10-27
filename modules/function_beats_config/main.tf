@@ -135,6 +135,7 @@ locals {
         batch_size : 100,
         parallelization_factor : 10,
         memory_size : "256 MiB",
+        starting_position : "latest",
         tags: {
           data_source: "shared_services"
         },
