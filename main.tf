@@ -232,13 +232,13 @@ module "functionbeat_config" {
     "staff-device-${var.env}-dhcp-server-log-group",
     "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
     module.customLoggingApi.log_group_name,
-    module.syslog_endpoint.logging.log_group_name,
     "staff-device-${var.env}-dhcp-admin-log-group",
     "staff-device-${var.env}-dns-server-log-group",
     "staff-infra-${var.env}-ima-blackbox-exporter-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-snmp-exporter-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-grafana-cloudwatch-log-group",
-    "staff-infra-${var.env}-ima-prometheus-cloudwatch-log-group"
+    "staff-infra-${var.env}-ima-prometheus-cloudwatch-log-group",
+    "/aws/rds/instance/${module.label.id}-dhcp-admin-db/audit"
   ]
 
   syslog_log_groups = [
