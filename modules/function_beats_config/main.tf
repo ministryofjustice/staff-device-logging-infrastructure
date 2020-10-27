@@ -152,15 +152,6 @@ locals {
               tags : ["kinesis"],
               target : "log_source"
             }
-          }, {
-            decode_json_fields : {
-              fields : ["message"],
-              process_array : true,
-              target : "",
-              add_error_key : true,
-              overwrite_keys : true,
-              max_depth : 10
-            }
           }
         ]
       },
