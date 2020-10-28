@@ -8,7 +8,7 @@ resource "aws_kinesis_stream" "shared_services_destination_stream" {
   shard_count      = 2
   encryption_type  = "KMS"
   kms_key_id       = aws_kms_key.kinesis_stream_key.id
-  retention_period = 48
+  retention_period = 168
 
   shard_level_metrics = [
     "IncomingBytes",
