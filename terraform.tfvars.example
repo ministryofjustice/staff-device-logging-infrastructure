@@ -1,23 +1,29 @@
-assume_role = "arn:aws:iam::<CURRENT_DEV_IAM_ACCOUNT>:role/pttp-development-infra-shared-services-admin"
 
-logging_cidr_block = "10.0.0.0/16"
-
-# Build cloudwatch alarms ('true' can be noisy to others)
-enable_critical_notifications = false
-critical_notification_recipients = ["foo@bar.com"]
-# If true you may hit the cloudtrail limit of 100 trails
+enable_critical_notifications                = false
+enable_peering                               = false
 enable_cloudtrail_log_shipping_to_cloudwatch = false
+enable_syslog_endpoint_load_test             = true
+enable_shared_services_log_destination       = false
+enable_api_gateway_custom_domain             = false
 
-owner_email = "<MYEMAIL>"
-enable_shared_services_log_destination = false
-shared_services_account_arn = "arn:aws:iam::<SHARED_SERVICES_IAM_ACCOUNT_NUMBER>:root"
-
-# Attempt to peer with OST
-enable_peering     = false
-ost_vpc_id         = ""
-ost_aws_account_id = ""
-ost_vpc_cidr_block = ""
-
-ost_username = "fakeusername"
-ost_password = "fakepassword"
-ost_url      = "justice.gov.uk"
+shared_services_account_arn                  = "arn:aws:iam::<AWS_ACCOUNT_NUMBER>:root"
+assume_role                                  = "arn:aws:iam::<AWS_ACCOUNT_NUMBER>:role/<AWS_ROLE>"
+owner_email                                  = "<OWNER_EMAIL_ADDRESS>"
+ost_vpc_id                                   = "<OST_VPC_ID>"
+ost_aws_account_id                           = "<OST_AWS_ACCOUNT_ID>"
+ost_vpc_cidr_block                           = "<OST_CIDR_BLOCK>"
+logging_cidr_block                           = "<LOGGING_CIDR_BLOCK>"
+ost_password                                 = "[OST_PASSWORD]"
+ost_username                                 = "[OST_USERNAME]"
+ost_url                                      = "[OST_ENDPOINT_URL]"
+critical_notification_recipients             = ["<YOUR_EMAIL_ADDRESS>"]
+api_gateway_custom_domain                    = "<CUSTOM_DOMAIN>"
+syslog_load_balancer_private_ip_eu_west_2a   = "<LOAD_BALANCER_IP>"
+syslog_load_balancer_private_ip_eu_west_2b   = "<LOAD_BALANCER_IP>"
+syslog_load_balancer_private_ip_eu_west_2c   = "<LOAD_BALANCER_IP>"
+transit_gateway_id                           = "<TGW_ID>"
+transit_gateway_route_table_id               = "<TGW_ROUTE_TABLE_ID>"
+vpn_hosted_zone_id                           = "VPN_HOSTED_ZONE_ID"
+syslog_receiver_cidr_block                   = "SYSLOG_CIDR_BLOCK"
+bastion_allowed_ingress_ip                   = "noop"
+bastion_allowed_egress_ip                    = "noop"
