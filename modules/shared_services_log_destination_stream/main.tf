@@ -4,7 +4,7 @@ locals {
 
 resource "aws_kinesis_stream" "shared_services_destination_stream" {
   count            = local.shared_service_log_destination_count
-  name             = "${var.prefix}-shared-services-log-destination-stream"
+  name             = "${var.prefix}-shared-services-log-destination"
   shard_count      = 2
   encryption_type  = "KMS"
   kms_key_id       = aws_kms_key.kinesis_stream_key.id
