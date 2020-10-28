@@ -185,8 +185,7 @@ locals {
           target : "environment"
         }
       },
-      { add_host_metadata : { } },
-      { add_cloud_metadata : { "providers" : ["aws"] } }
+      { add_host_metadata : { } }
     ]
   })
 }
