@@ -44,9 +44,11 @@ cd ~/syslog_client
 
 count=0
 while true; do
-  python -c "import syslog_client; s = syslog_client.Syslog(); s.send({\"count\": \"$count\", \"host\": \"Staff-Device-Syslog-Host\", \"ident\": \"1\", \"message\": \"Hello Syslogs\", \"pri\": \"134\"}, syslog_client.Level.WARNING);"
+  for i in `seq 1 10`;
+  do
+    python -c "import syslog_client; s = syslog_client.Syslog(); s.send({\"count\": \"$count\", \"host\": \"Staff-Device-Syslog-Host\", \"ident\": \"1\", \"message\": \"Load Testing Syslogs\", \"pri\": \"134\"}, syslog_client.Level.WARNING);"
+  done  
   sleep 1
-  echo "hi"
   ((count=count+1))
 done
 EOF
