@@ -44,7 +44,7 @@ cd ~/syslog_client
 
 count=0
 while true; do
-  for i in `seq 1 10`;
+  for i in `seq 1 100`;
   do
     python -c "import syslog_client; s = syslog_client.Syslog(); s.send({\"count\": \"$count\", \"host\": \"Staff-Device-Syslog-Host\", \"ident\": \"1\", \"message\": \"Load Testing Syslogs\", \"pri\": \"134\"}, syslog_client.Level.WARNING);"
   done  
