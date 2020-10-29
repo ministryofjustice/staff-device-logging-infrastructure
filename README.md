@@ -2,6 +2,13 @@
 
 This is the Log Shipping infrastructure used by the [Ministry of Justice](https://www.gov.uk/government/organisations/ministry-of-justice) to forward logs to the Operational Security Team.
 
+## Related Repositories
+
+This repository defines the **system infrastructure only**. Specific components and applications are defined in their own logical external repositories.
+
+- [Shared Services](https://github.com/ministryofjustice/pttp-shared-services-infrastructure)
+- [Syslog to Cloudwatch](https://github.com/ministryofjustice/staff-device-logging-syslog-to-cloudwatch)
+
 Below you will find various documentation about managing and running this service:
 
 - [Getting Started](./documentation/getting_started.md)
