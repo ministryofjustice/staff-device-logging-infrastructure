@@ -237,7 +237,8 @@ module "functionbeat_config" {
     "staff-infra-${var.env}-ima-snmp-exporter-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-grafana-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-prometheus-cloudwatch-log-group",
-    "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit"
+    "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit",
+    "dns-dhcp-${var.env}-vpc-flow-logs-log-group"
   ]
 
   syslog_log_groups = [
