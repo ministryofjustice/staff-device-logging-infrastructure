@@ -12,7 +12,7 @@ resource "aws_api_gateway_integration" "sqs-integration" {
   }
 
   request_templates = {
-    "application/json" = "Action=SendMessage&MessageBody=$input.json('$')"
+    "application/json" = "Action=SendMessage&MessageBody=$util.escapeJavaScript($input.json('$'))"
   }
 }
 
