@@ -327,7 +327,7 @@ while true; do
 done
 EOF
 
-  prefix = module.label.id
+  prefix = "${module.label.id}-loadtest"
 
   providers = {
     aws = aws.env
