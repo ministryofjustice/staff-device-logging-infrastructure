@@ -306,3 +306,30 @@ module "syslog_heartbeat" {
     aws = aws.env
   }
 }
+
+module "syslog_load_test" {
+  count               = terraform.workspace == "development" && var.enable_syslog_endpoint_load_test ? 1 : 0
+  source              = "./modules/syslog_client"
+  instance_count      = 10
+  syslog_endpoint_vpc = module.syslog_receiver_vpc.vpc_id
+  subnet              = module.syslog_receiver_vpc.public_subnets[0]
+  load_balancer_ip    = var.syslog_load_balancer_private_ip_eu_west_2a
+  tags                = module.label.tags
+  vpc_cidr_block      = var.syslog_receiver_cidr_block
+  heartbeat_script = <<EOF
+count=0
+while true; do
+  for i in `seq 1 10`; do
+    python -c "import syslog_client; s = syslog_client.Syslog(); s.send({\"count\": \"$count\", \"host\": \"Staff-Device-Syslog-Host\", \"message\": \"Syslogs Load Test\"}, syslog_client.Level.WARNING);"
+  done
+  sleep 0.5
+  ((count=count+1))
+done
+EOF
+
+  prefix = module.label.id
+
+  providers = {
+    aws = aws.env
+  }
+}

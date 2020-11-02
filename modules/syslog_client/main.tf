@@ -42,12 +42,7 @@ mkdir ~/syslog_client
 echo '${data.template_file.syslog_client.rendered}' >> ~/syslog_client/syslog_client.py
 cd ~/syslog_client
 
-count=0
-while true; do
-  python -c "import syslog_client; s = syslog_client.Syslog(); s.send({\"count\": \"$count\", \"host\": \"Staff-Device-Syslog-Host\", \"ident\": \"1\", \"message\": \"Hello Syslogs\", \"pri\": \"134\"}, syslog_client.Level.WARNING);"
-  sleep 1
-  ((count=count+1))
-done
+${var.heartbeat_script}
 EOF
 }
 
