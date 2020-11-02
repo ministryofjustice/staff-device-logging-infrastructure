@@ -319,7 +319,7 @@ module "syslog_load_test" {
   heartbeat_script = <<EOF
 count=0
 while true; do
-  for i in `seq 1 10`; do
+  for i in `seq 1 20`; do
     python -c "import syslog_client; s = syslog_client.Syslog(); s.send({\"count\": \"$count\", \"host\": \"Staff-Device-Syslog-Host\", \"message\": \"Syslogs Load Test\"}, syslog_client.Level.WARNING);"
   done
   sleep 0.5
