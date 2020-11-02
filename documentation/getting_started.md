@@ -103,11 +103,11 @@ aws-vault exec moj-pttp-shared-services -- terraform workspace list
 4. Apply your infrastructure
 
 ```sh
-aws-vault exec moj-pttp-shared-services -- terraform apply
+make apply
 ```
 
 5. Destroying your infrastructure
 
 ```sh
-aws-vault exec moj-pttp-shared-services -- terraform destroy
+make destroy
 ```
