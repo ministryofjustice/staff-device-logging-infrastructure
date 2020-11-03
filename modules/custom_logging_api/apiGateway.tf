@@ -4,7 +4,7 @@ resource "aws_api_gateway_domain_name" "custom_logging_api" {
   regional_certificate_arn = aws_acm_certificate.api_gateway_logging.arn
 
   endpoint_configuration {
-    types = [ "REGIONAL" ]
+    types = ["REGIONAL"]
   }
 }
 
@@ -124,7 +124,7 @@ resource "aws_api_gateway_method_settings" "api_settings" {
   settings {
     metrics_enabled    = true
     data_trace_enabled = true
-    logging_level      = "INFO"
+    logging_level      = "ERROR"
   }
 }
 
