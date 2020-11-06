@@ -21,7 +21,7 @@ resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-400-error-count" {
 resource "aws_cloudwatch_metric_alarm" "logging-api-gateway-500-error-count" {
   alarm_name          = "${var.prefix}-api-gateway-number-of-500-error-count"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  threshold           = "1"
+  threshold           = "10"
   evaluation_periods  = "1"
   metric_name         = "5XXError"
   namespace           = "AWS/ApiGateway"

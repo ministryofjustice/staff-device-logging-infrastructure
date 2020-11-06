@@ -32,13 +32,13 @@ Please see API Gateway metrics [here](https://docs.aws.amazon.com/apigateway/lat
 
 The number of client-side errors. 
 
-*>= 1 over a time period of 1 minute*
+*>= 10 over a time period of 1 minute*
 
 **5XXError**
 
 The number of server-side errors. 
 
-*>= 1 over a time period of 1 minute*
+*>= 10 over a time period of 1 minute*
 
 **Count**
 
@@ -65,7 +65,7 @@ Please see Lambda metrics [here](https://docs.aws.amazon.com/lambda/latest/dg/mo
 **Errors**
 The number of invocations that result in a function error.
 
-*> 1 over a time period of 1 minute*
+*> 5 over a time period of 1 minute*
 
 **Throttles**
 
