@@ -1,8 +1,9 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  s3_bucket_log_prefix                        = "cloudtrail_logs"
-  cloud_trail_bucket_name                     = "${var.prefix}-cloudtrail-bucket"
+  s3_bucket_log_prefix    = "cloudtrail_logs"
+  cloud_trail_bucket_name = "${var.prefix}-cloudtrail-bucket"
+  cloud_trail_bucket_logs = "${var.prefix}-cloudtrail-bucket-logs"
 }
 
 resource "aws_kms_key" "cloudtrail_kms_key" {
@@ -41,11 +42,31 @@ resource "aws_cloudtrail" "logging_cloudtrail" {
   tags = var.tags
 }
 
+resource "aws_s3_bucket" "cloudtrail_bucket_logs" {
+  bucket        = local.cloud_trail_bucket_logs
+  force_destroy = true
+  acl           = "log-delivery-write"
+}
+
+resource "aws_s3_bucket_public_access_block" "cloudtrail_bucket_logs" {
+  bucket = aws_s3_bucket.cloudtrail_bucket_logs.id
+
+  block_public_acls       = true
+  ignore_public_acls      = true
+  block_public_policy     = true
+  restrict_public_buckets = true
+}
+
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket        = local.cloud_trail_bucket_name
   force_destroy = true
   policy        = data.template_file.s3_bucket_policies.rendered
   acl           = "private"
+
+  logging {
+    target_bucket = aws_s3_bucket.cloudtrail_bucket_logs.id
+    target_prefix = "log/"
+  }
 
   server_side_encryption_configuration {
     rule {
@@ -55,6 +76,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
       }
     }
   }
+
 
   lifecycle_rule {
     enabled = true
