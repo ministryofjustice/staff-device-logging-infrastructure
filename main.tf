@@ -230,6 +230,8 @@ module "functionbeat_config" {
     "PaloAltoNetworksFirewalls",
     "${module.label.id}-cloudtrail-log-group",
     "staff-device-${var.env}-dhcp-server-log-group",
+    "staff-device-${var.env}-dhcp-standby-server-log-group",
+    "staff-device-${var.env}-dhcp-api-server-log-group",
     "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
     "staff-device-${var.env}-dhcp-admin-log-group",
     "staff-device-${var.env}-dns-server-log-group",
