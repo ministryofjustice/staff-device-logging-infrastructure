@@ -6,7 +6,7 @@ This is the Log Shipping infrastructure used by the [Ministry of Justice](https:
 
 This repository defines the **system infrastructure only**. Specific components and applications are defined in their own logical external repositories.
 
-- [Shared Services](https://github.com/ministryofjustice/pttp-shared-services-infrastructure)
+- [Shared Services](https://github.com/ministryofjustice/staff-device-shared-services-infrastructure)
 - [Syslog to Cloudwatch](https://github.com/ministryofjustice/staff-device-logging-syslog-to-cloudwatch)
 
 Below you will find various documentation about managing and running this service:

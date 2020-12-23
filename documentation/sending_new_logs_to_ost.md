@@ -16,7 +16,7 @@ Cross-account log subscriptions need to be backed by [Kinesis](https://aws.amazo
 
 Same account log subscriptions are managed in Terraform, and adding a new log group from the same AWS account can be done by adding it to the variable called `log_groups` for the `functionbeat` module in the [main.tf](../main.tf) file.
 
-Cross account log subscriptions are managed in the Shared Services Terraform code [repository](https://github.com/ministryofjustice/pttp-shared-services-infrastructure/tree/master/modules/log-forwarding).
+Cross account log subscriptions are managed in the Shared Services Terraform code [repository](https://github.com/ministryofjustice/staff-device-shared-services-infrastructure/tree/master/modules/log-forwarding).
 
 Given the service ships log groups not created by this Terraform repo, not all log group names can be derived dynamically from Terraform resources. All CloudTrail logs in the AWS account are forwarded to CloudWatch, and then shipped.
 
