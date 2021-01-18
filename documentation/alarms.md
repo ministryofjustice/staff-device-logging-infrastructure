@@ -1,6 +1,6 @@
 # Alarms
 
-To ensure visibility on the health of the overall service, we have set up CloudWatch alarms to notify developers via email.
+To ensure visibility on the health of the overall service, we have set up a Grafana dashboard for monitoring.  This dashboard also has alarms configured.
 
 These alarms are triggered when certain thresholds are crossed on the following services:
 
@@ -10,15 +10,7 @@ These alarms are triggered when certain thresholds are crossed on the following 
 - [API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
 - [Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-cloudwatch-metrics.html)
 
-The notifications are sent to a SNS topic.
-
-[SNS subscription](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html) recipients are managed in [AWS SSM Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), and can be found under the name:
-
-```
-/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/critical_notification_recipients
-```
-
-Read more about [secrets management](./secrets_management.md).
+Notifications are sent to a Slack Channel configured in Grafana.
 
 The monitored [metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html) and thresholds are documented below:
 
