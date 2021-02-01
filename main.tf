@@ -210,14 +210,14 @@ module "functionbeat_config" {
     "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
     "staff-device-${var.env}-dhcp-admin-log-group",
     "staff-device-${var.env}-dns-server-log-group",
-    "staff-device-${var.env}-dhcp-server-log-group",
     "staff-infra-${var.env}-ima-blackbox-exporter-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-snmp-exporter-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-grafana-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-prometheus-cloudwatch-log-group",
     "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit",
     "staff-device-dns-dhcp-${var.env}-vpc-flow-logs-log-group",
-    "staff-device-admin-${var.env}-vpc-flow-logs-log-group"
+    "staff-device-admin-${var.env}-vpc-flow-logs-log-group",
+    "staff-device-development-dhcp-standby-server-nginx-log-group"
   ]
 
   syslog_log_groups = [
