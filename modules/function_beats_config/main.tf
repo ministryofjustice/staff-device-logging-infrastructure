@@ -1,4 +1,9 @@
 locals {
+  log_group_map_array = [
+    for group in var.log_groups : {
+      log_group_name : group
+    }
+  ]
   syslog_log_group_map_array = [
     for group in var.syslog_log_groups : {
       log_group_name : group
@@ -70,7 +75,7 @@ locals {
           security_group_ids : var.security_group_ids
           subnet_ids : var.subnet_ids
         },
-        triggers : var.log_groups,
+        triggers : local.log_group_map_array,
         processors : [
           {
             add_tags : {
