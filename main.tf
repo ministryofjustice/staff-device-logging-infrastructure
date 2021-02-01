@@ -210,6 +210,7 @@ module "functionbeat_config" {
     "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
     "staff-device-${var.env}-dhcp-admin-log-group",
     "staff-device-${var.env}-dns-server-log-group",
+    "staff-device-${var.env}-dhcp-server-log-group",
     "staff-infra-${var.env}-ima-blackbox-exporter-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-snmp-exporter-cloudwatch-log-group",
     "staff-infra-${var.env}-ima-grafana-cloudwatch-log-group",
