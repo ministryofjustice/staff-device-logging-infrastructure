@@ -202,15 +202,8 @@ module "functionbeat_config" {
   enable_dlq                  = var.enable_dlq
 
   log_groups = [
-    "${module.label.id}-cloudtrail-log-group",
     "staff-device-${var.env}-dhcp-server-log-group",
-    "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
-    "staff-device-${var.env}-dhcp-admin-log-group",
-    "staff-device-${var.env}-dns-server-log-group",
-    "staff-device-${var.env}-dhcp-server-log-group",
-    "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit",
-    "staff-device-dns-dhcp-${var.env}-vpc-flow-logs-log-group",
-    "staff-device-admin-${var.env}-vpc-flow-logs-log-group"
+    "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit"
   ]
 
   syslog_log_groups = [
