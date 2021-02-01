@@ -202,8 +202,22 @@ module "functionbeat_config" {
   enable_dlq                  = var.enable_dlq
 
   log_groups = [
+    "PaloAltoNetworksFirewalls",
+    "${module.label.id}-cloudtrail-log-group",
     "staff-device-${var.env}-dhcp-server-log-group",
-    "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit"
+    "staff-device-${var.env}-dhcp-standby-server-log-group",
+    "staff-device-${var.env}-dhcp-api-server-log-group",
+    "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
+    "staff-device-${var.env}-dhcp-admin-log-group",
+    "staff-device-${var.env}-dns-server-log-group",
+    "staff-device-${var.env}-dhcp-server-log-group",
+    "staff-infra-${var.env}-ima-blackbox-exporter-cloudwatch-log-group",
+    "staff-infra-${var.env}-ima-snmp-exporter-cloudwatch-log-group",
+    "staff-infra-${var.env}-ima-grafana-cloudwatch-log-group",
+    "staff-infra-${var.env}-ima-prometheus-cloudwatch-log-group",
+    "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit",
+    "staff-device-dns-dhcp-${var.env}-vpc-flow-logs-log-group",
+    "staff-device-admin-${var.env}-vpc-flow-logs-log-group"
   ]
 
   syslog_log_groups = [
