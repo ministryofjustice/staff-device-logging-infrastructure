@@ -111,12 +111,12 @@ resource "aws_api_gateway_usage_plan_key" "main" {
 
 resource "aws_api_gateway_account" "account_wide_settings" {
   count               = var.enable_api_gateway_logs ? 1 : 0
-  cloudwatch_role_arn = "${aws_iam_role.custom-logging-api-gateway-role.arn}"
+  cloudwatch_role_arn = aws_iam_role.custom-logging-api-gateway-role.arn
 }
 
 resource "aws_api_gateway_method_settings" "api_settings" {
-  rest_api_id = "${aws_api_gateway_rest_api.logging_gateway.id}"
-  stage_name  = "${aws_api_gateway_stage.custom_log_api_stage.stage_name}"
+  rest_api_id = aws_api_gateway_rest_api.logging_gateway.id
+  stage_name  = aws_api_gateway_stage.custom_log_api_stage.stage_name
   method_path = "*/*"
 
   depends_on = [aws_api_gateway_account.account_wide_settings, aws_cloudwatch_log_group.custom_log_group]

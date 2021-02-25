@@ -3,7 +3,7 @@ locals {
 }
 
 data "template_file" "foo" {
-  template = "${file("${path.module}/api_load_test.yml")}"
+  template = file("${path.module}/api_load_test.yml")
 
   vars = {
     api_url      = var.api_url
