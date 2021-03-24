@@ -48,10 +48,6 @@ variable "ost_url" {
   type = string
 }
 
-variable "ost_logstash_url" {
-  type = string
-}
-
 variable "critical_notification_recipients" {
   type = list(string)
 }
