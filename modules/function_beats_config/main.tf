@@ -167,7 +167,7 @@ locals {
     "setup.ilm.enabled" : false
     "logging.level" : "warning"
     "output.logstash" : {
-      hosts: [var.ost_logstash_url]
+      hosts: [var.destination_url_logstash]
      }
     # "output.elasticsearch" : {
     #   hosts : [var.destination_url]
