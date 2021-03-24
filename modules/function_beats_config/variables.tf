@@ -19,6 +19,10 @@ variable "subnet_ids" {
 variable "destination_url" {
   type = string
 }
+
+variable "destination_url_logstash" {
+  type = string
+}
 variable "destination_username" {
   type = string
 }
