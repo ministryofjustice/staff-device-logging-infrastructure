@@ -166,10 +166,16 @@ locals {
     "setup.template.pattern" : "functionbeat-%%{[agent.version]}-*"
     "setup.ilm.enabled" : false
     "logging.level" : "warning"
-    "output.logstash" : {
-      hosts: [var.destination_url_logstash]
+    "output.elasticsearch" : {
+      hosts : [var.destination_url]
+      protocol : "https"
+      username : var.destination_username
+      password : var.destination_password
+      index : "functionbeat-%%{[agent.version]}"
     }
-     
+    "output.elasticsearch.ssl.certificate_authorities" : ["elk-ca.crt"]
+    "output.elasticsearch.ssl.certificate" : "moj.crt"
+    "output.elasticsearch.ssl.key" : "moj.key"
     "logging.level" : "info"
 
     processors : [
