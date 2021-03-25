@@ -223,9 +223,10 @@ module "functionbeat_config" {
     module.syslog_endpoint.logging.syslog_log_group_name
   ]
 
-  destination_url      = var.ost_url
-  destination_username = var.ost_username
-  destination_password = var.ost_password
+  destination_url              = var.ost_url
+  destination_url_logstash     = var.ost_logstash_url
+  destination_username         = var.ost_username
+  destination_password         = var.ost_password
 }
 
 module "firewall_roles" {
