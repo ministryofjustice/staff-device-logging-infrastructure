@@ -150,6 +150,20 @@ module "customLoggingApi" {
   }
 }
 
+module "customLoggingApiOst" {
+  source                    = "./modules/custom_logging_api"
+  prefix                    = "${module.label.id}-ost"
+  region                    = data.aws_region.current_region.id
+  enable_api_gateway_logs   = var.enable_api_gateway_logs
+  vpn_hosted_zone_id        = var.vpn_hosted_zone_id
+  api_gateway_custom_domain = "ost-${var.api_gateway_custom_domain}"
+  tags                      = module.label.tags
+
+  providers = {
+    aws = aws.env
+  }
+}
+
 module "logging" {
   source     = "./modules/logging"
   vpc_id     = module.logging_vpc.vpc_id
