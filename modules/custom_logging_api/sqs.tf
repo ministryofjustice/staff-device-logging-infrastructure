@@ -23,31 +23,30 @@ resource "aws_kms_key" "sqs_kms_master_key" {
   enable_key_rotation     = true
 }
 
-resource "aws_sqs_queue_policy" "test" {
+resource "aws_sqs_queue_policy" "allowed_sqs_principals" {
   count = length(var.allowed_sqs_principals) > 0 ? 1 : 0
 
   queue_url = aws_sqs_queue.custom_log_queue.id
+  policy = data.aws_iam_policy_document.sqs_policy.json
+}
 
-  policy = <<POLICY
-  {
-    "Version": "2012-10-17",
-    "Id": "sqspolicy",
-    "Statement": [
-      {
-        "Sid": "First",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "${var.allowed_sqs_principals}"
-        },
-        "Action": "sqs:ReceiveMessage"
-        "Resource": "${aws_sqs_queue.custom_log_queue.arn}",
-        "Condition": {
-          "ArnEquals": {
-            "aws:SourceArn": "${aws_sns_topic.custom_log_queue.arn}"
-          }
-        }
-      }
+data "aws_iam_policy_document" "sqs_policy" {
+  statement {
+    effect = "Allow"
+
+    sid = "SqsReceiveMessages"
+
+    actions = [
+      "sqs:ReceiveMessage"
+    ]
+
+    principals {
+      type        = "AWS"
+      identifiers = var.allowed_sqs_principals
+    }
+
+    resources = [
+      aws_sqs_queue.custom_log_queue.arn
     ]
   }
-  POLICY
 }

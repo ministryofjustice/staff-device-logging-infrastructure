@@ -25,7 +25,7 @@ variable "api_gateway_custom_domain" {
 }
 
 variable "allowed_sqs_principals" {
-  type = list(string)
+  type = list
   default = []
 }
 
