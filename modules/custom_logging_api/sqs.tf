@@ -22,3 +22,32 @@ resource "aws_kms_key" "sqs_kms_master_key" {
   deletion_window_in_days = 7
   enable_key_rotation     = true
 }
+
+resource "aws_sqs_queue_policy" "test" {
+  count = length(var.allowed_sqs_principals) > 0 ? 1 : 0
+
+  queue_url = aws_sqs_queue.custom_log_queue.id
+
+  policy = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Id": "sqspolicy",
+    "Statement": [
+      {
+        "Sid": "First",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "${var.allowed_sqs_principals}"
+        },
+        "Action": "sqs:ReceiveMessage"
+        "Resource": "${aws_sqs_queue.custom_log_queue.arn}",
+        "Condition": {
+          "ArnEquals": {
+            "aws:SourceArn": "${aws_sns_topic.custom_log_queue.arn}"
+          }
+        }
+      }
+    ]
+  }
+  POLICY
+}
