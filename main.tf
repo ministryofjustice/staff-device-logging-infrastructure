@@ -157,6 +157,7 @@ module "customLoggingApiOst" {
   enable_api_gateway_logs   = var.enable_api_gateway_logs
   vpn_hosted_zone_id        = var.vpn_hosted_zone_id
   api_gateway_custom_domain = "ost-${var.api_gateway_custom_domain}"
+  allowed_sqs_principals    = var.allowed_sqs_principals
   tags                      = module.label.tags
 
   providers = {

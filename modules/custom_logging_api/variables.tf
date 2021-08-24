@@ -24,6 +24,12 @@ variable "api_gateway_custom_domain" {
   type = string
 }
 
+variable "allowed_sqs_principals" {
+  type = list
+  default = []
+}
+
 variable "tags" {
   type = map(string)
 }
+
