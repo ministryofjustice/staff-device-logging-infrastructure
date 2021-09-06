@@ -235,7 +235,6 @@ module "functionbeat_config" {
     "mojo-${var.env}-nac-server-log-group",
     "mojo-${var.env}-nac-admin-log-group",
     "mojo-${var.env}-nac-vpc-flow-logs-log-group",
-    "/aws/rds/instance/mojo-${var.env}-nac-admin-db/audit",
     "/aws/rds/instance/mojo-${var.env}-nac-admin-read-replica/error"
   ]
 
