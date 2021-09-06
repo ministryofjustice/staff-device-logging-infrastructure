@@ -231,7 +231,12 @@ module "functionbeat_config" {
     "staff-infra-${var.env}-ima-prometheus-cloudwatch-log-group",
     "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit",
     "staff-device-dns-dhcp-${var.env}-vpc-flow-logs-log-group",
-    "staff-device-admin-${var.env}-vpc-flow-logs-log-group"
+    "staff-device-admin-${var.env}-vpc-flow-logs-log-group",
+    "mojo-${var.env}-nac-server-log-group",
+    "mojo-${var.env}-nac-admin-log-group",
+    "mojo-${var.env}-nac-vpc-flow-logs-log-group",
+    "/aws/rds/instance/mojo-${var.env}-nac-admin-db/audit",
+    "/aws/rds/instance/mojo-${var.env}-nac-admin-read-replica/error"
   ]
 
   syslog_log_groups = [
