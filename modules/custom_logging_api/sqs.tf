@@ -37,6 +37,8 @@ data "aws_iam_policy_document" "sqs_policy" {
     sid = "SqsReceiveMessages"
 
     actions = [
+      "sqs:GetQueueAttributes",
+      "sqs:GetQueueUrl",
       "sqs:ReceiveMessage"
     ]
 
