@@ -37,6 +37,13 @@ data "aws_iam_policy_document" "sqs_policy" {
     sid = "SqsReceiveMessages"
 
     actions = [
+      "sqs:ChangeMessageVisibility",
+      "sqs:ChangeMessageVisibilityBatch",
+      "sqs:DeleteMessage",
+      "sqs:DeleteMessageBatch",
+      "sqs:GetQueueAttributes",
+      "sqs:GetQueueUrl",
+      "sqs:ListQueues",
       "sqs:ReceiveMessage"
     ]
 
