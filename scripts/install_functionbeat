@@ -2,7 +2,7 @@
 
 set -e -u -o pipefail
 
-wget --no-verbose -O functionbeat.tar.gz https://artifacts.elastic.co/downloads/beats/functionbeat/functionbeat-7.9.3-linux-x86_64.tar.gz
+wget --no-verbose -O functionbeat.tar.gz https://artifacts.elastic.co/downloads/beats/functionbeat/functionbeat-7.14.0-linux-x86_64.tar.gz
 
 tar -xzf functionbeat.tar.gz
 mv functionbeat-*-linux-x86_64 functionbeat
