@@ -10,10 +10,10 @@ locals {
     }
   ]
 
-  cloudwatch_syslog_name         = "${var.prefix}-cloudwatch-syslog"
-  cloudwatch_name                = "${var.prefix}-cloudwatch"
-  sqs_name                       = "${var.prefix}-sqs"
-  kinesis_name                   = "${var.prefix}-kinesis"
+  cloudwatch_syslog_name         = "${var.env}-cw-syslog"
+  cloudwatch_name                = "${var.env}-cw"
+  sqs_name                       = "${var.env}-sqs"
+  kinesis_name                   = "${var.env}-kinesis"
 
   config = yamlencode({
     "functionbeat.provider.aws.endpoint" : "s3.amazonaws.com"
