@@ -13,3 +13,7 @@ variable "shared_services_account_arn" {
 variable "enable_shared_services_log_destination" {
   type = bool
 }
+
+variable "tags" {
+  type = map(string)
+}

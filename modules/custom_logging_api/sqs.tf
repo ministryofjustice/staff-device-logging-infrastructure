@@ -8,6 +8,8 @@ resource "aws_sqs_queue" "custom_log_queue" {
     deadLetterTargetArn = aws_sqs_queue.dlq_custom_log_queue.arn
     maxReceiveCount     = 5
   })
+
+  tags = var.tags
 }
 
 resource "aws_sqs_queue" "dlq_custom_log_queue"{
