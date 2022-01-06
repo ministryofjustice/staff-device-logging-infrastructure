@@ -31,6 +31,8 @@ resource "aws_lb_target_group" "target_group_udp" {
   target_type          = "ip"
   deregistration_delay = 1500
 
+  tags = var.tags
+
   health_check {
     healthy_threshold   = 3
     unhealthy_threshold = 3
@@ -44,6 +46,8 @@ resource "aws_lb_listener" "udp" {
   load_balancer_arn = aws_lb.load_balancer.arn
   port              = "514"
   protocol          = "UDP"
+  
+  tags = var.tags
 
   default_action {
     type             = "forward"
