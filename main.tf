@@ -85,6 +85,8 @@ module "transit_gateway_attachment" {
   transit_gateway_id             = var.transit_gateway_id
   transit_gateway_route_table_id = var.transit_gateway_route_table_id
 
+  tags = module.label.tags
+
   providers = {
     aws = aws.env
   }
