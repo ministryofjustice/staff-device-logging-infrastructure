@@ -46,8 +46,6 @@ resource "aws_lb_listener" "udp" {
   load_balancer_arn = aws_lb.load_balancer.arn
   port              = "514"
   protocol          = "UDP"
-  
-  tags = var.tags
 
   default_action {
     type             = "forward"

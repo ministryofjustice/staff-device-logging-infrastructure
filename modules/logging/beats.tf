@@ -2,11 +2,13 @@ resource "aws_kms_key" "functionbeat" {
   description             = "${var.prefix}-functionbeat"
   deletion_window_in_days = 10
   enable_key_rotation     = true
+  tags = var.tags
 }
 
 resource "aws_s3_bucket" "functionbeat-deploy" {
   bucket = "${var.prefix}-functionbeat-artifacts"
   acl    = "private"
+  tags = var.tags
 
   server_side_encryption_configuration {
     rule {
@@ -112,10 +114,13 @@ resource "aws_iam_role_policy" "beats-lambda-policy-kinesis-deploy" {
   role = aws_iam_role.beats-lambda-role-kinesis.id
 
   policy = data.aws_iam_policy_document.beats-lambda-policy.json
+
 }
 
 resource "aws_iam_role" "beats-lambda-role" {
   name = "${var.prefix}-beats-lambda-execution-role"
+
+  tags = var.tags
 
   assume_role_policy = <<EOF
 {
@@ -157,6 +162,8 @@ EOF
 resource "aws_security_group" "functionbeats" {
   name   = "${var.prefix}-functionbeats"
   vpc_id = var.vpc_id
+
+  tags = var.tags
 
   egress {
     from_port   = 9200
