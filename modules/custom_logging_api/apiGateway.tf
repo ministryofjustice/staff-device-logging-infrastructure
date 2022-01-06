@@ -20,6 +20,8 @@ resource "aws_api_gateway_rest_api" "logging_gateway" {
   endpoint_configuration {
     types = ["REGIONAL"]
   }
+
+  tags = var.tags
 }
 
 resource "aws_api_gateway_resource" "proxy" {
@@ -80,6 +82,8 @@ resource "aws_api_gateway_stage" "custom_log_api_stage" {
   stage_name    = var.stage_name
   depends_on    = [aws_cloudwatch_log_group.custom_log_group]
 
+  tags = var.tags
+
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.custom_log_group.arn
     format          = file("${path.module}/logFormat.json")
@@ -88,10 +92,14 @@ resource "aws_api_gateway_stage" "custom_log_api_stage" {
 
 resource "aws_api_gateway_api_key" "custom_log_api_key" {
   name = "${var.prefix}-custom_log_api_key"
+
+  tags = var.tags
 }
 
 resource "aws_api_gateway_usage_plan" "custom_log_api_usage_plan" {
   name = "${var.prefix}-custom_log_api_usage_plan"
+
+  tags = var.tags
 
   api_stages {
     api_id = aws_api_gateway_rest_api.logging_gateway.id
@@ -131,4 +139,6 @@ resource "aws_api_gateway_method_settings" "api_settings" {
 resource "aws_cloudwatch_log_group" "custom_log_group" {
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.logging_gateway.id}/${var.stage_name}"
   retention_in_days = 7
+
+  tags = var.tags
 }
