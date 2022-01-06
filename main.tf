@@ -42,13 +42,13 @@ module "label" {
   delimiter = "-"
 
   tags = {
-    "business-unit" = "MoJO"
-    "application"   = "infrastructure",
+    "business-unit" = "HQ"
+    "application"   = "security-log-shipping",
     "is-production" = tostring(var.is-production),
     "owner"         = var.owner_email
 
     "environment-name" = "global"
-    "source-code"      = "https://github.com/ministryofjustice/pttp-infrastructure"
+    "source-code"      = "https://github.com/ministryofjustice/staff-device-logging-infrastructure"
   }
 }
 
@@ -69,6 +69,8 @@ module "logging_vpc" {
   prefix     = module.label.id
   region     = data.aws_region.current_region.id
   cidr_block = var.logging_cidr_block
+
+  tags = module.label.tags
 
   providers = {
     aws = aws.env

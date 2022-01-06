@@ -59,3 +59,7 @@ variable "enable_logs_endpoint" {
   type = bool
   default = false
 }
+
+variable "tags" {
+  type = map(string)
+}

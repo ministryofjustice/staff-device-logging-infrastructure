@@ -28,4 +28,6 @@ module "vpc" {
   public_subnets = [
     cidrsubnet(var.cidr_block, 6, 4)
   ]
+
+  tags = var.tags
 }
