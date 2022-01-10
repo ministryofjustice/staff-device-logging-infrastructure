@@ -2,6 +2,8 @@ resource "aws_kms_key" "functionbeat" {
   description             = "${var.prefix}-functionbeat"
   deletion_window_in_days = 10
   enable_key_rotation     = true
+
+  tags = var.tags
 }
 
 resource "aws_s3_bucket" "functionbeat-deploy" {
@@ -16,6 +18,7 @@ resource "aws_s3_bucket" "functionbeat-deploy" {
       }
     }
   }
+  tags = var.tags
 }
 
 data "aws_iam_policy_document" "beats-lambda-policy" {
@@ -132,6 +135,7 @@ resource "aws_iam_role" "beats-lambda-role" {
   ]
 }
 EOF
+tags = var.tags
 }
 
 resource "aws_iam_role" "beats-lambda-role-kinesis" {
@@ -152,6 +156,7 @@ resource "aws_iam_role" "beats-lambda-role-kinesis" {
   ]
 }
 EOF
+tags = var.tags
 }
 
 resource "aws_security_group" "functionbeats" {
@@ -185,4 +190,5 @@ resource "aws_security_group" "functionbeats" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  tags = var.tags
 }
