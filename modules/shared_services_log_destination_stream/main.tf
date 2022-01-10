@@ -21,6 +21,7 @@ resource "aws_kms_key" "kinesis_stream_key" {
   description             = "${var.prefix}_shared_services_kinesis_stream_key"
   deletion_window_in_days = 10
   enable_key_rotation     = true
+  tags = var.tags
 }
 
 resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
@@ -35,6 +36,7 @@ resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
       }
     ]
   })
+  tags = var.tags
 }
 
 resource "aws_iam_policy" "cloudwatch_to_kinesis_policy" {
@@ -68,6 +70,7 @@ resource "aws_iam_policy" "cloudwatch_to_kinesis_policy" {
       }
     ]
   })
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_to_kinesis_attachment" {
