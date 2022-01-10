@@ -25,3 +25,7 @@ variable "prefix" {
 variable "enable_load_testing" {
   type = bool
 }
+
+variable "tags" {
+  type = map(string)
+}
