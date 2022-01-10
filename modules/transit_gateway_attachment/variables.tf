@@ -13,3 +13,7 @@ variable "transit_gateway_id" {
 variable "transit_gateway_route_table_id" {
   type = string
 }
+
+variable "tags" {
+  type = map(string)
+}

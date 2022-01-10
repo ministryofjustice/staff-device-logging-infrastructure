@@ -42,13 +42,13 @@ module "label" {
   delimiter = "-"
 
   tags = {
-    "business-unit" = "MoJO"
-    "application"   = "infrastructure",
+    "business-unit" = "HQ"
+    "application"   = "security-log-shipping",
     "is-production" = tostring(var.is-production),
     "owner"         = var.owner_email
 
     "environment-name" = "global"
-    "source-code"      = "https://github.com/ministryofjustice/pttp-infrastructure"
+    "source-code"      = "https://github.com/ministryofjustice/staff-device-logging-infrastructure"
   }
 }
 
@@ -70,6 +70,8 @@ module "logging_vpc" {
   region     = data.aws_region.current_region.id
   cidr_block = var.logging_cidr_block
 
+  tags = module.label.tags
+
   providers = {
     aws = aws.env
   }
@@ -83,6 +85,8 @@ module "transit_gateway_attachment" {
   transit_gateway_id             = var.transit_gateway_id
   transit_gateway_route_table_id = var.transit_gateway_route_table_id
 
+  tags = module.label.tags
+
   providers = {
     aws = aws.env
   }
@@ -95,6 +99,8 @@ module "syslog_receiver_vpc" {
   cidr_block                         = var.syslog_receiver_cidr_block
   propagate_private_route_tables_vgw = true
   new_bits                           = 2
+
+  tags = module.label.tags
 
   providers = {
     aws = aws.env
@@ -242,10 +248,10 @@ module "functionbeat_config" {
     module.syslog_endpoint.logging.syslog_log_group_name
   ]
 
-  destination_url              = var.ost_url
-  destination_url_logstash     = var.ost_logstash_url
-  destination_username         = var.ost_username
-  destination_password         = var.ost_password
+  destination_url          = var.ost_url
+  destination_url_logstash = var.ost_logstash_url
+  destination_username     = var.ost_username
+  destination_password     = var.ost_password
 }
 
 module "firewall_roles" {
@@ -316,7 +322,7 @@ module "syslog_load_test" {
   load_balancer_ip    = var.syslog_load_balancer_private_ip_eu_west_2a
   tags                = module.label.tags
   vpc_cidr_block      = var.syslog_receiver_cidr_block
-  heartbeat_script = <<EOF
+  heartbeat_script    = <<EOF
 count=0
 while true; do
   for i in `seq 1 20`; do

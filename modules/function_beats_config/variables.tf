@@ -37,14 +37,14 @@ variable "syslog_log_groups" {
   type = set(string)
 }
 
-variable sqs_log_queue {
+variable "sqs_log_queue" {
   type = string
 }
-variable beats_dead_letter_queue_arn {
+variable "beats_dead_letter_queue_arn" {
   type = string
 }
 
-variable kinesis_stream_arn {
+variable "kinesis_stream_arn" {
   type = string
 }
 

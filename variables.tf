@@ -133,6 +133,6 @@ variable "enable_syslog_endpoint_load_test" {
 }
 
 variable "allowed_sqs_principals" {
-  type = list
+  type    = list(any)
   default = []
 }
