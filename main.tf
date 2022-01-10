@@ -289,8 +289,8 @@ module "api_gateway_load_test" {
   arrival_rate   = 40
   instance_count = 200
   duration       = 60
-
-  prefix = module.label.id
+  tags           = module.label.tags
+  prefix         = module.label.id
 
   providers = {
     aws = aws.env
