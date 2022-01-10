@@ -15,6 +15,7 @@ data "aws_ami" "amazon_linux2" {
   }
 
   owners = ["137112412989"]
+  tags = var.tags
 }
 
 resource "aws_instance" "syslog_client" {
@@ -71,4 +72,5 @@ resource "aws_security_group" "syslog_client" {
   }
 
   vpc_id = var.syslog_endpoint_vpc
+  tags = var.tags
 }
