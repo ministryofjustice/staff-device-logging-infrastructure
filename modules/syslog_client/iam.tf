@@ -1,7 +1,7 @@
 resource "aws_iam_role" "syslog_client" {
   name               = "${var.prefix}-syslog_client"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
-  tags = var.tags
+  tags               = var.tags
 }
 
 data "aws_iam_policy_document" "assume_role_policy" {

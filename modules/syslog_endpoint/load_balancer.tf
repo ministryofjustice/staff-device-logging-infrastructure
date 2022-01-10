@@ -31,12 +31,14 @@ resource "aws_lb_target_group" "target_group_udp" {
   target_type          = "ip"
   deregistration_delay = 1500
 
+  tags = var.tags
+
   health_check {
     healthy_threshold   = 3
     unhealthy_threshold = 3
     port                = 80
     protocol            = "HTTP"
-    path = "/"
+    path                = "/"
   }
 }
 

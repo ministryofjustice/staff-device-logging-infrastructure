@@ -21,7 +21,7 @@ resource "aws_kms_key" "kinesis_stream_key" {
   description             = "${var.prefix}_shared_services_kinesis_stream_key"
   deletion_window_in_days = 10
   enable_key_rotation     = true
-  tags = var.tags
+  tags                    = var.tags
 }
 
 resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
@@ -30,9 +30,9 @@ resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
     Version = "2012-10-17",
     Statement = [
       {
-        "Effect": "Allow",
-        "Principal": { "Service": "logs.${var.region}.amazonaws.com" },
-        "Action": "sts:AssumeRole"
+        "Effect" : "Allow",
+        "Principal" : { "Service" : "logs.${var.region}.amazonaws.com" },
+        "Action" : "sts:AssumeRole"
       }
     ]
   })
@@ -41,32 +41,32 @@ resource "aws_iam_role" "cloudwatch_to_kinesis_role" {
 
 resource "aws_iam_policy" "cloudwatch_to_kinesis_policy" {
   count = local.shared_service_log_destination_count
-  name = "${var.prefix}-cloudwatch-to-kinesis-policy"
-  path = "/"
+  name  = "${var.prefix}-cloudwatch-to-kinesis-policy"
+  path  = "/"
 
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        "Effect": "Allow",
-        "Action": "kinesis:PutRecord",
-        "Resource": "${element(aws_kinesis_stream.shared_services_destination_stream.*.arn, 0)}"
+        "Effect" : "Allow",
+        "Action" : "kinesis:PutRecord",
+        "Resource" : "${element(aws_kinesis_stream.shared_services_destination_stream.*.arn, 0)}"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "kms:Encrypt",
           "kms:Decrypt",
           "kms:ReEncrypt*",
           "kms:GenerateDataKey*",
           "kms:DescribeKey"
         ]
-        "Resource": "*"
+        "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": "iam:PassRole",
-        "Resource": "${aws_iam_role.cloudwatch_to_kinesis_role.arn}"
+        "Effect" : "Allow",
+        "Action" : "iam:PassRole",
+        "Resource" : "${aws_iam_role.cloudwatch_to_kinesis_role.arn}"
       }
     ]
   })
@@ -110,7 +110,7 @@ data "aws_iam_policy_document" "log_forward_to_kinesis" {
 }
 
 resource "aws_cloudwatch_log_destination_policy" "cross_account_destination_policy" {
-  count      = local.shared_service_log_destination_count
+  count            = local.shared_service_log_destination_count
   destination_name = element(aws_cloudwatch_log_destination.log_forward_to_kinesis.*.name, 0)
   access_policy    = element(data.aws_iam_policy_document.log_forward_to_kinesis.*.json, 0)
 }

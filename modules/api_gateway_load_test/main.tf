@@ -66,5 +66,5 @@ resource "aws_security_group" "example" {
   }
 
   vpc_id = aws_default_vpc.default[0].id
-  tags = var.tags
+  tags   = var.tags
 }
