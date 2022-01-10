@@ -17,12 +17,14 @@ resource "aws_sqs_queue" "dlq_custom_log_queue"{
   message_retention_seconds         = 604800
   kms_master_key_id                 = aws_kms_key.sqs_kms_master_key.key_id
   kms_data_key_reuse_period_seconds = 300
+  tags = var.tags
 }
 
 resource "aws_kms_key" "sqs_kms_master_key" {
   description             = "${var.prefix} SQS KMS master key"
   deletion_window_in_days = 7
   enable_key_rotation     = true
+  tags = var.tags
 }
 
 resource "aws_sqs_queue_policy" "allowed_sqs_principals" {

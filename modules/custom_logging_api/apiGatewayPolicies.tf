@@ -1,6 +1,7 @@
 resource "aws_iam_policy" "api-gateway-sqs-policy" {
   name   = "${var.prefix}-api-gateway-sqs-policy"
   policy = data.template_file.api_gateway_sqs_policy.rendered
+  tags = var.tags
 }
 
 data "template_file" "api_gateway_sqs_policy" {
@@ -15,6 +16,7 @@ data "template_file" "api_gateway_sqs_policy" {
 resource "aws_iam_policy" "api-gateway-cloudwatch-policy" {
   name   = "${var.prefix}-api-gateway-cloudwatch-policy"
   policy = data.template_file.api_gateway_cloudwatch_policy.rendered
+  tags = var.tags
 }
 
 data "template_file" "api_gateway_cloudwatch_policy" {
@@ -25,6 +27,7 @@ data "template_file" "api_gateway_cloudwatch_policy" {
 resource "aws_iam_policy" "api-gateway-kms-policy" {
   name   = "${var.prefix}-api-gateway-kms-policy"
   policy = data.template_file.api_gateway_kms_policy.rendered
+  tags = var.tags
 }
 
 data "template_file" "api_gateway_kms_policy" {
