@@ -211,7 +211,6 @@ module "functionbeat_config" {
   source = "./modules/function_beats_config"
 
   prefix                  = module.label.id
-  env                     = var.env
   deploy_bucket           = module.logging.beats_deploy_bucket
   deploy_role_arn         = module.logging.beats_role_arn
   deploy_role_kinesis_arn = module.logging.beats_role_kinesis_arn
