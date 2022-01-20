@@ -10,6 +10,7 @@ locals {
     }
   ]
 
+
   cloudwatch_syslog_name         = "${var.env}-cw-syslog"
   cloudwatch_name                = "${var.env}-cw"
   sqs_name                       = "${var.env}-sqs"
@@ -21,17 +22,17 @@ locals {
     "functionbeat.provider.aws.functions" : [
       {
         name : local.cloudwatch_syslog_name,
-        concurrency: 100,
+        concurrency : 100,
         enabled : true,
         type : "cloudwatch_logs",
         description : "lambda function for cloudwatch SYSLOG logs",
-        timeout: "20s",
+        timeout : "20s",
         dead_letter_config : {
           target_arn : var.beats_dead_letter_queue_arn
         },
         role : var.deploy_role_arn,
-        tags: {
-          data_source: "cloudwatch"
+        tags : {
+          data_source : "cloudwatch"
         },
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
@@ -45,7 +46,7 @@ locals {
               tags : ["cloudwatch_logs_syslog"],
               target : "log_source"
             }
-          }, {
+            }, {
             decode_json_fields : {
               fields : ["message"],
               target : "",
@@ -59,17 +60,17 @@ locals {
       },
       {
         name : local.cloudwatch_name,
-        concurrency: 100,
+        concurrency : 100,
         enabled : true,
         type : "cloudwatch_logs",
         description : "lambda function for cloudwatch logs",
-        timeout: "20s",
+        timeout : "20s",
         dead_letter_config : {
           target_arn : var.beats_dead_letter_queue_arn
         },
         role : var.deploy_role_arn,
-        tags: {
-          data_source: "cloudwatch"
+        tags : {
+          data_source : "cloudwatch"
         },
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
@@ -82,7 +83,7 @@ locals {
               tags : ["cloudwatch_logs"],
               target : "log_source"
             }
-          }, {
+            }, {
             decode_json_fields : {
               fields : ["message"],
               target : "",
@@ -96,14 +97,14 @@ locals {
       },
       {
         name : local.sqs_name,
-        concurrency: 100,
+        concurrency : 100,
         enabled : true,
         type : "sqs",
-        timeout: "8s",
+        timeout : "8s",
         description : "lambda function for SQS events",
         role : var.deploy_role_arn,
-        tags: {
-          data_source: "firewalls"
+        tags : {
+          data_source : "firewalls"
         },
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
@@ -118,7 +119,7 @@ locals {
         processors : [
           {
             add_tags : {
-              tags: ["sqs"]
+              tags : ["sqs"]
               target : "log_source"
             }
           }
@@ -126,9 +127,9 @@ locals {
       },
       {
         name : local.kinesis_name,
-        concurrency: 100,
+        concurrency : 100,
         enabled : true,
-        timeout: "20s",
+        timeout : "20s",
         type : "cloudwatch_logs_kinesis",
         description : "lambda function for Kinesis stream",
         role : var.deploy_role_kinesis_arn,
@@ -136,8 +137,8 @@ locals {
         parallelization_factor : 10,
         memory_size : "256 MiB",
         starting_position : "latest",
-        tags: {
-          data_source: "shared_services"
+        tags : {
+          data_source : "shared_services"
         },
         virtual_private_cloud : {
           security_group_ids : var.security_group_ids
@@ -167,19 +168,19 @@ locals {
     "setup.ilm.enabled" : false
     "logging.level" : "warning"
     "output.logstash" : {
-      hosts: [var.destination_url_logstash]
+      hosts : [var.destination_url_logstash]
     }
-     
+
     "logging.level" : "info"
 
     processors : [
       {
         add_tags : {
-          tags: ["${var.prefix}"],
+          tags : ["${var.prefix}"],
           target : "environment"
         }
       },
-      { add_host_metadata : { } }
+      { add_host_metadata : {} }
     ]
   })
 }

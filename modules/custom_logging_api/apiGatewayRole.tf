@@ -1,6 +1,7 @@
 resource "aws_iam_role" "custom-logging-api-gateway-role" {
   name               = "${var.prefix}-api-gateway"
   assume_role_policy = data.template_file.api_gateway_assume_role_policy.rendered
+  tags               = var.tags
 }
 
 data "template_file" "api_gateway_assume_role_policy" {

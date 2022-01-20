@@ -1,6 +1,7 @@
 resource "aws_iam_policy" "cloudtrail_policy" {
   name   = "${var.prefix}-cloudtrail-policy"
   policy = data.template_file.cloud_trail_cloud_watch_policies.rendered
+  tags   = var.tags
 }
 
 data "template_file" "cloud_trail_cloud_watch_policies" {

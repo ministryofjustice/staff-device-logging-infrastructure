@@ -15,4 +15,3 @@ resource "aws_api_gateway_integration" "sqs-integration" {
     "application/json" = "Action=SendMessage&MessageBody=$util.urlEncode($input.body)"
   }
 }
-

@@ -46,6 +46,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket_logs" {
   bucket        = local.cloud_trail_bucket_logs
   force_destroy = true
   acl           = "log-delivery-write"
+  tags          = var.tags
 }
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail_bucket_logs" {

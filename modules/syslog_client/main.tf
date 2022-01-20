@@ -1,5 +1,5 @@
 data "template_file" "syslog_client" {
-  template = "${file("${path.module}/syslog_client.py")}"
+  template = file("${path.module}/syslog_client.py")
 
   vars = {
     load_balancer_ip = var.load_balancer_ip
@@ -15,16 +15,17 @@ data "aws_ami" "amazon_linux2" {
   }
 
   owners = ["137112412989"]
+  tags   = var.tags
 }
 
 resource "aws_instance" "syslog_client" {
-  count                  = var.instance_count
-  ami                    = data.aws_ami.amazon_linux2.id
-  instance_type          = "t2.small"
-  vpc_security_group_ids = list(aws_security_group.syslog_client.id)
-  subnet_id              = var.subnet
+  count                       = var.instance_count
+  ami                         = data.aws_ami.amazon_linux2.id
+  instance_type               = "t2.small"
+  vpc_security_group_ids      = list(aws_security_group.syslog_client.id)
+  subnet_id                   = var.subnet
   associate_public_ip_address = true
-  iam_instance_profile = aws_iam_instance_profile.syslog_client.name
+  iam_instance_profile        = aws_iam_instance_profile.syslog_client.name
 
   tags = {
     Name = "${var.prefix}-syslog-test-client"
@@ -71,4 +72,5 @@ resource "aws_security_group" "syslog_client" {
   }
 
   vpc_id = var.syslog_endpoint_vpc
+  tags   = var.tags
 }
