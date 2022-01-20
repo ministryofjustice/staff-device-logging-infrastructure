@@ -1,6 +1,10 @@
 variable "prefix" {
   type = string
 }
+
+variable "env" {
+  type = string
+}
 variable "deploy_bucket" {
   type = string
 }
