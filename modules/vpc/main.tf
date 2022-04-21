@@ -6,6 +6,9 @@ module "vpc" {
   cidr                               = var.cidr_block
   single_nat_gateway                 = true
   enable_nat_gateway                 = true
+  manage_default_security_group      = true
+  default_security_group_ingress     = []
+  default_security_group_egress      = []
 
 
   create_flow_log_cloudwatch_iam_role  = true
