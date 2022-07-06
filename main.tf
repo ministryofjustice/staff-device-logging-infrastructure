@@ -98,8 +98,6 @@ module "syslog_receiver_vpc" {
   propagate_private_route_tables_vgw = true
   new_bits                           = 2
 
-  tags = module.label.tags
-
   providers = {
     aws = aws.env
   }
