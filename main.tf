@@ -70,8 +70,6 @@ module "logging_vpc" {
   region     = data.aws_region.current_region.id
   cidr_block = var.logging_cidr_block
 
-  tags = module.label.tags
-
   providers = {
     aws = aws.env
   }
