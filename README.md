@@ -1,3 +1,5 @@
+[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&labelColor=32393F&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fstaff-device-logging-infrastructure)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#staff-device-logging-infrastructure "Link to report")
+
 # Staff Device Logging Infrastructure
 
 This is the Log Shipping infrastructure used by the [Ministry of Justice](https://www.gov.uk/government/organisations/ministry-of-justice) to forward logs to the Operational Security Team.
