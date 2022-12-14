@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_ecr_repository" "docker_repository" {
   name                 = "${var.prefix}-syslog-docker"
   image_tag_mutability = "MUTABLE"
@@ -19,7 +21,9 @@ resource "aws_ecr_repository_policy" "docker_repository_policy" {
         {
             "Sid": "1",
             "Effect": "Allow",
-            "Principal": "*",
+            "Principal":{ 
+              "AWS": "${data.aws_caller_identity.current.account_id}"
+            },
             "Action": [
                 "ecr:GetDownloadUrlForLayer",
                 "ecr:BatchGetImage",
