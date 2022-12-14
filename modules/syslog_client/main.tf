@@ -11,7 +11,7 @@ data "aws_ami" "amazon_linux2" {
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-2.0.20200617.0-x86_64-gp2"]
+    values = ["amzn2-ami-hvm-2.0.20221103.3-x86_64-gp2"]
   }
 
   owners = ["137112412989"]
