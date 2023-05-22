@@ -228,17 +228,13 @@ module "functionbeat_config" {
     "/aws/rds/instance/staff-device-${var.env}-dhcp-db/audit",
     "staff-device-${var.env}-dhcp-admin-log-group",
     "staff-device-${var.env}-dns-server-log-group",
-    "staff-infra-${var.env}-ima-blackbox-exporter-cloudwatch-log-group",
-    "staff-infra-${var.env}-ima-snmp-exporter-cloudwatch-log-group",
-    "staff-infra-${var.env}-ima-grafana-cloudwatch-log-group",
-    "staff-infra-${var.env}-ima-prometheus-cloudwatch-log-group",
     "/aws/rds/instance/staff-device-${var.env}-dhcp-admin-db/audit",
     "staff-device-dns-dhcp-${var.env}-vpc-flow-logs-log-group",
     "staff-device-admin-${var.env}-vpc-flow-logs-log-group",
     "mojo-${var.env}-nac-server-log-group",
-    "mojo-${var.env}-nac-admin-log-group",
-    "mojo-${var.env}-nac-vpc-flow-logs-log-group",
-    "/aws/rds/instance/mojo-${var.env}-nac-admin/audit"
+    "mojo-${var.env}-nac-admin",
+    "mojo-${var.env}-nac-admin-vpc-flow-logs-vpc-flow-logs-log-group",
+    "/aws/rds/instance/mojo-${var.env}-nac-admin/audit",
   ]
 
   syslog_log_groups = [
