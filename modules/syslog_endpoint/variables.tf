@@ -38,3 +38,7 @@ variable "container_name" {
   type    = string
   default = "syslog-server"
 }
+
+variable "shared_services_account_id" {
+  type = string
+}
