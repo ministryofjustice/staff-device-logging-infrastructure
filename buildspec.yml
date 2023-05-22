@@ -29,6 +29,7 @@ env:
     TF_VAR_critical_notification_recipients: "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/critical_notification_recipients"
     TF_VAR_api_gateway_custom_domain:        "/staff-device/$ENV/logging/api_gateway_domain_name"
     TF_VAR_allowed_sqs_principals:           "/staff-device/$ENV/logging/allowed_sqs_principals"
+    TF_VAR_shared_services_account_id:   "/codebuild/staff_device_shared_services_account_id"
     # function beats related config
     ROLE_ARN:                                "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/assume_role"
     OST_KEY:                                 "/codebuild/pttp-ci-infrastructure-core-pipeline/$ENV/moj.key"

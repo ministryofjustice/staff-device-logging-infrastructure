@@ -132,6 +132,7 @@ module "syslog_endpoint" {
   load_balancer_private_ip_eu_west_2a = var.syslog_load_balancer_private_ip_eu_west_2a
   load_balancer_private_ip_eu_west_2b = var.syslog_load_balancer_private_ip_eu_west_2b
   load_balancer_private_ip_eu_west_2c = var.syslog_load_balancer_private_ip_eu_west_2c
+  shared_services_account_id          = var.shared_services_account_id
 
   providers = {
     aws = aws.env
