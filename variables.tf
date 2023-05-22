@@ -136,3 +136,7 @@ variable "allowed_sqs_principals" {
   type    = list(any)
   default = []
 }
+
+variable "shared_services_account_id" {
+  type = string
+}
