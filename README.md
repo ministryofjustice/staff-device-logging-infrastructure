@@ -38,3 +38,12 @@ Below you will find various documentation about managing and running this servic
 ![architecture](./documentation/diagrams/architecture.png)
 
 [Image Source](./documentation/diagrams/architecture.drawio)
+
+
+
+## CI/CD
+
+- [CI Terraform code - staff-device-logging-infrastructure](https://github.com/ministryofjustice/Staff-Device-Logging)
+- Terraform module - module ""pttp-infrastructure-ci-pipeline"
+- AWS Account - MOJ Official (Shared Services)
+- [Pipeline "Staff-Device-Logging"](https://eu-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/Staff-Device-Logging/view?region=eu-west-2)
