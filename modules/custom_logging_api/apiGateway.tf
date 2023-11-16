@@ -137,6 +137,6 @@ resource "aws_api_gateway_method_settings" "api_settings" {
 
 resource "aws_cloudwatch_log_group" "custom_log_group" {
   name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.logging_gateway.id}/${var.stage_name}"
-  retention_in_days = 7
+  retention_in_days = 90
   tags              = var.tags
 }
