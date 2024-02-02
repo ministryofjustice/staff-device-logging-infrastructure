@@ -103,23 +103,23 @@ module "syslog_receiver_vpc" {
   }
 }
 
-module "ost_vpc_peering" {
-  source  = "./modules/vpc_peering"
-  enabled = var.enable_peering
-
-  source_route_table_ids = module.logging_vpc.private_route_table_ids
-  source_vpc_id          = module.logging_vpc.vpc_id
-
-  target_aws_account_id = var.ost_aws_account_id
-  target_vpc_cidr_block = var.ost_vpc_cidr_block
-  target_vpc_id         = var.ost_vpc_id
-
-  tags = module.label.tags
-
-  providers = {
-    aws = aws.env
-  }
-}
+#module "ost_vpc_peering" {
+#  source  = "./modules/vpc_peering"
+#  enabled = var.enable_peering
+#
+#  source_route_table_ids = module.logging_vpc.private_route_table_ids
+#  source_vpc_id          = module.logging_vpc.vpc_id
+#
+#  target_aws_account_id = var.ost_aws_account_id
+#  target_vpc_cidr_block = var.ost_vpc_cidr_block
+#  target_vpc_id         = var.ost_vpc_id
+#
+#  tags = module.label.tags
+#
+#  providers = {
+#    aws = aws.env
+#  }
+#}
 
 module "syslog_endpoint" {
   source                              = "./modules/syslog_endpoint"
