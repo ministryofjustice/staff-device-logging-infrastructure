@@ -5,7 +5,6 @@ resource "aws_kms_key" "functionbeat" {
 }
 resource "aws_s3_bucket" "functionbeat-deploy" {
   bucket = "${var.prefix}-functionbeat-artifacts"
-  acl    = "private"
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -16,6 +15,34 @@ resource "aws_s3_bucket" "functionbeat-deploy" {
   }
   tags = var.tags
 }
+
+resource "aws_s3_bucket_public_access_block" "functionbeat-deploy_public_block" {
+  bucket = aws_s3_bucket.functionbeat-deploy.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+
+
+resource "aws_s3_bucket_acl" "functionbeat-deploy" {
+  bucket     = aws_s3_bucket.functionbeat-deploy.id
+  acl        = "private"
+  depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
+}
+
+# Resource to avoid error "AccessControlListNotSupported: The bucket does not allow ACLs"
+# AWS Reference https://aws.amazon.com/blogs/aws/heads-up-amazon-s3-security-changes-are-coming-in-april-of-2023/
+resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
+  bucket = aws_s3_bucket.functionbeat-deploy.id
+  rule {
+    object_ownership = "ObjectWriter"
+  }
+}
+
+
 
 data "aws_iam_policy_document" "beats-lambda-policy" {
   statement {
